@@ -1,0 +1,801 @@
+<!doctype html>
+<html lang="en-ZA">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>[BUSINESS NAME] – Custom printing in [AREA]</title>
+<meta name="description" content="[BUSINESS NAME] prints T-shirts, golf shirts, hoodies, caps, church uniforms and gifts in [AREA], South Africa. Build your order and send it on WhatsApp.">
+<meta name="theme-color" content="#14213d">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo+Black&display=swap">
+<style>
+/* ============================================================
+   THEME  (deep navy ink on off-white, sunflower yellow accent)
+   ============================================================ */
+:root{
+  --ink:#14213d;        /* deep navy */
+  --ink-2:#2a3a5e;      /* lighter navy for body text */
+  --paper:#fbf8f1;      /* off-white */
+  --paper-2:#f2ecdd;    /* slightly darker off-white for bands */
+  --sun:#ffc43d;        /* sunflower yellow */
+  --sun-2:#e6ab1e;
+  --line:#d9d2c0;
+  --err:#b3261e;
+  --ok:#1f7a4d;
+  --wa:#25d366;
+  --radius:14px;
+  --shadow:0 6px 0 var(--ink);
+  --max:1120px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto} *{transition:none!important}}
+body{margin:0;background:var(--paper);color:var(--ink);font:16px/1.55 system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
+img{max-width:100%;display:block}
+h1,h2,h3,.chunky{font-family:"Archivo Black","Arial Black",Impact,system-ui,sans-serif;font-weight:400;line-height:1.05;letter-spacing:-.01em;margin:0 0 .5em}
+h1{font-size:clamp(2.2rem,8vw,4.4rem)}
+h2{font-size:clamp(1.7rem,6vw,2.8rem)}
+h3{font-size:1.15rem}
+p{margin:0 0 1em}
+a{color:inherit}
+.wrap{width:100%;max-width:var(--max);margin:0 auto;padding:0 16px}
+section{padding:56px 0}
+@media (min-width:760px){section{padding:80px 0}}
+.band{background:var(--paper-2)}
+.ink{background:var(--ink);color:var(--paper)}
+.ink h2{color:#fff}
+.kicker{display:inline-block;background:var(--sun);color:var(--ink);font-weight:800;font-size:.8rem;letter-spacing:.12em;text-transform:uppercase;padding:4px 10px;border-radius:4px;margin-bottom:14px;transform:rotate(-2deg)}
+.lead{font-size:1.1rem;color:var(--ink-2);max-width:60ch}
+.ink .lead{color:#d8dcea}
+.ph{ /* photo placeholder – replace with real <img> */
+  background:repeating-linear-gradient(135deg,#e8e1cf 0 10px,#efe9d9 10px 20px);
+  border:3px dashed var(--line);border-radius:var(--radius);
+  display:flex;align-items:center;justify-content:center;text-align:center;
+  color:#6b7390;font-size:.85rem;padding:12px;aspect-ratio:4/3;min-height:120px}
+.ph.sq{aspect-ratio:1}
+.ph.wide{aspect-ratio:16/10}
+
+/* buttons */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;border:3px solid var(--ink);border-radius:999px;
+  padding:14px 24px;font-weight:800;font-size:1rem;text-decoration:none;cursor:pointer;background:var(--sun);color:var(--ink);
+  box-shadow:0 4px 0 var(--ink);transition:transform .12s,box-shadow .12s;min-height:52px;line-height:1.1}
+.btn:active{transform:translateY(3px);box-shadow:0 1px 0 var(--ink)}
+.btn.ghost{background:transparent}
+.btn.wa{background:var(--wa);color:#063;border-color:#0b5e2e;box-shadow:0 4px 0 #0b5e2e}
+.btn.wa:active{box-shadow:0 1px 0 #0b5e2e}
+.btn.ghost.light{color:#fff;border-color:#fff;box-shadow:0 4px 0 #fff}
+.btn[disabled]{opacity:.6;cursor:wait}
+.btn svg{width:22px;height:22px;flex:none}
+.btn.big{font-size:1.15rem;padding:18px 28px;width:100%}
+@media (min-width:600px){.btn.big{width:auto}}
+
+/* header */
+header{position:sticky;top:0;z-index:40;background:var(--paper);border-bottom:3px solid var(--ink)}
+.nav{display:flex;align-items:center;justify-content:space-between;gap:12px;height:64px}
+.logo{font-family:"Archivo Black","Arial Black",Impact,sans-serif;font-size:1.2rem;text-decoration:none;display:flex;align-items:center;gap:8px}
+.logo span{background:var(--sun);padding:2px 8px;border-radius:4px;transform:rotate(-3deg);display:inline-block}
+.nav ul{display:none;list-style:none;margin:0;padding:0;gap:22px;font-weight:700}
+.nav ul a{text-decoration:none}
+.nav ul a:hover{text-decoration:underline 3px var(--sun)}
+.nav .btn{padding:10px 16px;min-height:42px;font-size:.9rem;white-space:nowrap}
+@media (min-width:860px){.nav ul{display:flex}}
+
+/* hero */
+.hero{padding:40px 0 48px}
+.hero .wrap{display:grid;gap:28px}
+@media (min-width:860px){.hero{padding:72px 0}.hero .wrap{grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);align-items:center}}
+.hero h1 .hl{background:linear-gradient(transparent 55%,var(--sun) 55%)}
+.hero .cta{display:flex;flex-wrap:wrap;gap:12px;margin-top:8px}
+.tag{font-size:1.25rem;font-weight:700;margin-bottom:18px}
+.tick{list-style:none;padding:0;margin:18px 0 0;display:grid;gap:6px;font-weight:600;color:var(--ink-2)}
+.tick li::before{content:"✓";display:inline-block;width:24px;color:var(--ok);font-weight:900}
+
+/* grids */
+.grid{display:grid;gap:14px;grid-template-columns:repeat(2,minmax(0,1fr))}
+@media (min-width:620px){.grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}}
+@media (min-width:960px){.grid.c4{grid-template-columns:repeat(4,minmax(0,1fr))}}
+.card{background:#fff;border:3px solid var(--ink);border-radius:var(--radius);padding:12px;box-shadow:var(--shadow)}
+.card h3{margin:10px 0 2px}
+.card p{margin:0;font-size:.9rem;color:var(--ink-2)}
+.card .ph{border-radius:8px}
+
+/* steps */
+.steps{list-style:none;counter-reset:s;padding:0;margin:0;display:grid;gap:14px;grid-template-columns:minmax(0,1fr)}
+@media (min-width:760px){.steps{grid-template-columns:repeat(4,minmax(0,1fr))}}
+.steps li{counter-increment:s;background:#fff;border:3px solid var(--ink);border-radius:var(--radius);padding:18px 16px 16px;position:relative}
+.steps li::before{content:counter(s);font-family:"Archivo Black",Impact,sans-serif;font-size:1.6rem;background:var(--sun);border:3px solid var(--ink);border-radius:50%;width:46px;height:46px;display:grid;place-items:center;margin-bottom:10px}
+.steps h3{margin-bottom:4px}
+.steps p{margin:0;color:var(--ink-2);font-size:.95rem}
+
+/* ============ ORDER BUILDER ============ */
+#order{scroll-margin-top:70px}
+.builder{display:grid;gap:18px}
+@media (min-width:960px){.builder{grid-template-columns:minmax(0,1fr) 360px;align-items:start}}
+.builder>*{min-width:0}
+.step{background:#fff;border:3px solid var(--ink);border-radius:var(--radius);padding:18px 16px;margin-bottom:18px}
+.step-h{display:flex;align-items:center;gap:12px;margin-bottom:12px}
+.step-h .n{font-family:"Archivo Black",Impact,sans-serif;background:var(--ink);color:var(--sun);border-radius:50%;width:36px;height:36px;display:grid;place-items:center;flex:none}
+.step-h h3{margin:0;font-size:1.25rem}
+.hint{font-size:.9rem;color:var(--ink-2);margin:0 0 10px}
+.err{display:none;color:var(--err);font-weight:700;font-size:.9rem;margin:8px 0 0;padding:8px 10px;background:#fdecea;border-left:4px solid var(--err);border-radius:4px}
+.err.show{display:block}
+.step.has-err{border-color:var(--err)}
+
+/* choice cards (products) */
+.choices{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+@media (min-width:560px){.choices{grid-template-columns:repeat(4,minmax(0,1fr))}}
+.choice{position:relative;min-width:0}
+.choice input{position:absolute;opacity:0;inset:0;width:100%;height:100%;cursor:pointer;margin:0}
+.choice .box{border:3px solid var(--line);border-radius:12px;padding:8px;text-align:center;font-weight:700;font-size:.9rem;background:var(--paper);transition:border-color .12s,background .12s}
+.choice .box .ph{aspect-ratio:1;min-height:0;padding:6px;font-size:.7rem;margin-bottom:6px;border-width:2px}
+.choice input:checked + .box{border-color:var(--ink);background:var(--sun)}
+.choice input:focus-visible + .box{outline:3px solid var(--ink);outline-offset:2px}
+.choice small{display:block;font-weight:500;color:var(--ink-2);font-size:.75rem}
+
+/* segmented toggle */
+.seg{display:grid;grid-template-columns:1fr 1fr;border:3px solid var(--ink);border-radius:999px;overflow:hidden;margin-bottom:14px}
+.seg button{border:0;background:transparent;padding:12px 8px;font-weight:800;font-size:.95rem;cursor:pointer;color:var(--ink)}
+.seg button[aria-pressed="true"]{background:var(--ink);color:var(--sun)}
+
+/* filter chips */
+.chips{display:flex;gap:8px;overflow-x:auto;padding:2px 2px 8px;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+.chips::-webkit-scrollbar{display:none}
+.chip{flex:none;border:2px solid var(--ink);background:#fff;border-radius:999px;padding:8px 14px;font-weight:700;font-size:.9rem;cursor:pointer;color:var(--ink)}
+.chip[aria-pressed="true"]{background:var(--ink);color:var(--sun)}
+
+/* gallery */
+.gallery{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:8px}
+@media (min-width:560px){.gallery{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media (min-width:960px){.gallery{grid-template-columns:repeat(4,minmax(0,1fr))}}
+.design{border:3px solid var(--line);border-radius:12px;padding:8px;background:var(--paper);cursor:pointer;text-align:left;font:inherit;color:inherit;width:100%}
+.design[aria-pressed="true"]{border-color:var(--ink);background:var(--sun)}
+.design .art{aspect-ratio:1;border-radius:8px;display:grid;place-items:center;text-align:center;padding:8px;color:#fff;font-family:"Archivo Black",Impact,sans-serif;font-size:1rem;line-height:1.1;overflow:hidden}
+.design .art img{width:100%;height:100%;object-fit:cover;border-radius:6px}
+.design .name{display:block;font-weight:800;font-size:.9rem;margin-top:8px}
+.design .code{display:inline-block;font-size:.72rem;font-weight:700;background:var(--ink);color:#fff;padding:2px 7px;border-radius:4px;margin-top:4px;letter-spacing:.06em}
+.design .occ{font-size:.75rem;color:var(--ink-2);margin-left:6px}
+.empty{padding:20px;text-align:center;color:var(--ink-2);grid-column:1/-1}
+
+/* upload */
+.drop{border:3px dashed var(--ink);border-radius:12px;padding:22px 14px;text-align:center;background:var(--paper);position:relative}
+.drop input{position:absolute;inset:0;width:100%;height:100%;opacity:0;cursor:pointer}
+.drop strong{display:block;font-size:1.05rem}
+.drop span{font-size:.85rem;color:var(--ink-2)}
+.preview{display:none;border:3px solid var(--ink);border-radius:12px;padding:12px;background:var(--paper);gap:12px;align-items:center}
+.preview.show{display:flex}
+.preview .thumb{width:84px;height:84px;flex:none;border-radius:8px;border:2px solid var(--line);background:#fff;display:grid;place-items:center;overflow:hidden;font-weight:900;font-size:.8rem}
+.preview .thumb img{width:100%;height:100%;object-fit:contain}
+.preview .meta{flex:1;min-width:0}
+.preview .meta b{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.preview .meta small{color:var(--ink-2)}
+.preview .acts{display:flex;gap:6px;flex-wrap:wrap;margin-top:6px}
+.mini{border:2px solid var(--ink);background:#fff;border-radius:999px;padding:6px 12px;font-weight:700;font-size:.8rem;cursor:pointer;color:var(--ink)}
+.mini.warn{border-color:var(--err);color:var(--err)}
+
+/* form fields */
+.fields{display:grid;gap:14px}
+@media (min-width:560px){.fields{grid-template-columns:repeat(2,minmax(0,1fr))}.fields .full{grid-column:1/-1}}
+.fields>*{min-width:0}
+label.f{display:block;font-weight:700;font-size:.92rem}
+label.f span.req{color:var(--err)}
+.in{display:block;width:100%;margin-top:6px;border:3px solid var(--ink);border-radius:10px;padding:12px;font:inherit;background:#fff;color:var(--ink);min-height:50px}
+.in:focus{outline:3px solid var(--sun);outline-offset:1px}
+textarea.in{min-height:96px;resize:vertical}
+.sizes{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
+.sizes label{position:relative}
+.sizes input{position:absolute;opacity:0;inset:0;margin:0;cursor:pointer}
+.sizes .t{display:inline-block;border:2px solid var(--ink);border-radius:8px;padding:8px 12px;font-weight:800;font-size:.9rem;background:#fff;min-width:48px;text-align:center}
+.sizes input:checked + .t{background:var(--sun)}
+.sizes input:focus-visible + .t{outline:3px solid var(--ink);outline-offset:2px}
+.qty{display:flex;align-items:stretch;margin-top:6px}
+.qty button{border:3px solid var(--ink);background:#fff;width:50px;font-size:1.4rem;font-weight:900;cursor:pointer;color:var(--ink)}
+.qty button:first-child{border-radius:10px 0 0 10px;border-right:0}
+.qty button:last-child{border-radius:0 10px 10px 0;border-left:0}
+.qty input{margin:0;border-radius:0;text-align:center;font-weight:800;font-size:1.1rem;-moz-appearance:textfield}
+.qty input::-webkit-inner-spin-button,.qty input::-webkit-outer-spin-button{-webkit-appearance:none}
+
+/* summary */
+.summary{background:var(--ink);color:var(--paper);border-radius:var(--radius);padding:18px 16px;border:3px solid var(--ink)}
+@media (min-width:960px){.summary{position:sticky;top:80px}}
+.summary h3{color:var(--sun);margin-bottom:10px}
+.summary dl{margin:0 0 14px;display:grid;grid-template-columns:auto 1fr;gap:6px 12px;font-size:.92rem}
+.summary dt{color:#b9c1dc;font-weight:600}
+.summary dd{margin:0;font-weight:700;word-break:break-word}
+.summary .btn{width:100%}
+.note{font-size:.85rem;color:#c9d0e6;margin:12px 0 0}
+.note.attach{display:none;background:#273761;border-left:4px solid var(--sun);padding:10px;border-radius:6px;color:#fff}
+.note.attach.show{display:block}
+.status{display:none;margin:10px 0 0;font-weight:700;font-size:.9rem}
+.status.show{display:block}
+
+/* reviews */
+.reviews{display:grid;gap:14px}
+@media (min-width:760px){.reviews{grid-template-columns:repeat(3,minmax(0,1fr))}}
+.rev{background:#fff;border:3px solid var(--ink);border-radius:var(--radius);padding:18px;box-shadow:var(--shadow)}
+.rev .stars{color:var(--sun-2);letter-spacing:2px;font-size:1.1rem}
+.rev p{margin:8px 0 10px;font-style:italic;color:var(--ink-2)}
+.rev b{font-size:.9rem}
+
+/* faq */
+.faq details{border-bottom:2px solid var(--line);padding:4px 0}
+.faq summary{cursor:pointer;font-weight:800;padding:14px 32px 14px 0;list-style:none;position:relative;font-size:1.02rem}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"+";position:absolute;right:4px;top:10px;font-family:"Archivo Black",Impact,sans-serif;font-size:1.4rem;color:var(--sun-2)}
+.faq details[open] summary::after{content:"–"}
+.faq p{color:var(--ink-2);margin:0 0 14px}
+
+/* contact */
+.contact{display:grid;gap:18px}
+@media (min-width:760px){.contact{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.contact ul{list-style:none;padding:0;margin:0 0 18px;display:grid;gap:12px}
+.contact li{display:flex;gap:12px;align-items:flex-start}
+.contact li svg{width:24px;height:24px;flex:none;color:var(--sun)}
+.contact li b{display:block}
+.map{min-height:240px}
+
+footer{padding:28px 0;font-size:.85rem;color:#b9c1dc;background:#0e172d}
+footer .wrap{display:flex;flex-wrap:wrap;gap:8px 20px;justify-content:space-between}
+
+/* floating WhatsApp */
+.fab{position:fixed;right:16px;bottom:16px;z-index:50;background:var(--wa);color:#fff;width:60px;height:60px;border-radius:50%;display:grid;place-items:center;
+  box-shadow:0 6px 18px rgba(0,0,0,.3);border:3px solid #fff;text-decoration:none}
+.fab svg{width:32px;height:32px}
+.fab .tip{position:absolute;right:68px;white-space:nowrap;background:var(--ink);color:#fff;font-weight:700;font-size:.8rem;padding:6px 10px;border-radius:6px;opacity:0;transition:opacity .2s;pointer-events:none}
+.fab:hover .tip,.fab:focus .tip{opacity:1}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+</style>
+</head>
+<body>
+
+<!-- ============================ HEADER ============================ -->
+<header>
+  <div class="wrap nav">
+    <a class="logo" href="#top"><span>[BUSINESS</span> NAME]</a>
+    <ul>
+      <li><a href="#print">What we print</a></li>
+      <li><a href="#how">How it works</a></li>
+      <li><a href="#order">Order</a></li>
+      <li><a href="#reviews">Reviews</a></li>
+      <li><a href="#faq">FAQ</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+    <a class="btn" href="#order">Build an order</a>
+  </div>
+</header>
+
+<main id="top">
+
+<!-- ============================ HERO ============================ -->
+<section class="hero">
+  <div class="wrap">
+    <div>
+      <span class="kicker">[AREA], South Africa</span>
+      <h1>Custom print, <span class="hl">done right.</span></h1>
+      <p class="tag">[YOUR TAGLINE]</p>
+      <p class="lead">T-shirts, golf shirts, hoodies, caps, church uniforms and gifts, printed with your design or one of ours. Build your order below and send it straight to our WhatsApp.</p>
+      <div class="cta">
+        <a class="btn" href="#order">Build your order</a>
+        <a class="btn ghost" href="#print">See what we print</a>
+      </div>
+      <ul class="tick">
+        <li>Your own artwork or a ready-made holiday design</li>
+        <li>One garment or a whole choir</li>
+        <li>Order on WhatsApp, no sign-in needed</li>
+      </ul>
+    </div>
+    <div class="ph wide">[HERO PHOTO: a stack of freshly printed shirts, or your shop front]</div>
+  </div>
+</section>
+
+<!-- ============================ WHAT WE PRINT ============================ -->
+<section id="print" class="band">
+  <div class="wrap">
+    <span class="kicker">What we print</span>
+    <h2>Garments, uniforms and gifts</h2>
+    <p class="lead">Pick anything below in the order builder. Not sure what you need? Message us and we will help you choose.</p>
+    <div class="grid c4" id="productGrid"><!-- filled from PRODUCTS --></div>
+  </div>
+</section>
+
+<!-- ============================ HOW IT WORKS ============================ -->
+<section id="how">
+  <div class="wrap">
+    <span class="kicker">How ordering works</span>
+    <h2>Four quick steps</h2>
+    <ol class="steps">
+      <li><h3>Pick a product</h3><p>T-shirt, hoodie, cap, mug and more.</p></li>
+      <li><h3>Choose a design</h3><p>Upload your own file or pick one of our ready-made holiday designs.</p></li>
+      <li><h3>Add the details</h3><p>Quantity, sizes, colour, print position and the date you need it.</p></li>
+      <li><h3>Send on WhatsApp</h3><p>Your full order is typed out for you. We confirm price and timing in the chat.</p></li>
+    </ol>
+  </div>
+</section>
+
+<!-- ============================ ORDER BUILDER ============================ -->
+<section id="order" class="band">
+  <div class="wrap">
+    <span class="kicker">Order builder</span>
+    <h2>Build your order</h2>
+    <p class="lead">Fill in the steps and tap <strong>Send order on WhatsApp</strong>. Nothing is paid here. We reply in the chat with a quote and confirm the details.</p>
+
+    <form class="builder" id="orderForm" novalidate>
+      <div>
+
+        <!-- STEP 1: product -->
+        <div class="step" id="s1">
+          <div class="step-h"><span class="n">1</span><h3>Pick a product</h3></div>
+          <div class="choices" id="productChoices"><!-- filled from PRODUCTS --></div>
+          <p class="err" id="errProduct">Please pick a product.</p>
+        </div>
+
+        <!-- STEP 2: design -->
+        <div class="step" id="s2">
+          <div class="step-h"><span class="n">2</span><h3>Choose a design</h3></div>
+          <div class="seg" role="group" aria-label="Design source">
+            <button type="button" id="modeGallery" aria-pressed="true">Ready-made design</button>
+            <button type="button" id="modeUpload" aria-pressed="false">Upload my own</button>
+          </div>
+
+          <div id="galleryPane">
+            <p class="hint">Filter by occasion, then tap a design. Each one has a code so we both know exactly which design you mean.</p>
+            <div class="chips" id="occasionChips" role="group" aria-label="Filter by occasion"></div>
+            <div class="gallery" id="gallery"></div>
+          </div>
+
+          <div id="uploadPane" hidden>
+            <p class="hint">PNG, JPG or PDF, up to 10&nbsp;MB. The clearer the file, the better the print.</p>
+            <div class="drop" id="drop">
+              <input type="file" id="fileInput" accept=".png,.jpg,.jpeg,.pdf,image/png,image/jpeg,application/pdf" aria-label="Upload your design">
+              <strong>Tap to choose your design file</strong>
+              <span>or drop it here · PNG, JPG, PDF · max 10 MB</span>
+            </div>
+            <div class="preview" id="preview">
+              <div class="thumb" id="thumb"></div>
+              <div class="meta">
+                <b id="fileName"></b>
+                <small id="fileInfo"></small>
+                <div class="acts">
+                  <button type="button" class="mini" id="replaceBtn">Replace</button>
+                  <button type="button" class="mini warn" id="removeBtn">Remove</button>
+                </div>
+              </div>
+            </div>
+            <p class="err" id="errFile"></p>
+          </div>
+          <p class="err" id="errDesign">Please choose a ready-made design or upload your own.</p>
+        </div>
+
+        <!-- STEP 3: details -->
+        <div class="step" id="s3">
+          <div class="step-h"><span class="n">3</span><h3>Add the details</h3></div>
+          <div class="fields">
+            <label class="f">Quantity <span class="req">*</span>
+              <div class="qty">
+                <button type="button" aria-label="Less" data-step="-1">−</button>
+                <input class="in" type="number" id="qty" inputmode="numeric" min="1" step="1" placeholder="e.g. 20" required>
+                <button type="button" aria-label="More" data-step="1">+</button>
+              </div>
+            </label>
+            <label class="f">Colour of the item
+              <input class="in" type="text" id="colour" placeholder="e.g. navy, white, maroon">
+            </label>
+            <div class="full" id="sizesWrap">
+              <label class="f" for="sizeBreak">Sizes</label>
+              <div class="sizes" id="sizes"></div>
+              <input class="in" type="text" id="sizeBreak" placeholder="How many of each? e.g. S x4, M x10, L x6">
+            </div>
+            <label class="f">Print position
+              <select class="in" id="position">
+                <option value="">Choose…</option>
+              </select>
+            </label>
+            <label class="f">Date needed
+              <input class="in" type="date" id="date">
+            </label>
+            <label class="f full">Notes
+              <textarea class="in" id="notes" placeholder="Names on the back, group name, matching caps, anything we should know"></textarea>
+            </label>
+          </div>
+          <p class="err" id="errQty"></p>
+        </div>
+      </div>
+
+      <!-- SUMMARY / SEND -->
+      <aside class="summary" aria-live="polite">
+        <h3 class="chunky">Your order</h3>
+        <dl id="sum">
+          <dt>Product</dt><dd id="sProduct">–</dd>
+          <dt>Design</dt><dd id="sDesign">–</dd>
+          <dt>Quantity</dt><dd id="sQty">–</dd>
+          <dt>Sizes</dt><dd id="sSizes">–</dd>
+          <dt>Colour</dt><dd id="sColour">–</dd>
+          <dt>Position</dt><dd id="sPos">–</dd>
+          <dt>Date</dt><dd id="sDate">–</dd>
+        </dl>
+        <button class="btn wa big" type="submit" id="sendBtn">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 1.8a8.2 8.2 0 1 1-4.2 15.3l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 0 1 12 3.8zm-3 4.4c-.2 0-.5 0-.7.3-.3.3-1 1-1 2.4s1 2.8 1.2 3c.1.2 2 3.2 5 4.4 2.5 1 3 .8 3.5.7.5 0 1.7-.7 2-1.4.2-.7.2-1.2.1-1.4l-.5-.3-1.8-.9c-.3-.1-.4-.1-.6.1l-.8 1c-.2.2-.3.2-.6.1-.3-.2-1.1-.4-2.1-1.3-.8-.7-1.3-1.5-1.5-1.8-.1-.3 0-.4.1-.6l.4-.5.3-.5v-.5l-.8-2c-.2-.5-.4-.4-.6-.4H9z"/></svg>
+          Send order on WhatsApp
+        </button>
+        <p class="status" id="status"></p>
+        <p class="note attach" id="attachNote"></p>
+        <p class="note">Opens WhatsApp with your order typed out. You can still edit the message before sending.</p>
+      </aside>
+    </form>
+  </div>
+</section>
+
+<!-- ============================ REVIEWS ============================ -->
+<section id="reviews">
+  <div class="wrap">
+    <span class="kicker">Customer reviews</span>
+    <h2>What customers say</h2>
+    <div class="reviews">
+      <div class="rev"><div class="stars" aria-label="[RATING] stars">★★★★★</div><p>“[CUSTOMER REVIEW 1]”</p><b>[CUSTOMER NAME], [GROUP OR SUBURB]</b></div>
+      <div class="rev"><div class="stars" aria-label="[RATING] stars">★★★★★</div><p>“[CUSTOMER REVIEW 2]”</p><b>[CUSTOMER NAME], [GROUP OR SUBURB]</b></div>
+      <div class="rev"><div class="stars" aria-label="[RATING] stars">★★★★★</div><p>“[CUSTOMER REVIEW 3]”</p><b>[CUSTOMER NAME], [GROUP OR SUBURB]</b></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ FAQ ============================ -->
+<section id="faq" class="band">
+  <div class="wrap">
+    <span class="kicker">Common questions</span>
+    <h2>Good to know</h2>
+    <div class="faq">
+      <details><summary>How long does an order take?</summary><p>[TURNAROUND TIME, e.g. standard and rush options]</p></details>
+      <details><summary>Is there a minimum order?</summary><p>[MINIMUM ORDER POLICY]</p></details>
+      <details><summary>How much does it cost?</summary><p>[PRICING NOTE, e.g. how quotes work and what affects price]</p></details>
+      <details><summary>What file should I send for my own design?</summary><p>PNG, JPG or PDF up to 10 MB. A large, sharp file with a plain or transparent background prints best. [ANY EXTRA ARTWORK REQUIREMENTS]</p></details>
+      <details><summary>Can you print names or numbers on each shirt?</summary><p>[PERSONALISATION POLICY]</p></details>
+      <details><summary>Do you deliver or must I collect?</summary><p>[DELIVERY AND COLLECTION POLICY]</p></details>
+      <details><summary>How do I pay?</summary><p>[PAYMENT METHODS AND DEPOSIT POLICY]</p></details>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ CONTACT ============================ -->
+<section id="contact" class="ink">
+  <div class="wrap contact">
+    <div>
+      <span class="kicker">Contact</span>
+      <h2>Come say hello</h2>
+      <ul>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 22s7-6.5 7-12a7 7 0 1 0-14 0c0 5.5 7 12 7 12z"/><circle cx="12" cy="10" r="2.5"/></svg><div><b>Address</b>[STREET ADDRESS], [AREA], [CITY], [POSTAL CODE]</div></li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/></svg><div><b>WhatsApp / phone</b><a id="phoneLink" href="#">[0XX XXX XXXX]</a></div></li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg><div><b>Hours</b>[OPENING HOURS]</div></li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 6h16v12H4z"/><path d="m4 7 8 6 8-6"/></svg><div><b>Email</b>[EMAIL ADDRESS]</div></li>
+      </ul>
+      <a class="btn wa" id="contactWa" href="#">Chat on WhatsApp</a>
+    </div>
+    <div class="ph map">[MAP OR SHOP PHOTO – paste a Google Maps embed here if you want one]</div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>© <span id="year"></span> [BUSINESS NAME] · [AREA], South Africa</span>
+    <span>[SOCIAL MEDIA HANDLES]</span>
+  </div>
+</footer>
+
+<!-- floating WhatsApp button (every screen) -->
+<a class="fab" id="fab" href="#" target="_blank" rel="noopener" aria-label="Chat with us on WhatsApp">
+  <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 1.8a8.2 8.2 0 1 1-4.2 15.3l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 0 1 12 3.8zm-3 4.4c-.2 0-.5 0-.7.3-.3.3-1 1-1 2.4s1 2.8 1.2 3c.1.2 2 3.2 5 4.4 2.5 1 3 .8 3.5.7.5 0 1.7-.7 2-1.4.2-.7.2-1.2.1-1.4l-.5-.3-1.8-.9c-.3-.1-.4-.1-.6.1l-.8 1c-.2.2-.3.2-.6.1-.3-.2-1.1-.4-2.1-1.3-.8-.7-1.3-1.5-1.5-1.8-.1-.3 0-.4.1-.6l.4-.5.3-.5v-.5l-.8-2c-.2-.5-.4-.4-.6-.4H9z"/></svg>
+  <span class="tip">Chat on WhatsApp</span>
+</a>
+
+<script>
+/* ============================================================
+   1. SETTINGS  – edit these first
+   ============================================================ */
+const CONFIG = {
+  businessName: "[BUSINESS NAME]",
+  whatsappNumber: "27XXXXXXXXX",   // country code + number, digits only, no + or spaces
+  helloText: "Hi [BUSINESS NAME], I'd like to ask about printing.",
+  maxFileMB: 10,
+
+  /* Optional: store uploaded designs so the WhatsApp message can carry a link.
+     A plain WhatsApp link cannot carry a file. If `url` is left empty, the
+     site instead tells the customer to attach the file in the chat.
+     Works with any service that accepts a multipart POST from the browser
+     (CORS enabled) and returns JSON with a public URL, e.g. a Cloudinary
+     unsigned upload preset:
+       url: "https://api.cloudinary.com/v1_1/[CLOUD_NAME]/auto/upload",
+       fileField: "file",
+       extraFields: { upload_preset: "[UNSIGNED_PRESET]" },
+       urlKey: "secure_url"
+  */
+  upload: {
+    url: "",
+    fileField: "file",
+    extraFields: {},
+    urlKey: "secure_url"
+  }
+};
+
+/* ============================================================
+   2. PRODUCTS  – img: "" shows a placeholder; set e.g. "images/tshirt.jpg"
+   ============================================================ */
+const PRODUCTS = [
+  { id:"tshirt",  name:"T-shirts",       note:"Round or V-neck",                img:"", sizes:true,  positions:["Front","Back","Front + back","Left chest","Sleeve"] },
+  { id:"golf",    name:"Golf shirts",    note:"Collared, work or team",         img:"", sizes:true,  positions:["Left chest","Back","Left chest + back","Sleeve"] },
+  { id:"hoodie",  name:"Hoodies",        note:"Pullover or zip-up",             img:"", sizes:true,  positions:["Front","Back","Front + back","Left chest","Sleeve"] },
+  { id:"cap",     name:"Caps",           note:"Peak or bucket",                 img:"", sizes:false, positions:["Front","Side","Back"] },
+  { id:"church",  name:"Church uniforms",note:"Choirs, ushers, youth, conferences", img:"", sizes:true, positions:["Front","Back","Front + back","Left chest","Sleeve"] },
+  { id:"mug",     name:"Mugs",           note:"Gift mugs",                      img:"", sizes:false, positions:["One side","Both sides","Wrap-around"] },
+  { id:"tote",    name:"Tote bags",      note:"Gift and event bags",            img:"", sizes:false, positions:["One side","Both sides"] },
+  { id:"other",   name:"Something else", note:"Tell us in the notes",           img:"", sizes:true,  positions:["Front","Back","Front + back","Other (see notes)"] }
+];
+const SIZE_LIST = ["Kids","XS","S","M","L","XL","2XL","3XL","4XL","5XL"];
+
+/* ============================================================
+   3. READY-MADE DESIGNS  – one easy-to-edit list.
+   code  : what the customer quotes on WhatsApp (keep unique)
+   occ   : one of the OCCASIONS keys below
+   img   : "" shows a coloured placeholder; set e.g. "designs/XM-01.png"
+   ============================================================ */
+const OCCASIONS = {
+  xmas:   { label:"Christmas",      colour:"#b4232c" },
+  easter: { label:"Easter",         colour:"#6a4fb5" },
+  val:    { label:"Valentine's Day",colour:"#d63a6e" },
+  ny:     { label:"New Year",       colour:"#14213d" },
+  mum:    { label:"Mother's Day",   colour:"#c2558a" },
+  dad:    { label:"Father's Day",   colour:"#1f6f8b" }
+};
+const DESIGNS = [
+  { code:"XM-01", name:"[DESIGN NAME]", occ:"xmas",   img:"" },
+  { code:"XM-02", name:"[DESIGN NAME]", occ:"xmas",   img:"" },
+  { code:"XM-03", name:"[DESIGN NAME]", occ:"xmas",   img:"" },
+  { code:"EA-01", name:"[DESIGN NAME]", occ:"easter", img:"" },
+  { code:"EA-02", name:"[DESIGN NAME]", occ:"easter", img:"" },
+  { code:"VA-01", name:"[DESIGN NAME]", occ:"val",    img:"" },
+  { code:"VA-02", name:"[DESIGN NAME]", occ:"val",    img:"" },
+  { code:"NY-01", name:"[DESIGN NAME]", occ:"ny",     img:"" },
+  { code:"NY-02", name:"[DESIGN NAME]", occ:"ny",     img:"" },
+  { code:"MD-01", name:"[DESIGN NAME]", occ:"mum",    img:"" },
+  { code:"MD-02", name:"[DESIGN NAME]", occ:"mum",    img:"" },
+  { code:"FD-01", name:"[DESIGN NAME]", occ:"dad",    img:"" },
+  { code:"FD-02", name:"[DESIGN NAME]", occ:"dad",    img:"" }
+];
+
+/* ============================================================
+   4. PAGE LOGIC  (no edits needed below)
+   ============================================================ */
+(function(){
+  const $ = s => document.querySelector(s);
+  const el = (tag, cls, html) => { const e=document.createElement(tag); if(cls) e.className=cls; if(html!=null) e.innerHTML=html; return e; };
+  const esc = s => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+
+  const state = { product:null, mode:"gallery", design:null, file:null, fileURL:null, filter:"all" };
+
+  /* --- WhatsApp links --- */
+  const waBase = "https://wa.me/" + CONFIG.whatsappNumber;
+  const helloLink = waBase + "?text=" + encodeURIComponent(CONFIG.helloText);
+  $("#fab").href = helloLink;
+  $("#contactWa").href = helloLink;
+  $("#contactWa").target = "_blank";
+  $("#phoneLink").href = waBase;
+  $("#year").textContent = new Date().getFullYear();
+
+  /* --- What we print grid --- */
+  const pg = $("#productGrid");
+  PRODUCTS.filter(p=>p.id!=="other").forEach(p=>{
+    const c = el("div","card");
+    c.appendChild(p.img ? Object.assign(el("img"),{src:p.img,alt:p.name,loading:"lazy"}) : el("div","ph sq",`[PHOTO: ${esc(p.name)}]`));
+    c.appendChild(el("h3",null,esc(p.name)));
+    c.appendChild(el("p",null,esc(p.note)));
+    pg.appendChild(c);
+  });
+
+  /* --- Step 1: product choices --- */
+  const pc = $("#productChoices");
+  PRODUCTS.forEach(p=>{
+    const l = el("label","choice");
+    l.innerHTML = `<input type="radio" name="product" value="${p.id}">
+      <div class="box">${p.img?`<img src="${esc(p.img)}" alt="" loading="lazy" style="aspect-ratio:1;object-fit:cover;border-radius:8px;margin-bottom:6px">`:`<div class="ph">[photo]</div>`}${esc(p.name)}<small>${esc(p.note)}</small></div>`;
+    pc.appendChild(l);
+  });
+  pc.addEventListener("change", e=>{
+    state.product = PRODUCTS.find(p=>p.id===e.target.value);
+    const sel = $("#position"); sel.innerHTML = '<option value="">Choose…</option>';
+    state.product.positions.forEach(x=>sel.appendChild(new Option(x,x)));
+    $("#sizesWrap").hidden = !state.product.sizes;
+    clearErr("#s1","#errProduct"); render();
+  });
+
+  /* --- Sizes --- */
+  const sz = $("#sizes");
+  SIZE_LIST.forEach(s=>{ const l=el("label"); l.innerHTML=`<input type="checkbox" value="${s}"><span class="t">${s}</span>`; sz.appendChild(l); });
+  $("#sizesWrap").hidden = true;
+
+  /* --- Step 2: mode toggle --- */
+  function setMode(m){
+    state.mode = m;
+    $("#modeGallery").setAttribute("aria-pressed", m==="gallery");
+    $("#modeUpload").setAttribute("aria-pressed", m==="upload");
+    $("#galleryPane").hidden = m!=="gallery";
+    $("#uploadPane").hidden = m!=="upload";
+    clearErr("#s2","#errDesign"); render();
+  }
+  $("#modeGallery").onclick = ()=>setMode("gallery");
+  $("#modeUpload").onclick  = ()=>setMode("upload");
+
+  /* --- Gallery + filters --- */
+  const chips = $("#occasionChips");
+  const chipList = [["all","All"]].concat(Object.entries(OCCASIONS).map(([k,v])=>[k,v.label]));
+  chipList.forEach(([k,label])=>{
+    const b = el("button","chip",esc(label)); b.type="button"; b.dataset.k=k; b.setAttribute("aria-pressed", k==="all");
+    b.onclick = ()=>{ state.filter=k; chips.querySelectorAll(".chip").forEach(c=>c.setAttribute("aria-pressed", c.dataset.k===k)); drawGallery(); };
+    chips.appendChild(b);
+  });
+  function drawGallery(){
+    const g = $("#gallery"); g.innerHTML="";
+    const list = DESIGNS.filter(d=>state.filter==="all"||d.occ===state.filter);
+    if(!list.length){ g.appendChild(el("p","empty","No designs in this category yet.")); return; }
+    list.forEach(d=>{
+      const o = OCCASIONS[d.occ]||{label:d.occ,colour:"#555"};
+      const b = el("button","design"); b.type="button";
+      b.setAttribute("aria-pressed", state.design && state.design.code===d.code);
+      b.innerHTML = `<div class="art" style="background:${o.colour}">${d.img?`<img src="${esc(d.img)}" alt="${esc(d.name)}" loading="lazy">`:esc(d.code)+"<br><small style='font:600 .7rem/1.2 system-ui;opacity:.85'>[design image]</small>"}</div>
+        <span class="name">${esc(d.name)}</span><span class="code">${esc(d.code)}</span><span class="occ">${esc(o.label)}</span>`;
+      b.onclick = ()=>{ state.design = d; g.querySelectorAll(".design").forEach(x=>x.setAttribute("aria-pressed", x===b)); clearErr("#s2","#errDesign"); render(); };
+      g.appendChild(b);
+    });
+  }
+  drawGallery();
+
+  /* --- Upload --- */
+  const fileInput = $("#fileInput");
+  const okTypes = { "image/png":"PNG", "image/jpeg":"JPG", "application/pdf":"PDF" };
+  function typeOf(f){ if(okTypes[f.type]) return okTypes[f.type]; const ext=(f.name.split(".").pop()||"").toLowerCase(); return ({png:"PNG",jpg:"JPG",jpeg:"JPG",pdf:"PDF"})[ext]||null; }
+  function fmtMB(b){ return b<1048576 ? Math.max(1,Math.round(b/1024))+" KB" : (b/1048576).toFixed(1)+" MB"; }
+  function takeFile(f){
+    const errBox = $("#errFile");
+    if(!f) return;
+    const t = typeOf(f);
+    if(!t){ showErr("#s2","#errFile", `“${f.name}” is not a PNG, JPG or PDF. Please choose one of those file types.`); fileInput.value=""; return; }
+    if(f.size > CONFIG.maxFileMB*1048576){ showErr("#s2","#errFile", `That file is ${fmtMB(f.size)}. The limit is ${CONFIG.maxFileMB} MB. Please send a smaller version, or WhatsApp us and we will sort it out.`); fileInput.value=""; return; }
+    clearFile(false);
+    state.file = f; state.fileType = t;
+    const th = $("#thumb"); th.innerHTML="";
+    if(t==="PDF"){ th.textContent="PDF"; } else { state.fileURL = URL.createObjectURL(f); th.appendChild(Object.assign(el("img"),{src:state.fileURL,alt:"Preview of your design"})); }
+    $("#fileName").textContent = f.name;
+    $("#fileInfo").textContent = `${t} · ${fmtMB(f.size)}`;
+    $("#preview").classList.add("show"); $("#drop").hidden = true;
+    errBox.classList.remove("show"); clearErr("#s2","#errDesign"); render();
+  }
+  function clearFile(redraw=true){
+    if(state.fileURL) URL.revokeObjectURL(state.fileURL);
+    state.file=null; state.fileURL=null; state.fileType=null; fileInput.value="";
+    $("#preview").classList.remove("show"); $("#drop").hidden=false; $("#thumb").innerHTML="";
+    if(redraw) render();
+  }
+  fileInput.addEventListener("change", e=>takeFile(e.target.files[0]));
+  $("#removeBtn").onclick = ()=>clearFile();
+  $("#replaceBtn").onclick = ()=>fileInput.click();
+  const drop = $("#drop");
+  ["dragenter","dragover"].forEach(ev=>drop.addEventListener(ev,e=>{e.preventDefault();drop.style.background="#fff3cc";}));
+  ["dragleave","drop"].forEach(ev=>drop.addEventListener(ev,e=>{e.preventDefault();drop.style.background="";}));
+  drop.addEventListener("drop", e=>takeFile(e.dataTransfer.files[0]));
+
+  /* --- Quantity stepper --- */
+  const qty = $("#qty");
+  document.querySelectorAll(".qty button").forEach(b=>b.onclick=()=>{ const v=Math.max(1,(parseInt(qty.value)||0)+parseInt(b.dataset.step)); qty.value=v; clearErr("#s3","#errQty"); render(); });
+  ["#qty","#colour","#sizeBreak","#position","#date","#notes"].forEach(s=>$(s).addEventListener("input",()=>{ if(s==="#qty") clearErr("#s3","#errQty"); render(); }));
+  sz.addEventListener("change", render);
+
+  /* --- Errors --- */
+  function showErr(step,id,msg){ const e=$(id); if(msg) e.textContent=msg; e.classList.add("show"); $(step).classList.add("has-err"); }
+  function clearErr(step,id){ $(id).classList.remove("show"); if(!$(step).querySelector(".err.show")) $(step).classList.remove("has-err"); }
+
+  /* --- Collect values --- */
+  function sizesText(){
+    if(!state.product || !state.product.sizes) return "";
+    const picked = [...sz.querySelectorAll("input:checked")].map(i=>i.value);
+    const breakdown = $("#sizeBreak").value.trim();
+    if(breakdown) return breakdown + (picked.length?` (${picked.join(", ")})`:"");
+    return picked.join(", ");
+  }
+  function designText(){
+    if(state.mode==="gallery") return state.design ? `Ready-made – ${state.design.name} (${state.design.code})` : "";
+    return state.file ? `My own design – ${state.file.name}` : "";
+  }
+  function fmtDate(v){ if(!v) return ""; const d=new Date(v+"T00:00"); return isNaN(d)?v:d.toLocaleDateString("en-ZA",{weekday:"short",day:"numeric",month:"short",year:"numeric"}); }
+
+  /* --- Live summary --- */
+  function render(){
+    $("#sProduct").textContent = state.product ? state.product.name : "–";
+    $("#sDesign").textContent  = designText() || "–";
+    $("#sQty").textContent     = qty.value && parseInt(qty.value)>0 ? qty.value : "–";
+    $("#sSizes").textContent   = sizesText() || (state.product && !state.product.sizes ? "n/a" : "–");
+    $("#sColour").textContent  = $("#colour").value.trim() || "–";
+    $("#sPos").textContent     = $("#position").value || "–";
+    $("#sDate").textContent    = fmtDate($("#date").value) || "–";
+  }
+
+  /* --- Validate --- */
+  function validate(){
+    let first = null;
+    const fail = (step,id,msg)=>{ showErr(step,id,msg); first = first || $(step); };
+    if(!state.product) fail("#s1","#errProduct");
+    if(state.mode==="gallery" && !state.design) fail("#s2","#errDesign","Please tap one of the ready-made designs, or switch to “Upload my own”.");
+    if(state.mode==="upload"  && !state.file)   fail("#s2","#errDesign","Please upload your design file (PNG, JPG or PDF up to 10 MB), or switch to “Ready-made design”.");
+    const q = parseInt(qty.value,10);
+    if(!qty.value) fail("#s3","#errQty","Please enter how many you need.");
+    else if(isNaN(q) || q<1 || String(q)!==qty.value.trim()) fail("#s3","#errQty","Quantity must be a whole number of 1 or more.");
+    if(first){ first.scrollIntoView({behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth", block:"start"}); return false; }
+    return true;
+  }
+
+  /* --- Optional file storage --- */
+  async function storeFile(file){
+    const u = CONFIG.upload;
+    if(!u.url) return null;
+    const fd = new FormData();
+    Object.entries(u.extraFields||{}).forEach(([k,v])=>fd.append(k,v));
+    fd.append(u.fileField||"file", file, file.name);
+    const r = await fetch(u.url,{method:"POST",body:fd});
+    if(!r.ok) throw new Error("upload failed "+r.status);
+    const j = await r.json();
+    const link = u.urlKey.split(".").reduce((o,k)=>o&&o[k], j);
+    if(!link) throw new Error("no url in response");
+    return link;
+  }
+
+  /* --- Build the WhatsApp message --- */
+  function buildMessage(fileLink){
+    const L = [];
+    L.push(`Hi ${CONFIG.businessName}! I'd like to place an order:`);
+    L.push("");
+    L.push(`*Product:* ${state.product.name}`);
+    let d = designText();
+    if(state.mode==="upload"){
+      d += fileLink ? `\n*Design file:* ${fileLink}` : `\n*Design file:* I will attach it in this chat (${state.fileType}, ${fmtMB(state.file.size)})`;
+    } else {
+      d = `Ready-made design\n*Design code:* ${state.design.code} – ${state.design.name} (${(OCCASIONS[state.design.occ]||{}).label||""})`;
+    }
+    L.push(`*Design:* ${d}`);
+    L.push(`*Quantity:* ${qty.value.trim()}`);
+    if(state.product.sizes) L.push(`*Sizes:* ${sizesText()||"[not given]"}`);
+    L.push(`*Colour:* ${$("#colour").value.trim()||"[not given]"}`);
+    L.push(`*Print position:* ${$("#position").value||"[not given]"}`);
+    L.push(`*Date needed:* ${fmtDate($("#date").value)||"[not given]"}`);
+    const notes = $("#notes").value.trim(); if(notes) L.push(`*Notes:* ${notes}`);
+    L.push("");
+    L.push("Sent from the website order builder.");
+    return L.join("\n");
+  }
+
+  /* --- Send --- */
+  $("#orderForm").addEventListener("submit", async e=>{
+    e.preventDefault();
+    if(!validate()) return;
+    const btn=$("#sendBtn"), st=$("#status"), an=$("#attachNote");
+    an.classList.remove("show");
+    let link = null;
+    if(state.mode==="upload"){
+      if(CONFIG.upload.url){
+        btn.disabled=true; st.textContent="Saving your design file…"; st.classList.add("show");
+        try{ link = await storeFile(state.file); }
+        catch(err){ link=null; }
+        btn.disabled=false; st.classList.remove("show");
+      }
+      if(!link){
+        an.innerHTML = `WhatsApp can't carry files from a website. <b>Please attach “${esc(state.file.name)}” in the chat</b> after your order message arrives.`;
+        an.classList.add("show");
+      }
+    }
+    const url = waBase + "?text=" + encodeURIComponent(buildMessage(link));
+    const w = window.open(url,"_blank","noopener");
+    if(!w) window.location.href = url;
+  });
+
+  render();
+})();
+</script>
+</body>
+</html>
