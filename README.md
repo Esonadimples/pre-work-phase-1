@@ -1,4 +1,4 @@
-# [BUSINESS NAME] – one-page printing shop website
+# Printiqo – one-page printing shop website
 
 A single, standalone page (`index.html`) with no build step, no sign-in and no backend.
 Visitors build an order and send it to your WhatsApp.
@@ -9,7 +9,7 @@ Open `index.html` and search for the `CONFIG` block near the bottom of the file:
 
 | Setting | What to put |
 |---|---|
-| `businessName` | Your shop name (also replace `[BUSINESS NAME]` in the page text) |
+| `businessName` | Already set to Printiqo |
 | `whatsappNumber` | Your number as `27XXXXXXXXX` (country code, digits only) |
 | `helloText` | The message the floating button pre-fills |
 
