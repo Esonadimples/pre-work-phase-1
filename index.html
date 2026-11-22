@@ -465,6 +465,22 @@ footer b{color:#fff}
 .pv-cap .pv-pos{margin-left:auto;color:#cbd5e1;font-weight:600;font-size:.8125rem}
 .pv-cap .pv-note{flex-basis:100%;font-size:.75rem;color:#94a3b8;font-weight:500}
 
+
+/* cap type picker */
+.vb{margin-top:var(--s5);padding-top:var(--s5);border-top:1px solid var(--border)}
+.vb h4{margin:0 0 4px;font-size:1.0625rem;font-weight:800;letter-spacing:-.01em}
+.vgrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;border:0;margin:0;padding:0;min-width:0}
+@container step (min-width:420px){.vgrid{grid-template-columns:repeat(4,minmax(0,1fr))}}
+@container step (min-width:600px){.vgrid{grid-template-columns:repeat(6,minmax(0,1fr))}}
+.vopt{position:relative;min-width:0;cursor:pointer}
+.vopt input{position:absolute;opacity:0;inset:0;width:100%;height:100%;cursor:pointer;margin:0}
+.vopt .box{height:100%;border:1.5px solid var(--border);border-radius:var(--r-sm);padding:6px 6px 10px;text-align:center;font-weight:700;font-size:.8125rem;line-height:1.25;background:var(--surface);transition:border-color var(--t-fast),background var(--t-fast);position:relative}
+.vopt .box .mkp{aspect-ratio:1;margin-bottom:6px;padding:2px;border-radius:8px}
+.vopt:hover .box{border-color:var(--border-strong)}
+.vopt input:checked + .box{border-color:var(--ink);background:var(--accent-tint)}
+.vopt input:checked + .box::after{content:"";position:absolute;top:6px;right:6px;width:18px;height:18px;border-radius:50%;background:var(--ink) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23ffc53d' stroke-width='3.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12l5 5L20 7'/%3E%3C/svg%3E") center/10px no-repeat}
+.vopt input:focus-visible + .box{outline:3px solid var(--ring);outline-offset:2px}
+
 /* short landscape screens (phones turned sideways) */
 @media (orientation:landscape) and (max-height:500px){
   :root{--header-h:56px}
@@ -616,6 +632,12 @@ footer b{color:#fff}
             <legend class="sr-only">Product</legend>
           </fieldset>
           <p class="err" id="errProduct" role="alert"><svg class="ico" aria-hidden="true"><use href="#i-alert"/></svg><span>Please pick a product.</span></p>
+          <div class="vb" id="variantBlock" hidden>
+            <h4 id="variantLabel">Choose the cap type</h4>
+            <p class="hint">Tap the style you want. The preview shows it with your design.</p>
+            <fieldset class="vgrid" id="variantChoices" aria-describedby="errVariant"><legend class="sr-only">Cap type</legend></fieldset>
+            <p class="err" id="errVariant" role="alert"><svg class="ico" aria-hidden="true"><use href="#i-alert"/></svg><span>Please choose a cap type.</span></p>
+          </div>
           <div class="next"><a class="btn btn-dark" href="#s2">Continue to design <svg class="ico" aria-hidden="true"><use href="#i-arrow"/></svg></a></div>
         </div>
 
@@ -670,10 +692,6 @@ footer b{color:#fff}
                 <button type="button" aria-label="Increase quantity" data-step="1">+</button>
               </div>
               <p class="err" id="errQty" role="alert"><svg class="ico" aria-hidden="true"><use href="#i-alert"/></svg><span></span></p>
-            </div>
-            <div id="variantWrap" hidden>
-              <label class="lbl-f" for="variant"><span id="variantLabel">Style</span> <span class="opt">(optional)</span></label>
-              <select class="in" id="variant"></select>
             </div>
             <div>
               <label class="lbl-f" for="colour">Colour of the item <span class="opt">(optional)</span></label>
@@ -848,8 +866,14 @@ const PRODUCTS = [
   { id:"golf",    name:"Golf shirts",    note:"Collared, work or team",         img:"", sizes:true,  positions:["Left chest","Back","Left chest + back","Sleeve"] },
   { id:"hoodie",  name:"Hoodies",        note:"Pullover or zip-up",             img:"", sizes:true,  positions:["Front","Back","Front + back","Left chest","Sleeve"] },
   { id:"church",  name:"Church uniforms",note:"Choirs, ushers, youth, conferences", size:"wide", img:"", sizes:true, positions:["Front","Back","Front + back","Left chest","Sleeve"] },
-  { id:"cap",     name:"Caps",           note:"Dad, flat, trucker or bucket",   img:"", sizes:false, positions:["Front","Side","Back"],
-    variants:{ label:"Cap style", options:[ {id:"dad",name:"Dad cap"}, {id:"flat",name:"Flat cap"}, {id:"trucker",name:"Trucker cap"}, {id:"bucket",name:"Bucket hat"} ] } },
+  { id:"cap",     name:"Caps",           note:"17 styles to choose from",       img:"", sizes:false, positions:["Front","Side","Back"],
+    variants:{ label:"Cap type", options:[
+      {id:"baseball",name:"Baseball cap"}, {id:"flatbrim",name:"Flat brim cap"}, {id:"trucker",name:"Trucker cap"},
+      {id:"fivepanel",name:"5 panel cap"}, {id:"sixpanel",name:"6 panel cap"}, {id:"snapback",name:"Snapback"},
+      {id:"strapback",name:"Strapback"}, {id:"fitted",name:"Fitted cap"}, {id:"flexfit",name:"Flexfit cap"},
+      {id:"dad",name:"Dad hat"}, {id:"golf",name:"Golf cap"}, {id:"visor",name:"Visor"},
+      {id:"flatcap",name:"Flat cap"}, {id:"newsboy",name:"Newsboy cap"}, {id:"fisherman",name:"Fisherman cap"},
+      {id:"army",name:"Army cap"}, {id:"bucket",name:"Bucket hat"} ] } },
   { id:"mug",     name:"Mugs",           note:"Gift mugs",                      img:"", sizes:false, positions:["One side","Both sides","Wrap-around"] },
   { id:"tote",    name:"Tote bags",      note:"Gift and event bags",            size:"wide", img:"", sizes:false, positions:["One side","Both sides"] },
   { id:"other",   name:"Something else", note:"Tell us in the notes",           img:"", sizes:true,  positions:["Front","Back","Front + back","Other (see notes)"] }
@@ -913,8 +937,8 @@ function mkFit(pos){
   const m = String(pos||"").match(/(\d+)%\s+(\d+)%/), x = m?+m[1]:50, y = m?+m[2]:50;
   return (x<33?"xMin":x>66?"xMax":"xMid")+(y<33?"YMin":y>66?"YMax":"YMid")+" slice";
 }
-const MK_TYPE = { tshirt:"tee", golf:"polo", church:"polo", hoodie:"hoodie", cap:"dad", mug:"mug", tote:"tote", other:"item" };
-const mkType = (id, variant) => id==="cap" ? (variant||"dad") : (MK_TYPE[id]||"item");
+const MK_TYPE = { tshirt:"tee", golf:"polo", church:"polo", hoodie:"hoodie", cap:"baseball", mug:"mug", tote:"tote", other:"item" };
+const mkType = (id, variant) => id==="cap" ? (variant||"baseball") : (MK_TYPE[id]||"item");
 
 /* small drawing helpers: P outlined fabric, SH light and shade, FD fold, HL highlight, ST stitching, SB soft shade */
 const P  = (d,f) => `<path class="mk" style="fill:${f}" d="${d}"/>`;
@@ -943,21 +967,161 @@ const H_HF = "M72 26 Q100 4 128 26 L136 44 Q120 68 100 68 Q80 68 64 44 Z", H_HB 
 const H_RIB = SB("M31 142 L58 138 L56 148 L34 152 Z")+SB("M169 142 L142 138 L144 148 L166 152 Z")+SB("M56 168 L144 168 L144 176 Q144 180 140 180 L60 180 Q56 180 56 176 Z")+ST("M33 146 L57 143")+ST("M167 146 L143 143")+ST("M58 171 L142 171");
 const H_FOLDS = FD("M40 90 Q44 112 40 132")+FD("M160 90 Q156 112 160 132")+FD("M62 90 Q58 110 62 128")+FD("M138 90 Q142 110 138 128")+HL("M70 46 L34 66")+HL("M130 46 L166 66");
 
-/* caps */
+/* caps: one builder per family; each cap type below is a family plus options.
+   Every builder returns {ground, front, side, back, areas}. */
+const MESH = d => `<path class="mo" fill="url(#mkMesh)" d="${d}"/>`;
+const TAB = (f,x0=30) => P(`M${x0} 112 L${x0+10} 112 L${x0+10} 126 L${x0} 126 Q${x0-3} 119 ${x0} 112 Z`,f);
+const METAL = '<rect x="29" y="115" width="6" height="8" rx="1.5" fill="#cbd5e1" stroke="rgba(15,23,42,.45)" stroke-width=".7"/>';
 const CAP_BUCKLE = '<rect x="90" y="121" width="20" height="10" rx="2" fill="#cbd5e1" stroke="rgba(15,23,42,.45)" stroke-width=".8"/><rect x="94" y="124" width="12" height="4" rx="1" fill="rgba(15,23,42,.28)"/>';
 const CAP_HOLES = [60,70,80,90,100,110,120,130,140].map(x=>`<circle class="mb" cx="${x}" cy="122" r="1.5"/>`).join("");
-const D_CROWN = "M42 114 Q40 52 100 46 Q160 52 158 114 Q100 138 42 114 Z", D_BRIM = "M34 114 Q100 140 166 114 Q160 140 100 146 Q40 140 34 114 Z";
-const D_SIDE = "M38 120 Q34 56 94 46 Q146 44 158 98 L160 120 Z", D_SBRIM = "M148 100 Q184 100 198 124 Q172 130 148 120 Z";
-const F_CROWN = "M46 114 L46 64 Q46 36 100 34 Q154 36 154 64 L154 114 Z", F_BRIM = "M30 114 L170 114 Q176 124 179 134 Q100 142 21 134 Q24 124 30 114 Z";
-const F_SIDE = "M42 122 L42 70 Q44 38 96 36 Q144 38 152 70 L154 122 Z", F_SBRIM = "M146 112 Q172 110 199 113 L199 121 Q172 120 146 124 Z";
+const VELCRO = '<rect x="86" y="121" width="28" height="9" rx="1.5" fill="rgba(255,255,255,.35)" stroke="rgba(15,23,42,.3)" stroke-width=".6"/><path class="md" d="M90 125.5 L110 125.5"/>';
+const EYE = (x,y) => `<ellipse class="mb" cx="${x}" cy="${y}" rx="2" ry="1.4"/>`;
+const HOLE = (x,y) => `<circle class="mb" cx="${x}" cy="${y}" r="1.2"/>`;
+const BAND = "M44 116 L156 116 L156 134 Q100 142 44 134 Z";
+const SNAPBAND = "M48 114 L152 114 L152 130 L48 130 Z";
+const capGround = GR(100,152,66);
+
+/* curved-brim family: baseball, strapback, fitted, flexfit, dad hat, golf cap.
+   o = {top: crown height (smaller is taller), tab: side tab, back: back closure, perf: perforated sides} */
+function curvedCap(o){
+  const t = o.top;
+  const crownF = `M42 114 Q40 ${t+6} 100 ${t} Q160 ${t+6} 158 114 Q100 138 42 114 Z`;
+  const crownB = `M42 116 Q40 ${t+6} 100 ${t} Q160 ${t+6} 158 116 Z`;
+  const crownS = `M38 122 Q34 ${t+10} 94 ${t} Q146 ${t-2} 158 98 L160 122 Z`;
+  const brimF = "M34 114 Q100 140 166 114 Q160 140 100 146 Q40 140 34 114 Z", brimS = "M148 100 Q184 100 198 124 Q172 130 148 120 Z";
+  const seams = n => ST(`M100 ${t+1} L100 ${n}`)+ST(`M66 ${t+6} Q74 84 70 ${n}`)+ST(`M134 ${t+6} Q126 84 130 ${n}`);
+  const eyes = EYE(84,t+16)+EYE(116,t+16);
+  const perf = (pts) => o.perf ? pts.map(([x,y])=>HOLE(x,y)).join("") : "";
+  const tab = f => o.tab==="none" ? "" : TAB(f)+(o.tab==="buckle"?METAL:"")+(o.tab==="velcro"?'<rect class="mf" x="31" y="114" width="8" height="10" rx="1"/>':"");
+  const back = f => o.back==="buckle" ? P(BAND,f)+SB(BAND)+CAP_BUCKLE
+    : o.back==="velcro" ? P(BAND,f)+SB(BAND)+VELCRO
+    : o.back==="strap" ? P(BAND,f)+SB(BAND)+ST("M48 125 L152 125")+'<rect class="mb" x="94" y="119" width="12" height="3" rx="1"/>'
+    : ST("M43 111 Q100 118 157 111");
+  const hA = Math.max(24, Math.min(38, 98-t-16));
+  return {
+    ground:capGround,
+    front:f=>({u:P(crownF,f)+seams(114)+eyes+perf([[52,84],[58,84],[52,90],[58,90],[52,96],[58,96],[142,84],[148,84],[142,90],[148,90],[142,96],[148,96]])+BTN(100,t+1,3.6)+P(brimF,f)+SB("M34 114 Q100 140 166 114 Q100 125 34 114 Z")+ST("M42 120 Q100 142 158 120")+ST("M50 126 Q100 143 150 126")+ST("M58 131 Q100 143 142 131"), o:DM(crownF)+SH(brimF)+HL(`M60 ${t+16} Q76 ${t+4} 96 ${t+4}`)}),
+    side:f=>({u:P(crownS,f)+ST(`M94 ${t+2} Q104 84 100 120`)+ST(`M62 ${t+8} Q68 90 64 120`)+ST("M38 116 L160 116")+EYE(78,t+18)+perf([[70,86],[76,86],[70,92],[76,92],[70,98],[76,98]])+BTN(94,t,3.6)+tab(f)+P(brimS,f)+SB(brimS)+ST("M152 108 Q178 108 192 122"), o:DM(crownS)+SH(brimS)+HL(`M50 ${t+20} Q70 ${t+4} 92 ${t+4}`)}),
+    back:f=>({u:P(crownB,f)+seams(110)+eyes+BTN(100,t+1,3.6)+back(f), o:DM(crownB)+HL(`M60 ${t+16} Q76 ${t+4} 96 ${t+4}`)}),
+    areas:{front:{x:78,y:t+16,w:44,h:hA},back:{x:78,y:Math.max(t+30,74),w:44,h:26},side:{x:64,y:t+16,w:34,h:hA}}
+  };
+}
+/* flat-brim family: flat brim, snapback, 6 panel, 5 panel.
+   o = {top, brim: wide|short, tab: none|snap|strap, back: none|snap|strap, panels, button, eyelet} */
+function flatBrimCap(o){
+  const t = o.top, short = o.brim==="short";
+  const crownF = `M46 114 L46 ${t+28} Q46 ${t} 100 ${t-2} Q154 ${t} 154 ${t+28} L154 114 Z`;
+  const crownS = `M42 122 L42 ${t+34} Q44 ${t+2} 96 ${t} Q144 ${t+2} 152 ${t+34} L154 122 Z`;
+  const brimF = short ? "M34 114 L166 114 Q169 121 171 128 Q100 135 29 128 Q31 121 34 114 Z" : "M30 114 L170 114 Q176 124 179 134 Q100 142 21 134 Q24 124 30 114 Z";
+  const rows = short ? ST("M32 120 Q100 125 168 120")+ST("M30 125 Q100 130 170 125") : ST("M27 121 Q100 126 173 121")+ST("M24 127 Q100 132 176 127")+ST("M22 132 Q100 138 178 132");
+  const brimS = short ? "M146 114 Q168 113 188 116 L188 122 Q168 121 146 124 Z" : o.brim==="semi" ? "M146 110 Q176 108 197 119 L196 126 Q172 124 146 124 Z" : "M146 112 Q172 110 199 113 L199 121 Q172 120 146 124 Z";
+  const seams = n => o.panels===5 ? ST(`M78 ${t+2} Q82 80 80 ${n}`)+ST(`M122 ${t+2} Q118 80 120 ${n}`) : ST(`M100 ${t} L100 ${n}`)+ST(`M72 ${t+2} Q78 76 74 ${n}`)+ST(`M128 ${t+2} Q122 76 126 ${n}`);
+  const btn = o.button===false ? "" : BTN(100,t-1,3.6);
+  const tab = f => o.tab==="none" ? "" : P("M34 114 L42 114 L42 126 L34 126 Q31 120 34 114 Z",f)+(o.tab==="snap"?'<circle class="mb" cx="37" cy="118" r=".9"/><circle class="mb" cx="37" cy="122" r=".9"/>':"");
+  const back = f => o.back==="snap" ? P(SNAPBAND,f)+SB(SNAPBAND)+CAP_HOLES+ST("M48 118 L152 118")
+    : o.back==="strap" ? P(SNAPBAND,f)+SB(SNAPBAND)+ST("M48 122 L152 122")+'<rect class="mb" x="94" y="116" width="12" height="3" rx="1"/>'
+    : ST("M47 110 L153 110");
+  const fw = o.panels===5 ? 52 : 60, fh = Math.max(26, Math.min(46, 98-t-14)), by = Math.max(t+28,64);
+  return {
+    ground:GR(100,146,84),
+    front:f=>({u:P(crownF,f)+seams(114)+btn+P(brimF,f)+SB("M46 114 L154 114 L158 119 L42 119 Z")+rows, o:DM(crownF)+SH(brimF)+HL(`M58 ${t+18} Q74 ${t+4} 98 ${t+2}`)}),
+    side:f=>({u:P(crownS,f)+ST(`M96 ${t+2} Q104 80 100 122`)+ST(`M66 ${t+10} Q70 90 66 122`)+btn+(o.eyelet?EYE(62,t+30):"")+tab(f)+P(brimS,f)+ST("M146 117 L198 117"), o:DM(crownS)+SH(brimS)}),
+    back:f=>({u:P(crownF,f)+seams(110)+btn+back(f), o:DM(crownF)+HL(`M58 ${t+18} Q74 ${t+4} 98 ${t+2}`)}),
+    areas:{front:{x:100-fw/2,y:t+14,w:fw,h:fh},back:{x:76,y:by,w:48,h:Math.min(30,110-by)},side:{x:60,y:t+16,w:44,h:Math.max(26,Math.min(44,98-t-16))}}
+  };
+}
+/* trucker: foam front panel, mesh sides and back */
 const T_CROWN = "M44 114 Q42 46 100 40 Q158 46 156 114 Q100 132 44 114 Z", T_PANEL = "M62 114 Q60 48 100 42 Q140 48 138 114 Q100 130 62 114 Z", T_BRIM = "M34 114 Q100 134 166 114 Q162 138 100 143 Q38 138 34 114 Z";
 const T_SIDE = "M38 122 Q34 50 94 42 Q148 42 160 100 L160 122 Z", T_SPANEL = "M100 43 Q148 44 160 100 L160 122 L108 122 Q112 80 100 43 Z", T_SBRIM = "M150 102 Q186 102 198 124 Q172 130 150 122 Z";
+function truckerCap(){
+  return {
+    ground:capGround,
+    front:f=>({u:P(T_CROWN,f)+MESH(T_CROWN)+P(T_PANEL,f)+ST("M100 43 L100 114")+BTN(100,41,3.6)+P(T_BRIM,f)+SB("M34 114 Q100 134 166 114 Q100 122 34 114 Z")+ST("M42 119 Q100 136 158 119")+ST("M50 125 Q100 138 150 125")+ST("M58 130 Q100 139 142 130"), o:DM(T_CROWN)+SH(T_BRIM)+HL("M68 58 Q82 46 98 44")}),
+    side:f=>({u:P(T_SIDE,f)+MESH(T_SIDE)+P(T_SPANEL,f)+ST("M38 116 L160 116")+BTN(94,42,3.6)+TAB(f)+SB("M31 114 L39 114 L39 124 L31 124 Z")+P(T_SBRIM,f)+ST("M154 108 Q178 108 192 122"), o:DM(T_SIDE)+SH(T_SBRIM)}),
+    back:f=>({u:P(T_CROWN,f)+MESH(T_CROWN)+ST("M100 42 L100 110")+BTN(100,41,3.6)+P(SNAPBAND,f)+SB(SNAPBAND)+CAP_HOLES+ST("M48 118 L152 118"), o:DM(T_CROWN)}),
+    areas:{front:{x:74,y:56,w:52,h:42},back:{x:78,y:68,w:44,h:30},side:{x:112,y:62,w:34,h:38}}
+  };
+}
+/* bucket hat */
 const B_CROWN = "M56 54 Q100 42 144 54 L152 108 L48 108 Z", B_BRIM = "M16 112 Q30 102 48 106 L152 106 Q170 102 184 112 Q176 134 100 140 Q24 134 16 112 Z";
-const MESH = d => `<path class="mo" fill="url(#mkMesh)" d="${d}"/>`;
 const bucketView = f => ({
   u: P(B_CROWN,f)+ST("M52 90 Q100 98 148 90")+ST("M54 70 Q100 78 146 70")+`<path class="md" d="M56 54 Q100 66 144 54"/>`+BTN(58,84,2.2)+BTN(142,84,2.2)+P(B_BRIM,f)+ST("M26 114 Q100 130 174 114")+ST("M34 120 Q100 134 166 120")+ST("M44 126 Q100 137 156 126"),
   o: SH(B_CROWN)+SH(B_BRIM)+HL("M62 60 Q80 52 100 52")
 });
+function bucketCap(){ const a={x:76,y:60,w:48,h:36}; return {ground:GR(100,142,80), front:bucketView, side:bucketView, back:bucketView, areas:{front:a,back:a,side:a}}; }
+/* visor: headband and brim, no crown */
+function visorCap(){
+  const bandF = "M44 98 Q100 90 156 98 L156 114 Q100 122 44 114 Z", brimF = "M36 114 Q100 138 164 114 Q158 142 100 148 Q42 142 36 114 Z";
+  const bandS = "M38 92 Q94 86 150 98 L150 114 Q94 118 38 110 Z", brimS = "M148 98 Q186 100 198 124 Q172 130 148 116 Z";
+  const bandB = "M44 98 Q100 92 156 98 L156 114 Q100 120 44 114 Z";
+  return {
+    scale:1.15,
+    ground:GR(100,150,64),
+    front:f=>({u:DK("M48 98 Q100 92 152 98 Q100 101 48 98 Z")+P(bandF,f)+ST("M46 104 Q100 98 154 104")+P(brimF,f)+SB("M36 114 Q100 138 164 114 Q100 124 36 114 Z")+ST("M44 120 Q100 142 156 120")+ST("M52 126 Q100 144 148 126"), o:SH(bandF)+SH(brimF)+HL("M56 102 Q80 94 100 94")}),
+    side:f=>({u:P(bandS,f)+ST("M40 98 Q94 92 148 104")+TAB(f,26)+P(brimS,f)+SB(brimS)+ST("M152 106 Q178 108 192 122"), o:SH(bandS)+SH(brimS)}),
+    back:f=>({u:P(bandB,f)+ST("M46 104 Q100 98 154 104")+VELCRO.replace('y="121"','y="104"').replace('M90 125.5 L110 125.5','M90 108.5 L110 108.5'), o:SH(bandB)}),
+    areas:{front:{x:80,y:98,w:40,h:12},back:{x:80,y:98,w:40,h:12},side:{x:66,y:94,w:34,h:12}}
+  };
+}
+/* army (cadet) cap: flat top, straight sides, short brim */
+function armyCap(){
+  const scale = 1.15;
+  const crownF = "M48 114 L46 62 Q100 52 154 62 L152 114 Z", brimF = "M46 114 Q100 128 154 114 L160 126 Q100 140 40 126 Z";
+  const crownS = "M44 122 L48 62 Q96 54 142 62 L152 122 Z", brimS = "M146 108 Q178 106 190 120 Q168 126 148 122 Z";
+  const crownB = "M48 116 L46 62 Q100 52 154 62 L152 116 Z";
+  const top = SB("M46 62 Q100 52 154 62 Q100 70 46 62 Z");
+  return {
+    scale,
+    ground:capGround,
+    front:f=>({u:P(crownF,f)+top+ST("M47 72 Q100 64 153 72")+ST("M48 108 Q100 112 152 108")+BTN(100,57,3)+P(brimF,f)+ST("M48 119 Q100 132 152 119")+ST("M44 124 Q100 137 156 124"), o:DM(crownF)+SH(brimF)+HL("M56 66 Q80 58 100 57")}),
+    side:f=>({u:P(crownS,f)+SB("M48 62 Q96 54 142 62 Q96 70 48 62 Z")+ST("M48 72 Q96 64 144 72")+ST("M44 114 L151 114")+BTN(96,57,3)+P(brimS,f)+SB(brimS), o:DM(crownS)+SH(brimS)}),
+    back:f=>({u:P(crownB,f)+top+ST("M47 72 Q100 64 153 72")+ST("M48 110 Q100 114 152 110")+BTN(100,57,3), o:DM(crownB)}),
+    areas:{front:{x:78,y:72,w:44,h:30},back:{x:78,y:74,w:44,h:30},side:{x:66,y:72,w:38,h:30}}
+  };
+}
+/* flat cap (ivy / driver) */
+function ivyCap(){
+  const crownF = "M26 116 Q26 72 100 64 Q174 72 174 116 Q100 126 26 116 Z", brimF = "M52 116 Q100 132 148 116 L144 124 Q100 138 56 124 Z";
+  const crownS = "M20 118 Q24 84 80 74 Q130 66 168 92 L178 112 Q100 128 20 118 Z", brimS = "M164 98 Q190 104 192 116 Q176 118 158 112 Z";
+  const crownB = "M26 116 Q26 72 100 64 Q174 72 174 116 Z";
+  return {
+    scale:1.15,
+    ground:capGround,
+    front:f=>({u:P(crownF,f)+ST("M70 70 Q56 96 50 118")+ST("M130 70 Q144 96 150 118")+ST("M100 66 L100 120")+ST("M32 113 Q100 123 168 113")+BTN(100,66,3)+P(brimF,f)+ST("M56 120 Q100 133 144 120"), o:DM(crownF)+SH(brimF)+HL("M50 90 Q66 74 96 68")}),
+    side:f=>({u:P(crownS,f)+ST("M80 76 Q96 96 92 120")+ST("M126 70 Q130 96 124 122")+ST("M24 114 Q100 124 176 108")+BTN(78,74,3)+P(brimS,f)+SB(brimS), o:DM(crownS)+SH(brimS)}),
+    back:f=>({u:P(crownB,f)+ST("M70 70 Q56 96 50 116")+ST("M130 70 Q144 96 150 116")+ST("M100 66 L100 116")+ST("M30 111 Q100 119 170 111")+BTN(100,66,3), o:DM(crownB)}),
+    areas:{front:{x:78,y:80,w:44,h:24},side:{x:50,y:88,w:44,h:22},back:{x:80,y:82,w:40,h:22}}
+  };
+}
+/* newsboy (baker boy) cap: full, rounded crown */
+function newsboyCap(){
+  const crownF = "M22 114 Q18 62 100 54 Q182 62 178 114 Q100 126 22 114 Z", brimF = "M52 114 Q100 130 148 114 L144 124 Q100 136 56 124 Z";
+  const crownS = "M18 118 Q14 70 88 56 Q160 54 180 96 L182 114 Q100 128 18 118 Z", brimS = "M172 98 Q194 104 196 116 Q182 118 166 112 Z";
+  const crownB = "M22 116 Q18 62 100 54 Q182 62 178 116 Z";
+  const rad = ST("M100 56 L100 116")+ST("M100 56 Q70 80 56 116")+ST("M100 56 Q130 80 144 116")+ST("M100 56 Q52 70 32 112")+ST("M100 56 Q148 70 168 112");
+  return {
+    scale:1.15,
+    ground:capGround,
+    front:f=>({u:P(crownF,f)+ST("M100 56 L100 120")+ST("M100 56 Q70 80 56 120")+ST("M100 56 Q130 80 144 120")+ST("M100 56 Q52 70 32 112")+ST("M100 56 Q148 70 168 112")+BTN(100,56,3.4)+P(brimF,f)+ST("M56 120 Q100 132 144 120"), o:DM(crownF)+SH(brimF)+HL("M40 84 Q60 62 94 58")}),
+    side:f=>({u:P(crownS,f)+ST("M88 58 Q104 90 98 122")+ST("M54 70 Q58 100 52 122")+ST("M130 58 Q140 90 136 112")+BTN(88,57,3.4)+P(brimS,f)+SB(brimS), o:DM(crownS)+SH(brimS)}),
+    back:f=>({u:P(crownB,f)+rad+BTN(100,56,3.4), o:DM(crownB)}),
+    areas:{front:{x:78,y:72,w:44,h:28},side:{x:44,y:76,w:44,h:28},back:{x:78,y:78,w:44,h:24}}
+  };
+}
+/* fisherman (Greek fisherman) cap: round crown, band with rope trim, short brim */
+function fishermanCap(){
+  const crownF = "M34 112 Q30 70 100 64 Q170 70 166 112 Z", bandF = "M34 100 L166 100 L166 114 Q100 124 34 114 Z", brimF = "M46 114 Q100 130 154 114 L150 124 Q100 136 50 124 Z";
+  const crownS = "M30 114 Q28 70 96 62 Q156 60 170 96 L172 114 Z", bandS = "M30 100 L172 100 L172 116 Q100 126 30 116 Z", brimS = "M164 100 Q188 104 192 116 Q176 118 162 112 Z";
+  const rope = y => `<path class="md" d="M36 ${y} Q54 ${y-4} 72 ${y+1} T108 ${y+1} T144 ${y+1} T164 ${y}" style="stroke-width:1.6"/>`;
+  return {
+    scale:1.15,
+    ground:capGround,
+    front:f=>({u:P(crownF,f)+ST("M100 64 L100 100")+BTN(100,64,3)+P(bandF,f)+SB(bandF)+rope(107)+P(brimF,f)+ST("M52 120 Q100 132 148 120"), o:DM(crownF)+SH(bandF)+SH(brimF)+HL("M48 84 Q66 68 96 66")}),
+    side:f=>({u:P(crownS,f)+ST("M96 62 L100 100")+BTN(96,62,3)+P(bandS,f)+SB(bandS)+rope(108)+P(brimS,f)+SB(brimS), o:DM(crownS)+SH(bandS)+SH(brimS)}),
+    back:f=>({u:P(crownF,f)+ST("M100 64 L100 100")+BTN(100,64,3)+P(bandF,f)+SB(bandF)+rope(107), o:DM(crownF)+SH(bandF)}),
+    areas:{front:{x:78,y:72,w:44,h:26},side:{x:54,y:72,w:40,h:24},back:{x:78,y:72,w:44,h:24}}
+  };
+}
 
 const MUG_BODY = "M50 52 L50 154 Q50 166 62 166 L128 166 Q140 166 140 154 L140 52 Z";
 const TOTE_BODY = "M46 78 L154 78 L160 174 Q160 180 154 180 L46 180 Q40 180 40 174 Z";
@@ -980,34 +1144,23 @@ const MK_SHAPE = {
     back:f=>({u:P(H_LS,f)+P(H_RS,f)+P(H_BD,f)+H_RIB+P(H_HB,f)+ST("M100 50 L100 30")+ST("M76 34 Q100 46 124 34"), o:SH(H_LS)+SH(H_RS)+SH(H_BD)+SH(H_HB)+H_FOLDS}),
     areas:{front:{x:72,y:74,w:56,h:52},chest:{x:108,y:74,w:20,h:20},sleeve:{x:146,y:86,w:18,h:18,r:-6},back:{x:70,y:62,w:60,h:78}}
   },
-  dad:{
-    ground:GR(100,152,66),
-    front:f=>({u:P(D_CROWN,f)+ST("M100 47 L100 114")+ST("M66 52 Q74 84 70 114")+ST("M134 52 Q126 84 130 114")+`<ellipse class="mb" cx="84" cy="62" rx="2" ry="1.4"/><ellipse class="mb" cx="116" cy="62" rx="2" ry="1.4"/>`+BTN(100,47,3.6)+P(D_BRIM,f)+SB("M34 114 Q100 140 166 114 Q100 125 34 114 Z")+ST("M42 120 Q100 142 158 120")+ST("M50 126 Q100 143 150 126")+ST("M58 131 Q100 143 142 131"), o:DM(D_CROWN)+SH(D_BRIM)+HL("M60 62 Q76 50 96 50")}),
-    side:f=>({u:P(D_SIDE,f)+ST("M94 48 Q104 84 100 120")+ST("M62 54 Q68 90 64 120")+ST("M38 116 L160 116")+`<ellipse class="mb" cx="78" cy="64" rx="2" ry="1.4"/>`+BTN(94,46,3.6)+P("M30 112 L40 112 L40 126 L30 126 Q27 119 30 112 Z",f)+P(D_SBRIM,f)+SB("M148 100 Q184 100 198 124 Q172 130 148 120 Z")+ST("M152 108 Q178 108 192 122"), o:DM(D_SIDE)+SH(D_SBRIM)+HL("M50 66 Q70 50 92 50")}),
-    back:f=>({u:P(D_CROWN,f)+ST("M100 47 L100 110")+ST("M66 52 Q74 84 70 110")+ST("M134 52 Q126 84 130 110")+`<ellipse class="mb" cx="84" cy="62" rx="2" ry="1.4"/><ellipse class="mb" cx="116" cy="62" rx="2" ry="1.4"/>`+BTN(100,47,3.6)+P("M44 116 L156 116 L156 134 Q100 142 44 134 Z",f)+SB("M44 116 L156 116 L156 134 Q100 142 44 134 Z")+CAP_BUCKLE, o:DM(D_CROWN)+HL("M60 62 Q76 50 96 50")}),
-    areas:{front:{x:78,y:62,w:44,h:36},back:{x:78,y:76,w:44,h:26},side:{x:64,y:62,w:34,h:36}}
-  },
-  flat:{
-    ground:GR(100,146,84),
-    front:f=>({u:P(F_CROWN,f)+ST("M100 36 L100 114")+ST("M72 38 Q78 76 74 114")+ST("M128 38 Q122 76 126 114")+BTN(100,35,3.6)+P(F_BRIM,f)+SB("M46 114 L154 114 L158 119 L42 119 Z")+ST("M27 121 Q100 126 173 121")+ST("M24 127 Q100 132 176 127")+ST("M22 132 Q100 138 178 132"), o:DM(F_CROWN)+SH(F_BRIM)+HL("M58 54 Q74 40 98 38")}),
-    side:f=>({u:P(F_SIDE,f)+ST("M96 38 Q104 80 100 122")+ST("M66 46 Q70 90 66 122")+BTN(96,36,3.6)+P("M34 114 L42 114 L42 126 L34 126 Q31 120 34 114 Z",f)+P(F_SBRIM,f)+ST("M146 117 L198 117"), o:DM(F_SIDE)+SH(F_SBRIM)}),
-    back:f=>({u:P(F_CROWN,f)+ST("M100 36 L100 110")+ST("M72 38 Q78 76 74 110")+ST("M128 38 Q122 76 126 110")+BTN(100,35,3.6)+P("M48 114 L152 114 L152 130 L48 130 Z",f)+SB("M48 114 L152 114 L152 130 L48 130 Z")+CAP_HOLES+ST("M48 118 L152 118"), o:DM(F_CROWN)+HL("M58 54 Q74 40 98 38")}),
-    areas:{front:{x:70,y:50,w:60,h:46},back:{x:76,y:64,w:48,h:32},side:{x:60,y:52,w:44,h:44}}
-  },
-  trucker:{
-    ground:GR(100,152,66),
-    front:f=>({u:P(T_CROWN,f)+MESH(T_CROWN)+P(T_PANEL,f)+ST("M100 43 L100 114")+BTN(100,41,3.6)+P(T_BRIM,f)+SB("M34 114 Q100 134 166 114 Q100 122 34 114 Z")+ST("M42 119 Q100 136 158 119")+ST("M50 125 Q100 138 150 125")+ST("M58 130 Q100 139 142 130"), o:DM(T_CROWN)+SH(T_BRIM)+HL("M68 58 Q82 46 98 44")}),
-    side:f=>({u:P(T_SIDE,f)+MESH(T_SIDE)+P(T_SPANEL,f)+ST("M38 116 L160 116")+BTN(94,42,3.6)+P("M30 112 L40 112 L40 126 L30 126 Q27 119 30 112 Z",f)+P(T_SBRIM,f)+ST("M154 108 Q178 108 192 122"), o:DM(T_SIDE)+SH(T_SBRIM)}),
-    back:f=>({u:P(T_CROWN,f)+MESH(T_CROWN)+ST("M100 42 L100 110")+BTN(100,41,3.6)+P("M44 114 L156 114 L156 130 L44 130 Z",f)+SB("M44 114 L156 114 L156 130 L44 130 Z")+CAP_HOLES+ST("M44 118 L156 118"), o:DM(T_CROWN)}),
-    areas:{front:{x:74,y:56,w:52,h:42},back:{x:78,y:68,w:44,h:30},side:{x:112,y:62,w:34,h:38}}
-  },
-  bucket:{
-    ground:GR(100,142,80),
-    front:bucketView,
-    back:bucketView,
-    side:bucketView,
-    areas:{front:{x:76,y:60,w:48,h:36},back:{x:76,y:60,w:48,h:36},side:{x:76,y:60,w:48,h:36}}
-  },
+  baseball:curvedCap({top:42,tab:"strap",back:"strap"}),
+  flatbrim:flatBrimCap({top:36,brim:"wide",tab:"none",back:"none"}),
+  trucker:truckerCap(),
+  fivepanel:flatBrimCap({top:56,brim:"short",tab:"strap",back:"strap",panels:5,button:false,eyelet:true}),
+  sixpanel:flatBrimCap({top:40,brim:"semi",tab:"strap",back:"strap"}),
+  snapback:flatBrimCap({top:36,brim:"wide",tab:"snap",back:"snap"}),
+  strapback:curvedCap({top:42,tab:"buckle",back:"buckle"}),
+  fitted:curvedCap({top:40,tab:"none",back:"none"}),
+  flexfit:curvedCap({top:48,tab:"none",back:"none"}),
+  dad:curvedCap({top:52,tab:"buckle",back:"buckle"}),
+  golf:curvedCap({top:46,tab:"velcro",back:"velcro",perf:true}),
+  visor:visorCap(),
+  flatcap:ivyCap(),
+  newsboy:newsboyCap(),
+  fisherman:fishermanCap(),
+  army:armyCap(),
+  bucket:bucketCap(),
   mug:{
     ground:GR(98,168,62),
     front:f=>({u:`<path d="M140 78 Q178 78 178 108 Q178 138 140 138" fill="none" stroke="var(--mk-line)" stroke-width="13" stroke-linecap="round"/><path d="M140 78 Q178 78 178 108 Q178 138 140 138" fill="none" style="stroke:${f}" stroke-width="9" stroke-linecap="round"/><path d="M142 76 Q174 76 174 108" fill="none" stroke="rgba(255,255,255,.35)" stroke-width="2" stroke-linecap="round"/>`+P(MUG_BODY,f)+`<ellipse class="mk" cx="95" cy="52" rx="45" ry="8" style="fill:${f}"/><ellipse class="mdk" cx="95" cy="53" rx="39" ry="5.5"/>`, o:`<path class="mo" fill="url(#mkCyl)" d="${MUG_BODY}"/>`+`<rect class="mhl2" x="60" y="62" width="5" height="96" rx="2.5"/>`}),
@@ -1063,13 +1216,14 @@ function mkSVG(id, o){
   plan.forEach((p,i)=>{
     const tf = sq ? "" : dual ? `translate(${i*160} 20) scale(.8)` : "translate(60 0)";
     const v = S[p.v](fill);
-    body += `<g${tf?` transform="${tf}"`:""}>${S.ground||""}${v.u}${mkArea(S.areas[p.a], o.design, id+i)}${v.o}</g>`;
+    const sc = S.scale||1, inner = sc===1 ? "" : ` transform="translate(${100-100*sc} ${100-100*sc}) scale(${sc})"`;
+    body += `<g${tf?` transform="${tf}"`:""}><g${inner}>${S.ground||""}${v.u}${mkArea(S.areas[p.a], o.design, id+i)}${v.o}</g></g>`;
     if(dual && p.l) body += `<text class="mk-l" x="${i*160+80}" y="195" text-anchor="middle">${_e(p.l)}</text>`;
   });
   const a11y = o.label ? `role="img" aria-label="${_e(o.label)}"` : `aria-hidden="true"`;
   return `<svg viewBox="${vb}" style="${vars}" ${a11y} xmlns="http://www.w3.org/2000/svg">${body}</svg>`;
 }
-const mkThumb = id => mkSVG(id,{vb:"0 0 200 200",design:{kind:"dash",quiet:true}});
+const mkThumb = (id, variant) => mkSVG(id,{vb:"0 0 200 200",variant,fill:variant?"#2f4b86":undefined,plan:id==="cap"?[{v:"side",a:"side"}]:undefined,design:{kind:"dash",quiet:true}});
 
 /* ============================================================
    5. PAGE LOGIC  (no edits needed below)
@@ -1113,9 +1267,14 @@ const mkThumb = id => mkSVG(id,{vb:"0 0 200 200",design:{kind:"dash",quiet:true}
     const sel = $("#position"); sel.innerHTML = '<option value="">Choose…</option>';
     state.product.positions.forEach(x=>sel.appendChild(new Option(x,x)));
     $("#sizesWrap").hidden = !state.product.sizes;
-    const vs = $("#variant"), vw = state.product.variants;
-    vs.innerHTML = ""; $("#variantWrap").hidden = !vw;
-    if(vw){ $("#variantLabel").textContent = vw.label; vs.appendChild(new Option("Choose…","")); vw.options.forEach(o=>vs.appendChild(new Option(o.name,o.id))); }
+    const vb = $("#variantBlock"), vc = $("#variantChoices"), vw = state.product.variants;
+    vc.querySelectorAll(".vopt").forEach(n=>n.remove()); vb.hidden = !vw; clearErr("#s1","#errVariant");
+    if(vw){
+      $("#variantLabel").textContent = "Choose the " + vw.label.toLowerCase();
+      vw.options.forEach(o=>{ const l = el("label","vopt");
+        l.innerHTML = `<input type="radio" name="variant" value="${o.id}"><div class="box"><div class="mkp" aria-hidden="true">${mkThumb(state.product.id,o.id)}</div>${esc(o.name)}</div>`;
+        vc.appendChild(l); });
+    }
     clearErr("#s1","#errProduct"); render();
   });
 
@@ -1197,8 +1356,9 @@ const mkThumb = id => mkSVG(id,{vb:"0 0 200 200",design:{kind:"dash",quiet:true}
   /* --- Quantity --- */
   const qty = $("#qty");
   document.querySelectorAll(".qty button").forEach(b=>b.onclick=()=>{ const v=Math.max(1,(parseInt(qty.value)||0)+parseInt(b.dataset.step)); qty.value=v; clearErr("#s3","#errQty"); render(); });
-  ["#qty","#colour","#sizeBreak","#position","#variant","#date","#notes"].forEach(s=>$(s).addEventListener("input",()=>{ if(s==="#qty") clearErr("#s3","#errQty"); render(); }));
+  ["#qty","#colour","#sizeBreak","#position","#date","#notes"].forEach(s=>$(s).addEventListener("input",()=>{ if(s==="#qty") clearErr("#s3","#errQty"); render(); }));
   sz.addEventListener("change", render);
+  $("#variantChoices").addEventListener("change", ()=>{ clearErr("#s1","#errVariant"); render(); });
 
   /* --- Errors (inline + summary) --- */
   const errSummary = $("#errSummary"), errList = $("#errSummaryList");
@@ -1222,7 +1382,8 @@ const mkThumb = id => mkSVG(id,{vb:"0 0 200 200",design:{kind:"dash",quiet:true}
     if(breakdown) return breakdown + (picked.length?` (${picked.join(", ")})`:"");
     return picked.join(", ");
   }
-  function variantName(){ const v = state.product && state.product.variants; if(!v) return ""; const o = v.options.find(x=>x.id===$("#variant").value); return o ? o.name : ""; }
+  function variantId(){ const c = document.querySelector("#variantChoices input:checked"); return c ? c.value : ""; }
+  function variantName(){ const v = state.product && state.product.variants; if(!v) return ""; const o = v.options.find(x=>x.id===variantId()); return o ? o.name : ""; }
   function designText(){
     if(state.mode==="gallery") return state.design ? `Ready-made – ${state.design.name} (${state.design.code})` : "";
     return state.file ? `My own design – ${state.file.name}` : "";
@@ -1250,7 +1411,7 @@ const mkThumb = id => mkSVG(id,{vb:"0 0 200 200",design:{kind:"dash",quiet:true}
   }
   function renderPreview(){
     const spec = designSpec(), prod = state.product, pos = $("#position").value;
-    const fill = mkColour($("#colour").value), variant = prod && prod.variants ? $("#variant").value : "";
+    const fill = mkColour($("#colour").value), variant = prod && prod.variants ? variantId() : "";
     const key = [prod?prod.id:"-", variant, pos, spec.key, fill].join("|");
     if(key !== pvKey){
       pvKey = key; pvImg.className = "pv-img"; pvImg.removeAttribute("style"); pvImg.innerHTML = ""; pvCap.innerHTML = "";
@@ -1281,7 +1442,7 @@ const mkThumb = id => mkSVG(id,{vb:"0 0 200 200",design:{kind:"dash",quiet:true}
     setDD("#sProduct", state.product && state.product.name, "Not chosen");
     const hasVar = !!(state.product && state.product.variants);
     $("#sVarT").hidden = $("#sVar").hidden = !hasVar;
-    if(hasVar){ $("#sVarT").textContent = state.product.variants.label.replace("Cap ","").replace(/^./,c=>c.toUpperCase()); setDD("#sVar", variantName(), "Not chosen"); }
+    if(hasVar){ $("#sVarT").textContent = state.product.variants.label; setDD("#sVar", variantName(), "Not chosen"); }
     setDD("#sDesign",  designText(), "Not chosen");
     setDD("#sQty",     qtyOk() ? qty.value.trim() : "", "Not set");
     setDD("#sSizes",   sizesText() || (state.product && !state.product.sizes ? "Not needed" : ""), "–");
@@ -1300,6 +1461,7 @@ const mkThumb = id => mkSVG(id,{vb:"0 0 200 200",design:{kind:"dash",quiet:true}
   function validate(){
     const problems = [];
     if(!state.product){ showErr("#s1","#errProduct"); problems.push(["#s1","Pick a product"]); }
+    else if(state.product.variants && !variantId()){ const lbl = state.product.variants.label.toLowerCase(); showErr("#s1","#errVariant","Please choose the "+lbl+"."); problems.push(["#variantChoices","Choose the "+lbl]); }
     if(state.mode==="gallery" && !state.design){ showErr("#s2","#errDesign","Tap one of the ready-made designs, or switch to “Upload my own”."); problems.push(["#s2","Choose a ready-made design"]); }
     if(state.mode==="upload" && !state.file){ showErr("#s2","#errDesign","Upload your design file (PNG, JPG or PDF up to 10 MB), or switch to “Ready-made design”."); problems.push(["#fileInput","Upload your design file"]); }
     if(!qty.value.trim()){ showErr("#s3","#errQty","Enter how many you need."); problems.push(["#qty","Enter a quantity"]); }
