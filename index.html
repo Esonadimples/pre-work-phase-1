@@ -421,7 +421,6 @@ footer b{color:#fff}
 .pv-img.contain img{object-fit:contain;background:#fff}
 .pv-img.swatch{color:#fff;font-weight:800;font-size:1.5rem;letter-spacing:.02em}
 .pv-img .pv-file{font-weight:800;font-size:1.125rem}
-.pv-chip{position:absolute;left:10px;bottom:10px;max-width:calc(100% - 20px);background:rgba(15,23,42,.88);color:#fff;font-size:.8125rem;font-weight:700;padding:6px 12px;border-radius:var(--r-pill);overflow-wrap:anywhere}
 .pv-cap{display:flex;flex-wrap:wrap;align-items:center;gap:8px;padding:10px 12px;font-size:.875rem;font-weight:600;min-height:44px}
 .pv-cap:empty{display:none}
 .pv-cap .code{font-size:.75rem;font-weight:700;background:var(--accent);color:var(--on-accent);padding:3px 8px;border-radius:6px;letter-spacing:.05em}
@@ -439,6 +438,25 @@ footer b{color:#fff}
   .sendbar{position:sticky;bottom:0;padding:var(--s4) 0 var(--s5);background:linear-gradient(to bottom,rgba(15,23,42,0),var(--ink) var(--s4))}
   .pv-img{aspect-ratio:16/10}
 }
+
+
+/* product mockups (drawn in code) */
+.mk{stroke:var(--mk-line,rgba(15,23,42,.42));stroke-width:1.6;stroke-linejoin:round}
+.md{fill:none;stroke:var(--mk-d,rgba(15,23,42,.2));stroke-width:1.2;stroke-linecap:round;stroke-linejoin:round}
+.mf{fill:var(--mk-shade,rgba(15,23,42,.1));stroke:none}
+.mb{fill:var(--mk-shade,rgba(15,23,42,.1))}
+.mk-t{font-family:var(--font);font-weight:800}
+.mk-l{font:700 8.5px var(--font);fill:#475569}
+.mk-dl{font:700 8px var(--font);fill:var(--mk-dash,rgba(15,23,42,.55))}
+.mkp{display:grid;place-items:center;border-radius:var(--r-sm);background:linear-gradient(160deg,#f1f5f9,#dde5ef);overflow:hidden;padding:6px}
+.mkp svg{width:100%;height:100%;display:block}
+.choice .box .mkp{aspect-ratio:1;margin-bottom:10px;border-radius:9px}
+.bento .prod .mkp{flex:1;min-height:150px;width:100%;padding:12px}
+.bento .prod.xl .mkp{min-height:220px}
+.pv-img.mock{aspect-ratio:16/10;display:block;padding:0;background:linear-gradient(160deg,#f1f5f9,#d6dfeb)}
+.pv-img.mock svg{width:100%;height:100%;display:block}
+.pv-cap .pv-pos{margin-left:auto;color:#cbd5e1;font-weight:600;font-size:.8125rem}
+.pv-cap .pv-note{flex-basis:100%;font-size:.75rem;color:#94a3b8;font-weight:500}
 
 /* short landscape screens (phones turned sideways) */
 @media (orientation:landscape) and (max-height:500px){
@@ -671,7 +689,7 @@ footer b{color:#fff}
         <h3 id="sum-h">Your order</h3>
         <p class="sub">Updates as you fill in the steps.</p>
         <figure class="pv" aria-label="Order preview">
-          <div class="pv-img" id="pvImg"><span class="pv-empty">Your design preview appears here</span></div>
+          <div class="pv-img" id="pvImg"><span class="pv-empty">Pick a product to see your design on it</span></div>
           <figcaption class="pv-cap" id="pvCap"></figcaption>
         </figure>
         <dl id="sum" aria-live="polite">
@@ -851,7 +869,118 @@ const DESIGNS = [
 ];
 
 /* ============================================================
-   4. PAGE LOGIC  (no edits needed below)
+   4. PRODUCT MOCKUPS – simple shapes drawn in code (no image files).
+   Used in the product picker, "What we print" and the live preview.
+   To use a real photo instead, set `img` on the product in PRODUCTS.
+   ============================================================ */
+const _e = s => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const MK_DEFAULT = "#f8fafc";
+const MK_COLOURS = [
+  ["light blue","#93c5fd"],["baby blue","#bfdbfe"],["sky blue","#7dd3fc"],["royal blue","#2563eb"],["navy","#1e2f5c"],["royal","#2563eb"],["sky","#7dd3fc"],["blue","#3b82f6"],
+  ["black","#111827"],["charcoal","#374151"],["grey","#9ca3af"],["gray","#9ca3af"],["silver","#d1d5db"],["white","#ffffff"],
+  ["maroon","#7f1d1d"],["burgundy","#7f1d1d"],["red","#dc2626"],["pink","#f472b6"],["orange","#f97316"],["yellow","#facc15"],["gold","#eab308"],
+  ["bottle green","#14532d"],["forest","#166534"],["emerald","#059669"],["lime","#84cc16"],["green","#16a34a"],["teal","#0d9488"],
+  ["purple","#7c3aed"],["lilac","#c4b5fd"],["brown","#78350f"],["khaki","#bda77a"],["cream","#f5ecd7"],["beige","#e7d9b8"]
+];
+function mkColour(text){
+  const t = String(text||"").toLowerCase();
+  for(const [k,v] of MK_COLOURS){ if(new RegExp("\\b"+k+"\\b").test(t)) return v; }
+  return MK_DEFAULT;
+}
+function mkIsDark(hex){ const n=parseInt(hex.slice(1),16); return (0.2126*(n>>16)+0.7152*((n>>8)&255)+0.0722*(n&255))/255 < 0.45; }
+function mkFit(pos){
+  const m = String(pos||"").match(/(\d+)%\s+(\d+)%/), x = m?+m[1]:50, y = m?+m[2]:50;
+  return (x<33?"xMin":x>66?"xMax":"xMid")+(y<33?"YMin":y>66?"YMax":"YMid")+" slice";
+}
+const MK_TYPE = { tshirt:"tee", golf:"polo", church:"polo", hoodie:"hoodie", cap:"cap", mug:"mug", tote:"tote", other:"item" };
+const TEE_BODY = "M72 24 L20 48 L34 84 L56 74 L56 176 Q56 180 60 180 L140 180 Q144 180 144 176 L144 74 L166 84 L180 48 L128 24";
+const HEM = '<path class="md" d="M58 172 L142 172"/>';
+const CAP_DOME = "M44 120 Q44 38 100 38 Q156 38 156 120 Z";
+const MUG_BODY = "M50 52 L50 154 Q50 166 62 166 L128 166 Q140 166 140 154 L140 52 Z";
+const TOTE_BODY = "M46 78 L154 78 L160 174 Q160 180 154 180 L46 180 Q40 180 40 174 Z";
+const MK_SHAPE = {
+  tee:{
+    front:f=>`<path class="mk" style="fill:${f}" d="${TEE_BODY} Q118 42 100 42 Q82 42 72 24 Z"/><path class="md" d="M75 27 Q100 46 125 27"/>${HEM}`,
+    back:f=>`<path class="mk" style="fill:${f}" d="${TEE_BODY} Q118 31 100 31 Q82 31 72 24 Z"/><path class="md" d="M75 26 Q100 36 125 26"/>${HEM}`,
+    areas:{front:{x:72,y:56,w:56,h:60},chest:{x:106,y:58,w:20,h:20},sleeve:{x:146,y:46,w:18,h:18,r:21},back:{x:70,y:48,w:60,h:70}}
+  },
+  polo:{
+    front:f=>`<path class="mk" style="fill:${f}" d="${TEE_BODY} Q116 37 100 37 Q84 37 72 24 Z"/><path class="mk" style="fill:${f}" d="M72 24 L94 22 L102 46 L84 38 Z"/><path class="mk" style="fill:${f}" d="M128 24 L106 22 L98 46 L116 38 Z"/><path class="mf" d="M96 46 L104 46 L104 88 L96 88 Z"/><circle class="mb" cx="100" cy="55" r="1.9"/><circle class="mb" cx="100" cy="68" r="1.9"/><circle class="mb" cx="100" cy="81" r="1.9"/>${HEM}`,
+    back:f=>`<path class="mk" style="fill:${f}" d="${TEE_BODY} Q116 31 100 31 Q84 31 72 24 Z"/><path class="md" d="M74 25 Q100 37 126 25"/>${HEM}`,
+    areas:{front:{x:72,y:72,w:56,h:56},chest:{x:108,y:62,w:20,h:20},sleeve:{x:146,y:46,w:18,h:18,r:21},back:{x:70,y:48,w:60,h:70}}
+  },
+  hoodie:{
+    front:f=>`<path class="mk" style="fill:${f}" d="M64 40 L26 62 L34 152 L56 148 L60 82 Z"/><path class="mk" style="fill:${f}" d="M136 40 L174 62 L166 152 L144 148 L140 82 Z"/><path class="mk" style="fill:${f}" d="M64 40 L136 40 L144 176 Q144 180 140 180 L60 180 Q56 180 56 176 Z"/><path class="mk" style="fill:${f}" d="M72 26 Q100 4 128 26 L136 44 Q120 68 100 68 Q80 68 64 44 Z"/><path class="mf" d="M80 36 Q100 22 120 36 Q114 60 100 62 Q86 60 80 36 Z"/><path class="md" d="M94 66 L93 90 M106 66 L107 90 M70 134 L130 134 L138 166 L62 166 Z M34 140 L55 136 M166 140 L145 136 M58 172 L142 172"/>`,
+    back:f=>`<path class="mk" style="fill:${f}" d="M64 40 L26 62 L34 152 L56 148 L60 82 Z"/><path class="mk" style="fill:${f}" d="M136 40 L174 62 L166 152 L144 148 L140 82 Z"/><path class="mk" style="fill:${f}" d="M64 40 L136 40 L144 176 Q144 180 140 180 L60 180 Q56 180 56 176 Z"/><path class="mk" style="fill:${f}" d="M70 28 Q100 10 130 28 L134 42 Q100 54 66 42 Z"/><path class="md" d="M34 140 L55 136 M166 140 L145 136 M58 172 L142 172"/>`,
+    areas:{front:{x:72,y:74,w:56,h:52},chest:{x:108,y:74,w:20,h:20},sleeve:{x:146,y:86,w:18,h:18,r:-6},back:{x:70,y:62,w:60,h:78}}
+  },
+  cap:{
+    front:f=>`<path class="mk" style="fill:${f}" d="${CAP_DOME}"/><path class="md" d="M100 40 L100 120 M68 52 Q78 90 70 120 M132 52 Q122 90 130 120"/><circle class="mb" cx="100" cy="38" r="4"/><path class="mk" style="fill:${f}" d="M36 120 Q100 132 164 120 Q172 142 100 154 Q28 142 36 120 Z"/><path class="mf" d="M36 120 Q100 132 164 120 Q172 142 100 154 Q28 142 36 120 Z"/>`,
+    back:f=>`<path class="mk" style="fill:${f}" d="${CAP_DOME}"/><path class="md" d="M100 40 L100 106 M68 52 Q78 90 70 112 M132 52 Q122 90 130 112"/><circle class="mb" cx="100" cy="38" r="4"/><path class="mk" style="fill:${f}" d="M44 120 L156 120 L156 138 Q100 148 44 138 Z"/><path class="mf" d="M44 120 L156 120 L156 138 Q100 148 44 138 Z"/><rect class="mf" x="90" y="126" width="20" height="9" rx="2"/>`,
+    side:f=>`<path class="mk" style="fill:${f}" d="M38 122 Q34 44 96 40 Q150 42 160 104 L160 122 Z"/><path class="md" d="M96 42 Q106 84 102 122 M62 50 Q68 92 64 122"/><circle class="mb" cx="96" cy="40" r="4"/><path class="mk" style="fill:${f}" d="M150 102 Q190 102 198 122 Q172 126 150 120 Z"/><path class="mf" d="M150 102 Q190 102 198 122 Q172 126 150 120 Z"/>`,
+    areas:{front:{x:78,y:62,w:44,h:36},back:{x:78,y:78,w:44,h:26},side:{x:66,y:64,w:34,h:34}}
+  },
+  mug:{
+    front:f=>`<path d="M140 78 Q178 78 178 108 Q178 138 140 138" fill="none" stroke="var(--mk-line)" stroke-width="13" stroke-linecap="round"/><path d="M140 78 Q178 78 178 108 Q178 138 140 138" fill="none" style="stroke:${f}" stroke-width="9" stroke-linecap="round"/><path class="mk" style="fill:${f}" d="${MUG_BODY}"/><ellipse class="mk" cx="95" cy="52" rx="45" ry="8" style="fill:${f}"/><ellipse class="mf" cx="95" cy="53" rx="39" ry="5.5"/>`,
+    back:f=>`<path d="M50 78 Q12 78 12 108 Q12 138 50 138" fill="none" stroke="var(--mk-line)" stroke-width="13" stroke-linecap="round"/><path d="M50 78 Q12 78 12 108 Q12 138 50 138" fill="none" style="stroke:${f}" stroke-width="9" stroke-linecap="round"/><path class="mk" style="fill:${f}" d="${MUG_BODY}"/><ellipse class="mk" cx="95" cy="52" rx="45" ry="8" style="fill:${f}"/><ellipse class="mf" cx="95" cy="53" rx="39" ry="5.5"/>`,
+    areas:{side:{x:62,y:78,w:66,h:56},wrap:{x:50,y:70,w:90,h:70}}
+  },
+  tote:{
+    front:f=>`<path class="mk" fill="none" style="stroke-width:7" d="M72 80 Q72 26 100 26 Q128 26 128 80"/><path fill="none" style="stroke:${f};stroke-width:4" d="M72 80 Q72 26 100 26 Q128 26 128 80"/><path class="mk" style="fill:${f}" d="${TOTE_BODY}"/><path class="md" d="M48 88 L152 88"/>`,
+    areas:{front:{x:62,y:100,w:76,h:66}}
+  },
+  item:{
+    front:f=>`<path class="mk" style="fill:${f}" d="M40 40 L160 40 Q168 40 168 48 L168 152 Q168 160 160 160 L40 160 Q32 160 32 152 L32 48 Q32 40 40 40 Z"/>`,
+    areas:{front:{x:54,y:56,w:92,h:88},back:{x:54,y:56,w:92,h:88}}
+  }
+};
+MK_SHAPE.tote.back = MK_SHAPE.tote.front;
+MK_SHAPE.item.back = MK_SHAPE.item.front;
+
+/* which view(s) and print area to draw for a product and print position */
+function mkPlan(id, pos){
+  const T = MK_TYPE[id]||"item", F={v:"front",a:"front"}, B={v:"back",a:"back"};
+  if(T==="cap") return pos==="Side" ? [{v:"side",a:"side"}] : pos==="Back" ? [B] : [F];
+  if(T==="mug") return pos==="Both sides" ? [{v:"front",a:"side",l:"Side 1"},{v:"back",a:"side",l:"Side 2"}] : pos==="Wrap-around" ? [{v:"front",a:"wrap"}] : [{v:"front",a:"side"}];
+  if(T==="tote") return pos==="Both sides" ? [{v:"front",a:"front",l:"Front"},{v:"back",a:"front",l:"Back"}] : [F];
+  if(/\+/.test(pos||"")) return [{v:"front",a:/chest/i.test(pos)?"chest":"front",l:"Front"},{v:"back",a:"back",l:"Back"}];
+  if(pos==="Back") return [B];
+  if(pos==="Left chest") return [{v:"front",a:"chest"}];
+  if(pos==="Sleeve") return [{v:"front",a:"sleeve"}];
+  return [F];
+}
+/* the design placed in a print area */
+function mkArea(a, d, uid){
+  if(!d || !a) return "";
+  const {x,y,w,h} = a, cx = x+w/2, cy = y+h/2, g = a.r ? ` transform="rotate(${a.r} ${cx} ${cy})"` : "";
+  const box = `x="${x}" y="${y}" width="${w}" height="${h}" rx="2"`;
+  let s = "";
+  if(d.kind==="img") s = `<clipPath id="mkc${uid}"><rect ${box}/></clipPath><image href="${_e(d.href)}" x="${x}" y="${y}" width="${w}" height="${h}" preserveAspectRatio="${d.fit||"xMidYMid meet"}" clip-path="url(#mkc${uid})"/><rect ${box} fill="none" stroke="rgba(15,23,42,.28)" stroke-width=".8"/>`;
+  else if(d.kind==="swatch") s = `<rect ${box} fill="${d.colour}"/><text class="mk-t" x="${cx}" y="${cy+Math.min(w,h)/12}" text-anchor="middle" font-size="${Math.max(5,Math.min(w,h)/4.2)}" fill="#fff">${_e(d.label)}</text>`;
+  else if(d.kind==="pdf") s = `<rect ${box} fill="#fff" stroke="rgba(15,23,42,.35)" stroke-width=".8"/><text class="mk-t" x="${cx}" y="${cy+Math.min(w,h)/10}" text-anchor="middle" font-size="${Math.max(6,Math.min(w,h)/3.2)}" fill="#0f172a">PDF</text>`;
+  else s = `<rect ${box} fill="none" stroke="var(--mk-dash,rgba(15,23,42,.5))" stroke-width="1" stroke-dasharray="3 2.5"/>` + (d.quiet||w<52 ? "" : `<text class="mk-dl" x="${cx}" y="${cy+3}" text-anchor="middle">Your design</text>`);
+  return `<g${g}>${s}</g>`;
+}
+/* the full mockup: o = {fill, plan, design, vb, label} */
+function mkSVG(id, o){
+  const T = MK_TYPE[id]||"item", S = MK_SHAPE[T], fill = o.fill||MK_DEFAULT, plan = o.plan||[{v:"front",a:"front"}];
+  const dual = plan.length>1, vb = o.vb||"0 0 320 200", sq = vb==="0 0 200 200";
+  const vars = mkIsDark(fill)
+    ? "--mk-line:rgba(15,23,42,.55);--mk-d:rgba(255,255,255,.3);--mk-shade:rgba(0,0,0,.25);--mk-dash:rgba(255,255,255,.75)"
+    : "--mk-line:rgba(15,23,42,.42);--mk-d:rgba(15,23,42,.2);--mk-shade:rgba(15,23,42,.1);--mk-dash:rgba(15,23,42,.5)";
+  let body = "";
+  plan.forEach((p,i)=>{
+    const tf = sq ? "" : dual ? `translate(${i*160} 20) scale(.8)` : "translate(60 0)";
+    body += `<g${tf?` transform="${tf}"`:""}>${S[p.v](fill)}${mkArea(S.areas[p.a], o.design, id+i)}</g>`;
+    if(dual && p.l) body += `<text class="mk-l" x="${i*160+80}" y="195" text-anchor="middle">${_e(p.l)}</text>`;
+  });
+  const a11y = o.label ? `role="img" aria-label="${_e(o.label)}"` : `aria-hidden="true"`;
+  return `<svg viewBox="${vb}" style="${vars}" ${a11y} xmlns="http://www.w3.org/2000/svg">${body}</svg>`;
+}
+const mkThumb = id => mkSVG(id,{vb:"0 0 200 200",design:{kind:"dash",quiet:true}});
+
+/* ============================================================
+   5. PAGE LOGIC  (no edits needed below)
    ============================================================ */
 (function(){
   const $ = s => document.querySelector(s);
@@ -872,7 +1001,8 @@ const DESIGNS = [
   const pg = $("#productGrid");
   PRODUCTS.filter(p=>p.id!=="other").forEach(p=>{
     const c = el("article","prod reveal"+(p.size?" "+p.size:""));
-    c.appendChild(p.img ? Object.assign(el("img"),{src:p.img,alt:p.name,loading:"lazy",width:400,height:400}) : el("div","ph sq",`[PHOTO: ${esc(p.name)}]`));
+    if(p.img) c.appendChild(Object.assign(el("img"),{src:p.img,alt:p.name,loading:"lazy",width:400,height:400}));
+    else { const m = el("div","mkp",mkThumb(p.id)); m.setAttribute("aria-hidden","true"); c.appendChild(m); }
     c.appendChild(el("h3",null,esc(p.name)));
     c.appendChild(el("p",null,esc(p.note)));
     pg.appendChild(c);
@@ -883,7 +1013,7 @@ const DESIGNS = [
   PRODUCTS.forEach(p=>{
     const l = el("label","choice");
     l.innerHTML = `<input type="radio" name="product" value="${p.id}">
-      <div class="box">${p.img?`<img src="${esc(p.img)}" alt="" loading="lazy" width="200" height="200" style="aspect-ratio:1;object-fit:cover;border-radius:8px;margin-bottom:10px">`:`<div class="ph" aria-hidden="true">[photo]</div>`}${esc(p.name)}<small>${esc(p.note)}</small></div>`;
+      <div class="box">${p.img?`<img src="${esc(p.img)}" alt="" loading="lazy" width="200" height="200" style="aspect-ratio:1;object-fit:cover;border-radius:8px;margin-bottom:10px">`:`<div class="mkp" aria-hidden="true">${mkThumb(p.id)}</div>`}${esc(p.name)}<small>${esc(p.note)}</small></div>`;
     pc.appendChild(l);
   });
   pc.addEventListener("change", e=>{
@@ -1004,33 +1134,46 @@ const DESIGNS = [
   function fmtDate(v){ if(!v) return ""; const d=new Date(v+"T00:00"); return isNaN(d)?v:d.toLocaleDateString("en-ZA",{weekday:"short",day:"numeric",month:"short",year:"numeric"}); }
   const qtyOk = () => /^\d+$/.test(qty.value.trim()) && parseInt(qty.value,10) >= 1;
 
-  /* --- Live preview of the design + message --- */
+  /* --- Live preview: the product mockup with the design in its print position --- */
   const pvImg = $("#pvImg"), pvCap = $("#pvCap"), msgPrev = $("#msgPrev");
   let pvKey = "";
-  function renderPreview(){
+  function designSpec(){
     const d = state.mode==="gallery" ? state.design : null;
     const f = state.mode==="upload" ? state.file : null;
-    const key = d ? "g:"+d.code : f ? "u:"+f.name+f.size+f.lastModified : "none";
-    if(key !== pvKey){
-      pvKey = key; pvImg.className = "pv-img"; pvImg.innerHTML = ""; pvCap.innerHTML = "";
-      if(d){
-        const o = OCCASIONS[d.occ]||{label:d.occ,colour:"#475569"};
-        if(d.img){ const im = el("img"); im.src=d.img; im.alt=d.name; im.width=720; im.height=480; im.style.objectPosition=d.pos||"center"; pvImg.appendChild(im); }
-        else { pvImg.classList.add("swatch"); pvImg.style.background=o.colour; pvImg.textContent=d.code; }
-        pvCap.innerHTML = `<span class="code">${esc(d.code)}</span><span>${esc(d.name)}</span>`;
-      } else if(f){
-        pvImg.style.background="";
-        if(state.fileType==="PDF"){ pvImg.innerHTML = `<span class="pv-file">PDF<br><small style="font-weight:600;font-size:.8125rem">${esc(f.name)}</small></span>`; }
-        else if(state.fileURL){ pvImg.classList.add("contain"); const im = el("img"); im.src=state.fileURL; im.alt="Preview of your design"; pvImg.appendChild(im); }
-        pvCap.innerHTML = `<span class="code">Your file</span><span>${esc(f.name)}</span>`;
-      } else { pvImg.style.background=""; pvImg.innerHTML = '<span class="pv-empty">Your design preview appears here</span>'; }
+    if(d){
+      const o = OCCASIONS[d.occ]||{colour:"#475569"};
+      return d.img ? {kind:"img",href:d.img,fit:mkFit(d.pos),pos:d.pos,key:"g:"+d.code,code:d.code,name:d.name}
+                   : {kind:"swatch",colour:o.colour,label:d.code,key:"g:"+d.code,code:d.code,name:d.name};
     }
-    // chip: product and quantity
-    pvImg.querySelectorAll(".pv-chip").forEach(c=>c.remove());
-    const bits = [];
-    if(state.product) bits.push(state.product.name);
-    if(qtyOk()) bits.push("× "+qty.value.trim());
-    if(bits.length && (d||f)){ pvImg.appendChild(el("span","pv-chip",esc(bits.join(" ")))); }
+    if(f){
+      const k = "u:"+f.name+f.size+f.lastModified;
+      return state.fileType==="PDF" ? {kind:"pdf",key:k,code:"Your file",name:f.name}
+                                    : {kind:"img",href:state.fileURL,fit:"xMidYMid meet",key:k,code:"Your file",name:f.name};
+    }
+    return {kind:"none",key:"none"};
+  }
+  function renderPreview(){
+    const spec = designSpec(), prod = state.product, pos = $("#position").value;
+    const fill = mkColour($("#colour").value);
+    const key = [prod?prod.id:"-", pos, spec.key, fill].join("|");
+    if(key !== pvKey){
+      pvKey = key; pvImg.className = "pv-img"; pvImg.removeAttribute("style"); pvImg.innerHTML = ""; pvCap.innerHTML = "";
+      const cap = [];
+      if(spec.name) cap.push(`<span class="code">${esc(spec.code)}</span><span>${esc(spec.name)}</span>`);
+      if(prod){
+        pvImg.classList.add("mock");
+        pvImg.innerHTML = mkSVG(prod.id,{fill,plan:mkPlan(prod.id,pos),design:spec.kind==="none"?{kind:"dash"}:spec,
+          label:`${prod.name} mockup${pos?", "+pos:""}${spec.name?", "+spec.name:""}`});
+        cap.push(`<span class="pv-pos">${esc(pos||"Print position not chosen yet")}</span>`,`<span class="pv-note">The preview is a guide to where your design goes.</span>`);
+      } else if(spec.kind==="img"){
+        const im = el("img"); im.src = spec.href; im.alt = spec.name; im.width = 720; im.height = 480; im.style.objectPosition = spec.pos||"center";
+        if(state.mode==="upload") pvImg.classList.add("contain");
+        pvImg.appendChild(im);
+      } else if(spec.kind==="swatch"){ pvImg.classList.add("swatch"); pvImg.style.background = spec.colour; pvImg.textContent = spec.label; }
+      else if(spec.kind==="pdf"){ pvImg.innerHTML = `<span class="pv-file">PDF<br><small style="font-weight:600;font-size:.8125rem">${esc(spec.name)}</small></span>`; }
+      else { pvImg.innerHTML = '<span class="pv-empty">Pick a product to see your design on it</span>'; }
+      pvCap.innerHTML = cap.join("");
+    }
     // exact WhatsApp message
     const ready = state.product && designText() && qtyOk();
     msgPrev.textContent = ready ? buildMessage(state.mode==="upload" && CONFIG.upload.url ? "[link to your uploaded file]" : null) : "Choose a product, a design and a quantity to see your message.";
