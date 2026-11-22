@@ -23,6 +23,9 @@ The product picker, "What we print" and the live order preview use simple mockup
 colour the customer types (navy, white, maroon and so on) and places the chosen design where the print
 position says. To use a real photo for a product instead, set its `img` in `PRODUCTS`.
 
+Caps have a "Cap style" choice (dad cap, flat cap, trucker cap, bucket hat). To add or remove styles, edit
+the `variants` list on the Caps entry in `PRODUCTS`; each style id also needs a matching drawing in `MK_SHAPE`.
+
 ## Photos and designs
 
 * **Product photos:** put images in an `images/` folder and set each product's `img` in the
