@@ -132,8 +132,6 @@ header{position:sticky;top:0;z-index:var(--z-header);height:var(--header-h);back
 @media (min-width:1024px){.hero{padding:var(--s9) 0}}
 .hero .wrap{display:grid;gap:var(--s7)}
 @media (min-width:1024px){.hero .wrap{grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);align-items:center;gap:var(--s8)}}
-.loc{display:inline-flex;align-items:center;gap:8px;font-size:.875rem;font-weight:600;color:var(--muted);margin-bottom:var(--s5)}
-.loc .ico{width:18px;height:18px;color:var(--ink)}
 .hero h1 em{font-style:normal;background:linear-gradient(transparent 62%,var(--accent) 62%,var(--accent) 92%,transparent 92%)}
 .slogan{font-size:1.25rem;font-weight:700;letter-spacing:-.015em;margin:0 0 var(--s3)}
 .hero .lead{color:var(--muted);font-size:1.0625rem;max-width:52ch;margin-bottom:var(--s5)}
@@ -380,8 +378,6 @@ footer b{color:#fff}
 }
 @media (min-width:1024px){.hero{border-radius:0 0 40px 40px}}
 .hero :focus-visible{outline-color:var(--accent)}
-.hero .loc{color:#cbd5e1}
-.hero .loc .ico{color:var(--accent)}
 .hero h1{color:#fff}
 .hero h1 em{background:linear-gradient(90deg,#ffe08a,#ffb800);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:var(--accent)}
 .hero .slogan{color:#fff}
@@ -475,7 +471,6 @@ footer b{color:#fff}
 <section class="hero ink" aria-labelledby="hero-h">
   <div class="wrap">
     <div>
-      <p class="loc"><svg class="ico" aria-hidden="true"><use href="#i-pin"/></svg>Custom printing in [AREA], South Africa</p>
       <h1 id="hero-h">Your design, printed to <em>perfection.</em></h1>
       <p class="slogan">Perfection in every Print</p>
       <p class="lead">T-shirts, golf shirts, hoodies, caps, church uniforms and gifts. Use your own artwork or one of our ready-made designs, then send the order straight to our WhatsApp.</p>
