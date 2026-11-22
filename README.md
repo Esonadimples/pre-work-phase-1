@@ -24,7 +24,7 @@ reviews, FAQ answers) and replace it with your real wording. Nothing in brackets
   `<img>` tags.
 * **Ready-made designs:** the `DESIGNS` list is the single place to edit. Each design has a
   `code` (what customers quote, e.g. `XM-01`), a `name`, an `occ` (occasion key) and an `img`
-  path such as `designs/XM-01.png`. Add or remove lines freely. Occasion names and colours live
+  path such as `designs/XM-01.webp` (resize photos to about 720px wide first to keep the page fast). Add or remove lines freely. Occasion names and colours live
   in `OCCASIONS`.
 
 ## Uploaded designs and WhatsApp

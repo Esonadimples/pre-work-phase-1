@@ -240,9 +240,10 @@ header{position:sticky;top:0;z-index:var(--z-header);height:var(--header-h);back
 .design{border:1.5px solid var(--border);border-radius:var(--r-sm);padding:8px 8px 12px;background:var(--surface);cursor:pointer;text-align:left;font:inherit;color:inherit;width:100%;transition:border-color var(--t-fast),background var(--t-fast)}
 .design:hover{border-color:var(--border-strong)}
 .design[aria-pressed="true"]{border-color:var(--ink);background:var(--accent-tint)}
-.design .art{aspect-ratio:1;border-radius:8px;display:grid;place-items:center;align-content:center;gap:4px;text-align:center;padding:8px;color:#fff;font-weight:800;font-size:1.0625rem;letter-spacing:.02em;overflow:hidden}
+.design .art{aspect-ratio:4/3;border-radius:8px;display:grid;place-items:center;align-content:center;gap:4px;text-align:center;padding:8px;color:#fff;font-weight:800;font-size:1.0625rem;letter-spacing:.02em;overflow:hidden}
 .design .art small{font-weight:600;font-size:.6875rem;opacity:.85;letter-spacing:0}
-.design .art img{width:100%;height:100%;object-fit:cover;border-radius:6px}
+.design .art.has-img{padding:0;position:relative}
+.design .art img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
 .design .name{display:block;font-weight:700;font-size:.9375rem;margin:10px 2px 6px;line-height:1.3}
 .design .meta{display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin:0 2px}
 .design .code{font-size:.75rem;font-weight:700;background:var(--ink);color:#fff;padding:3px 8px;border-radius:6px;letter-spacing:.05em;font-variant-numeric:tabular-nums}
@@ -790,7 +791,8 @@ const SIZE_LIST = ["Kids","XS","S","M","L","XL","2XL","3XL","4XL","5XL"];
    3. READY-MADE DESIGNS  – one easy-to-edit list.
    code  : what the customer quotes on WhatsApp (keep unique)
    occ   : one of the OCCASIONS keys below
-   img   : "" shows a coloured placeholder; set e.g. "designs/XM-01.png"
+   img   : "" shows a coloured placeholder; set e.g. "designs/XM-01.webp"
+   pos   : optional, where to crop the image, e.g. "25% 45%" (default is centred)
    ============================================================ */
 const OCCASIONS = {
   xmas:   { label:"Christmas",      colour:"#b4232c" },
@@ -806,10 +808,10 @@ const DESIGNS = [
   { code:"XM-03", name:"[DESIGN NAME]", occ:"xmas",   img:"" },
   { code:"EA-01", name:"[DESIGN NAME]", occ:"easter", img:"" },
   { code:"EA-02", name:"[DESIGN NAME]", occ:"easter", img:"" },
-  { code:"VA-01", name:"[DESIGN NAME]", occ:"val",    img:"" },
-  { code:"VA-02", name:"[DESIGN NAME]", occ:"val",    img:"" },
-  { code:"NY-01", name:"[DESIGN NAME]", occ:"ny",     img:"" },
-  { code:"NY-02", name:"[DESIGN NAME]", occ:"ny",     img:"" },
+  { code:"VA-01", name:"Happy Valentine's Sign", occ:"val", img:"designs/VA-01.webp" },
+  { code:"VA-02", name:"Valentine Cards",         occ:"val", img:"designs/VA-02.webp" },
+  { code:"NY-01", name:"Fireworks Night",         occ:"ny",  img:"designs/NY-01.webp", pos:"25% 45%" },
+  { code:"NY-02", name:"Happy New Year Tiles",    occ:"ny",  img:"designs/NY-02.webp" },
   { code:"MD-01", name:"[DESIGN NAME]", occ:"mum",    img:"" },
   { code:"MD-02", name:"[DESIGN NAME]", occ:"mum",    img:"" },
   { code:"FD-01", name:"[DESIGN NAME]", occ:"dad",    img:"" },
@@ -894,7 +896,7 @@ const DESIGNS = [
       const b = el("button","design"); b.type="button";
       b.setAttribute("aria-pressed", !!(state.design && state.design.code===d.code));
       b.setAttribute("aria-label", `${d.name}, design ${d.code}, ${o.label}`);
-      b.innerHTML = `<div class="art" style="background:${o.colour}" aria-hidden="true">${d.img?`<img src="${esc(d.img)}" alt="" loading="lazy" width="300" height="300">`:`${esc(d.code)}<small>[design image]</small>`}</div>
+      b.innerHTML = `<div class="art${d.img?" has-img":""}" style="background:${o.colour}" aria-hidden="true">${d.img?`<img src="${esc(d.img)}" alt="" loading="lazy" decoding="async" width="720" height="480" style="object-position:${esc(d.pos||"center")}">`:`${esc(d.code)}<small>[design image]</small>`}</div>
         <span class="name" aria-hidden="true">${esc(d.name)}</span><span class="meta" aria-hidden="true"><span class="code">${esc(d.code)}</span><span class="occ">${esc(o.label)}</span></span>`;
       b.onclick = ()=>{ state.design = d; g.querySelectorAll(".design").forEach(x=>x.setAttribute("aria-pressed", x===b)); clearErr("#s2","#errDesign"); render(); };
       g.appendChild(b);
