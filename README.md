@@ -16,6 +16,13 @@ Open `index.html` and search for the `CONFIG` block near the bottom of the file:
 Then search the page for every `[BRACKETED PLACEHOLDER]` (area, tagline, address, hours,
 reviews, FAQ answers) and replace it with your real wording. Nothing in brackets was invented.
 
+## Product mockups
+
+The product picker, "What we print" and the live order preview use simple mockups drawn in code
+(`MOCKUPS` section of `index.html`), so no product photos are needed. The preview tints the item from the
+colour the customer types (navy, white, maroon and so on) and places the chosen design where the print
+position says. To use a real photo for a product instead, set its `img` in `PRODUCTS`.
+
 ## Photos and designs
 
 * **Product photos:** put images in an `images/` folder and set each product's `img` in the
