@@ -318,16 +318,16 @@ select.in{appearance:none;-webkit-appearance:none;background:var(--surface) url(
 .status{display:none;margin:var(--s3) 0 0;font-weight:700;font-size:.9375rem;color:var(--accent)}
 .status.show{display:block}
 
-/* reviews */
-.reviews{display:grid;gap:var(--s4)}
-@media (min-width:768px){.reviews{grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--s5)}}
-.rev{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:var(--s5);display:flex;flex-direction:column}
-.stars{display:flex;gap:2px;color:#d99a00}
-.stars svg{width:18px;height:18px;fill:currentColor}
-.rev blockquote{margin:var(--s4) 0 var(--s5);color:var(--ink-soft);font-size:1rem;flex:1}
-.rev figcaption{display:flex;align-items:center;gap:12px;font-size:.875rem;font-weight:700;padding-top:var(--s4);border-top:1px solid var(--border)}
-.rev figcaption span{width:36px;height:36px;border-radius:50%;background:var(--accent-tint);border:1px solid var(--accent);display:grid;place-items:center;font-weight:800;font-size:.75rem;flex:none}
-.rev figcaption small{display:block;font-weight:400;color:var(--muted)}
+/* what to expect */
+.expect{list-style:none;margin:0;padding:0;display:grid;gap:var(--s3);grid-template-columns:minmax(0,1fr)}
+@media (min-width:640px){.expect{grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--s4)}.expect li:last-child{grid-column:1/-1}}
+@media (min-width:1024px){.expect{grid-template-columns:repeat(5,minmax(0,1fr))}.expect li:last-child{grid-column:auto}}
+.expect li{display:flex;gap:var(--s4);align-items:flex-start;background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:var(--s5);box-shadow:var(--e1)}
+@media (min-width:1024px){.expect li{flex-direction:column;gap:var(--s4)}}
+.expect .ib{width:48px;height:48px;border-radius:14px;background:var(--accent-tint);border:1px solid var(--accent);display:grid;place-items:center;flex:none;color:var(--ink)}
+.expect .ib .ico{width:24px;height:24px}
+.expect h3{margin:0 0 4px;font-size:1.0625rem}
+.expect p{margin:0;color:var(--muted);font-size:.9375rem}
 
 /* faq */
 .faq-wrap{display:grid;gap:var(--s6)}
@@ -470,7 +470,10 @@ footer b{color:#fff}
   <symbol id="i-upload" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m17 8-5-5-5 5"/><path d="M12 3v12"/></symbol>
   <symbol id="i-alert" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/></symbol>
   <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
-  <symbol id="i-star" viewBox="0 0 24 24"><path d="M12 2.5l2.9 6 6.6.9-4.8 4.6 1.2 6.5L12 17.4l-5.9 3.1 1.2-6.5L2.5 9.4l6.6-.9z"/></symbol>
+  <symbol id="i-box" viewBox="0 0 24 24"><path d="M16.5 9.4 7.5 4.21"/><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><path d="m3.27 6.96 8.73 5.05 8.73-5.05"/><path d="M12 22.08V12"/></symbol>
+  <symbol id="i-type" viewBox="0 0 24 24"><path d="M4 7V4h16v3"/><path d="M9 20h6"/><path d="M12 4v16"/></symbol>
+  <symbol id="i-truck" viewBox="0 0 24 24"><path d="M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2"/><path d="M15 18H9"/><path d="M19 18h2a1 1 0 0 0 1-1v-3.65a1 1 0 0 0-.22-.624l-3.48-4.35A1 1 0 0 0 17.52 8H14"/><circle cx="17" cy="18" r="2"/><circle cx="7" cy="18" r="2"/></symbol>
+  <symbol id="i-card" viewBox="0 0 24 24"><rect width="20" height="14" x="2" y="5" rx="2"/><path d="M2 10h20"/></symbol>
   <symbol id="i-wa" viewBox="0 0 24 24"><path fill="currentColor" stroke="none" d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 1.8a8.2 8.2 0 1 1-4.2 15.3l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 0 1 12 3.8zm-3 4.4c-.2 0-.5 0-.7.3-.3.3-1 1-1 2.4s1 2.8 1.2 3c.1.2 2 3.2 5 4.4 2.5 1 3 .8 3.5.7.5 0 1.7-.7 2-1.4.2-.7.2-1.2.1-1.4l-.5-.3-1.8-.9c-.3-.1-.4-.1-.6.1l-.8 1c-.2.2-.3.2-.6.1-.3-.2-1.1-.4-2.1-1.3-.8-.7-1.3-1.5-1.5-1.8-.1-.3 0-.4.1-.6l.4-.5.3-.5v-.5l-.8-2c-.2-.5-.4-.4-.6-.4H9z"/></symbol>
 </svg>
 
@@ -484,7 +487,7 @@ footer b{color:#fff}
       <ul>
         <li><a href="#print">What we print</a></li>
         <li><a href="#how">How it works</a></li>
-        <li><a href="#reviews">Reviews</a></li>
+        <li><a href="#why">Why Printiqo</a></li>
         <li><a href="#faq">FAQ</a></li>
         <li><a href="#contact">Contact</a></li>
       </ul>
@@ -699,29 +702,19 @@ footer b{color:#fff}
 </section>
 
 <!-- ============================ REVIEWS ============================ -->
-<section id="reviews" aria-labelledby="rev-h">
+<section id="why" aria-labelledby="why-h">
   <div class="wrap">
     <div class="sh reveal">
-      <span class="idx"><b>04</b>Customer reviews</span>
-      <h2 id="rev-h">What customers say</h2>
+      <span class="idx"><b>04</b>Why Printiqo</span>
+      <h2 id="why-h">What to expect when you order</h2>
     </div>
-    <div class="reviews reveal">
-      <figure class="rev" style="margin:0">
-        <div class="stars" role="img" aria-label="[RATING] out of 5 stars"><svg><use href="#i-star"/></svg><svg><use href="#i-star"/></svg><svg><use href="#i-star"/></svg><svg><use href="#i-star"/></svg><svg><use href="#i-star"/></svg></div>
-        <blockquote>“[CUSTOMER REVIEW 1]”</blockquote>
-        <figcaption><span aria-hidden="true">[A]</span><div>[CUSTOMER NAME]<small>[GROUP OR SUBURB]</small></div></figcaption>
-      </figure>
-      <figure class="rev" style="margin:0">
-        <div class="stars" role="img" aria-label="[RATING] out of 5 stars"><svg><use href="#i-star"/></svg><svg><use href="#i-star"/></svg><svg><use href="#i-star"/></svg><svg><use href="#i-star"/></svg><svg><use href="#i-star"/></svg></div>
-        <blockquote>“[CUSTOMER REVIEW 2]”</blockquote>
-        <figcaption><span aria-hidden="true">[B]</span><div>[CUSTOMER NAME]<small>[GROUP OR SUBURB]</small></div></figcaption>
-      </figure>
-      <figure class="rev" style="margin:0">
-        <div class="stars" role="img" aria-label="[RATING] out of 5 stars"><svg><use href="#i-star"/></svg><svg><use href="#i-star"/></svg><svg><use href="#i-star"/></svg><svg><use href="#i-star"/></svg><svg><use href="#i-star"/></svg></div>
-        <blockquote>“[CUSTOMER REVIEW 3]”</blockquote>
-        <figcaption><span aria-hidden="true">[C]</span><div>[CUSTOMER NAME]<small>[GROUP OR SUBURB]</small></div></figcaption>
-      </figure>
-    </div>
+    <ul class="expect reveal">
+      <li><span class="ib" aria-hidden="true"><svg class="ico"><use href="#i-clock"/></svg></span><div><h3>3 to 7 working days</h3><p>Depending on the quantity and design.</p></div></li>
+      <li><span class="ib" aria-hidden="true"><svg class="ico"><use href="#i-box"/></svg></span><div><h3>No minimum order</h3><p>One shirt or a whole choir.</p></div></li>
+      <li><span class="ib" aria-hidden="true"><svg class="ico"><use href="#i-type"/></svg></span><div><h3>Names and numbers</h3><p>We can print them on each shirt.</p></div></li>
+      <li><span class="ib" aria-hidden="true"><svg class="ico"><use href="#i-truck"/></svg></span><div><h3>Collect or delivery</h3><p>We cater for both.</p></div></li>
+      <li><span class="ib" aria-hidden="true"><svg class="ico"><use href="#i-card"/></svg></span><div><h3>Pay by EFT</h3><p>Electronic funds transfer.</p></div></li>
+    </ul>
   </div>
 </section>
 
