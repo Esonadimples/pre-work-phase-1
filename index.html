@@ -5,351 +5,458 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Printiqo – Custom printing in [AREA]</title>
 <meta name="description" content="Printiqo prints T-shirts, golf shirts, hoodies, caps, church uniforms and gifts in [AREA], South Africa. Perfection in every Print. Build your order and send it on WhatsApp.">
-<meta name="theme-color" content="#0f1f3d">
+<meta name="theme-color" content="#0f172a">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap">
 <style>
 /* ============================================================
-   THEME  – navy ink, soft off-white, sunflower accent
+   DESIGN TOKENS
+   Style: Minimalism & Swiss (UI/UX Pro Max) – grid, whitespace,
+   high contrast, crisp borders. Brand: navy ink + sunflower accent.
    ============================================================ */
 :root{
-  --ink:#0f1f3d;
-  --ink-2:#4a5674;
-  --ink-3:#8b94ad;
-  --bg:#f6f7fa;
-  --bg-2:#eef0f5;
-  --card:#ffffff;
-  --line:#e3e6ee;
-  --sun:#ffc53d;
-  --sun-2:#f0b320;
-  --sun-soft:#fff4d6;
-  --err:#c62828;
-  --err-soft:#fdecec;
-  --ok:#1e7f4f;
+  /* colour – semantic tokens */
+  --ink:#0f172a;            /* foreground / primary */
+  --ink-soft:#1e293b;
+  --muted:#475569;          /* secondary text, 7.2:1 on bg */
+  --subtle:#64748b;
+  --bg:#f8fafc;
+  --surface:#ffffff;
+  --surface-2:#f1f5f9;
+  --border:#e2e8f0;
+  --border-strong:#cbd5e1;
+  --accent:#ffc53d;         /* sunflower */
+  --accent-hover:#ffd166;
+  --accent-tint:#fff7e0;
+  --on-accent:#0f172a;
+  --danger:#b91c1c;
+  --danger-tint:#fef2f2;
+  --success:#15803d;
   --wa:#25d366;
-  --wa-2:#1da851;
-  --r:16px;
-  --r-sm:12px;
-  --shadow:0 1px 2px rgba(15,31,61,.04),0 8px 24px -12px rgba(15,31,61,.18);
-  --shadow-lg:0 24px 48px -24px rgba(15,31,61,.35);
-  --max:1120px;
-  --font:"Plus Jakarta Sans",system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  --wa-hover:#1fbe5b;
+  --on-wa:#052e16;
+  --ring:#0f172a;
+
+  /* type */
+  --font:"Plus Jakarta Sans",system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+
+  /* spacing (8pt rhythm) */
+  --s1:4px;--s2:8px;--s3:12px;--s4:16px;--s5:24px;--s6:32px;--s7:48px;--s8:64px;--s9:96px;
+
+  /* shape + elevation (crisp, Swiss) */
+  --r:14px;--r-sm:10px;--r-pill:999px;
+  --e1:0 1px 2px rgba(15,23,42,.06);
+  --e2:0 1px 2px rgba(15,23,42,.06),0 4px 12px rgba(15,23,42,.06);
+  --e3:0 12px 32px -12px rgba(15,23,42,.28);
+
+  /* motion */
+  --t-fast:150ms;--t:220ms;--ease-out:cubic-bezier(.2,.7,.2,1);
+
+  /* layers */
+  --z-header:40;--z-fab:50;
+
+  --max:1140px;
+  --header-h:68px;
 }
 *{box-sizing:border-box}
-html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
-@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto} *{transition:none!important}}
-body{margin:0;background:var(--bg);color:var(--ink);font:500 16px/1.6 var(--font)}
+html{scroll-behavior:smooth;scroll-padding-top:calc(var(--header-h) + 16px);-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 16px/1.6 var(--font);touch-action:manipulation}
 img{max-width:100%;display:block}
-h1,h2,h3{font-weight:800;line-height:1.1;letter-spacing:-.025em;margin:0 0 .5em}
-h1{font-size:clamp(2.3rem,7.5vw,4.2rem)}
-h2{font-size:clamp(1.75rem,5vw,2.6rem)}
-h3{font-size:1.1rem;letter-spacing:-.01em}
-p{margin:0 0 1em}
+h1,h2,h3{font-weight:800;line-height:1.08;letter-spacing:-.03em;margin:0 0 var(--s4);text-wrap:balance}
+h1{font-size:clamp(2.4rem,8vw,4.5rem)}
+h2{font-size:clamp(1.8rem,5vw,2.75rem)}
+h3{font-size:1.125rem;letter-spacing:-.015em;line-height:1.25}
+p{margin:0 0 var(--s4)}
 a{color:inherit}
+:focus-visible{outline:3px solid var(--ring);outline-offset:3px;border-radius:6px}
+.ink :focus-visible{outline-color:var(--accent)}
 .wrap{width:100%;max-width:var(--max);margin:0 auto;padding:0 20px}
-section{padding:64px 0}
-@media (min-width:760px){section{padding:96px 0}}
-.alt{background:var(--card);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+@media (min-width:768px){.wrap{padding:0 32px}}
+section{padding:var(--s8) 0}
+@media (min-width:768px){section{padding:var(--s9) 0}}
+.band{background:var(--surface);border-block:1px solid var(--border)}
 .ink{background:var(--ink);color:#fff}
-.eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:.78rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-2);margin-bottom:14px}
-.eyebrow::before{content:"";width:22px;height:3px;border-radius:2px;background:var(--sun)}
-.ink .eyebrow{color:#b9c3dd}
-.lead{font-size:1.08rem;color:var(--ink-2);max-width:58ch}
-.ink .lead{color:#c7cfe3}
-.center{text-align:center}
-.center .lead{margin-inline:auto}
-.center .eyebrow{justify-content:center}
+.skip{position:absolute;left:12px;top:-60px;z-index:100;background:var(--ink);color:#fff;padding:12px 16px;border-radius:var(--r-sm);font-weight:700;text-decoration:none}
+.skip:focus{top:12px}
 
-/* placeholder for real photos */
-.ph{background:var(--bg-2);border:1.5px dashed #cfd4e0;border-radius:var(--r);display:flex;align-items:center;justify-content:center;text-align:center;color:var(--ink-3);font-size:.82rem;font-weight:600;padding:12px;aspect-ratio:4/3;min-height:120px}
+/* section heading (Swiss: index number + rule) */
+.sh{display:grid;gap:var(--s3);margin-bottom:var(--s7);max-width:720px}
+.sh .idx{display:flex;align-items:center;gap:var(--s3);font-size:.8rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.sh .idx b{color:var(--ink);font-variant-numeric:tabular-nums}
+.sh .idx::after{content:"";flex:1;max-width:64px;height:2px;background:var(--accent)}
+.sh h2{margin:0}
+.sh p{color:var(--muted);font-size:1.0625rem;margin:0;max-width:58ch}
+.ink .sh .idx,.ink .sh p{color:#cbd5e1}
+.ink .sh .idx b{color:#fff}
+
+/* icons */
+.ico{width:20px;height:20px;flex:none;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+
+/* photo placeholder (replace with real photos) */
+.ph{background:repeating-linear-gradient(135deg,var(--surface-2) 0 12px,#eef2f6 12px 24px);border:1.5px dashed var(--border-strong);border-radius:var(--r);display:flex;align-items:center;justify-content:center;text-align:center;color:var(--subtle);font-size:.8125rem;font-weight:600;padding:12px;aspect-ratio:4/3}
 .ph.sq{aspect-ratio:1}
-.ph.wide{aspect-ratio:5/4}
 
 /* buttons */
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;border:0;border-radius:999px;padding:14px 24px;font:700 1rem var(--font);text-decoration:none;cursor:pointer;background:var(--ink);color:#fff;min-height:52px;line-height:1.1;transition:transform .15s,box-shadow .15s,background .15s;box-shadow:0 10px 24px -14px rgba(15,31,61,.6)}
-.btn:hover{transform:translateY(-1px)}
-.btn:active{transform:translateY(0)}
-.btn.sun{background:var(--sun);color:var(--ink);box-shadow:0 10px 24px -14px rgba(240,179,32,.9)}
-.btn.sun:hover{background:#ffd062}
-.btn.ghost{background:transparent;color:var(--ink);box-shadow:inset 0 0 0 1.5px var(--line)}
-.btn.ghost:hover{box-shadow:inset 0 0 0 1.5px var(--ink)}
-.btn.ghost.light{color:#fff;box-shadow:inset 0 0 0 1.5px rgba(255,255,255,.35)}
-.btn.wa{background:var(--wa);color:#fff;box-shadow:0 10px 24px -14px rgba(37,211,102,.9)}
-.btn.wa:hover{background:var(--wa-2)}
-.btn[disabled]{opacity:.6;cursor:wait;transform:none}
-.btn svg{width:22px;height:22px;flex:none}
-.btn.big{font-size:1.08rem;padding:18px 28px;width:100%}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;border:1.5px solid transparent;border-radius:var(--r-pill);padding:12px 22px;min-height:48px;font:700 1rem/1.1 var(--font);text-decoration:none;cursor:pointer;transition:background var(--t-fast),border-color var(--t-fast),transform var(--t-fast) var(--ease-out)}
+.btn:active{transform:scale(.98)}
+.btn-primary{background:var(--accent);color:var(--on-accent)}
+.btn-primary:hover{background:var(--accent-hover)}
+.btn-dark{background:var(--ink);color:#fff}
+.btn-dark:hover{background:var(--ink-soft)}
+.btn-outline{background:transparent;color:var(--ink);border-color:var(--border-strong)}
+.btn-outline:hover{border-color:var(--ink)}
+.btn-wa{background:var(--wa);color:var(--on-wa)}
+.btn-wa:hover{background:var(--wa-hover)}
+.btn[disabled]{opacity:.5;cursor:not-allowed;transform:none}
+.btn .ico{width:20px;height:20px}
+.btn-block{width:100%}
+.btn-lg{min-height:56px;font-size:1.0625rem;padding:16px 26px}
 
 /* header */
-header{position:sticky;top:0;z-index:40;background:rgba(246,247,250,.85);backdrop-filter:saturate(180%) blur(12px);-webkit-backdrop-filter:saturate(180%) blur(12px);border-bottom:1px solid var(--line)}
-.nav{display:flex;align-items:center;justify-content:space-between;gap:12px;height:68px}
-.logo{font-weight:800;font-size:1.35rem;letter-spacing:-.03em;text-decoration:none;display:flex;align-items:center;gap:9px}
-.logo i{width:30px;height:30px;border-radius:9px;background:var(--ink);display:grid;place-items:center;flex:none}
-.logo i::after{content:"";width:12px;height:12px;border-radius:3px;background:var(--sun);transform:rotate(12deg)}
-.nav ul{display:none;list-style:none;margin:0;padding:0;gap:26px;font-weight:600;font-size:.95rem;color:var(--ink-2)}
-.nav ul a{text-decoration:none}
-.nav ul a:hover{color:var(--ink)}
-.nav .btn{padding:10px 18px;min-height:42px;font-size:.9rem;white-space:nowrap;box-shadow:none}
-@media (min-width:900px){.nav ul{display:flex}}
+header{position:sticky;top:0;z-index:var(--z-header);height:var(--header-h);background:rgba(248,250,252,.92);backdrop-filter:saturate(160%) blur(10px);-webkit-backdrop-filter:saturate(160%) blur(10px);border-bottom:1px solid var(--border)}
+.nav{display:flex;align-items:center;justify-content:space-between;gap:var(--s3);height:100%}
+.logo{font-weight:800;font-size:1.3rem;letter-spacing:-.035em;text-decoration:none;display:flex;align-items:center;gap:10px;min-height:44px}
+.logo-mark{width:30px;height:30px;border-radius:8px;background:var(--ink);display:grid;place-items:center;flex:none}
+.logo-mark::after{content:"";width:12px;height:12px;border-radius:3px;background:var(--accent);transform:rotate(12deg)}
+.nav ul{display:none;list-style:none;margin:0;padding:0;gap:4px;font-weight:600;font-size:.9375rem}
+.nav ul a{display:block;padding:10px 12px;border-radius:var(--r-sm);text-decoration:none;color:var(--muted);transition:color var(--t-fast),background var(--t-fast)}
+.nav ul a:hover{color:var(--ink);background:var(--surface-2)}
+.nav .btn{min-height:44px;padding:10px 18px;font-size:.9375rem;white-space:nowrap}
+@media (min-width:960px){.nav ul{display:flex}}
 
 /* hero */
-.hero{padding:48px 0 56px;position:relative;overflow:hidden}
-.hero::before{content:"";position:absolute;inset:auto -20% -40% auto;width:60vw;max-width:620px;aspect-ratio:1;border-radius:50%;background:radial-gradient(closest-side,var(--sun-soft),transparent 70%);opacity:.9;pointer-events:none}
-.hero .wrap{display:grid;gap:36px;position:relative}
-@media (min-width:860px){.hero{padding:88px 0}.hero .wrap{grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);align-items:center;gap:56px}}
-.pill{display:inline-flex;align-items:center;gap:8px;background:var(--card);border:1px solid var(--line);border-radius:999px;padding:6px 14px 6px 8px;font-size:.82rem;font-weight:700;color:var(--ink-2);margin-bottom:22px}
-.pill b{background:var(--sun);color:var(--ink);border-radius:999px;padding:2px 9px;font-size:.72rem;letter-spacing:.06em;text-transform:uppercase}
-.hero h1 .hl{position:relative;white-space:nowrap}
-.hero h1 .hl::after{content:"";position:absolute;left:0;right:0;bottom:.08em;height:.28em;background:var(--sun);z-index:-1;border-radius:4px}
-.slogan{font-size:1.2rem;font-weight:700;color:var(--ink);margin:0 0 14px;letter-spacing:-.01em}
-.hero .cta{display:flex;flex-wrap:wrap;gap:12px;margin-top:8px}
-.feats{list-style:none;padding:0;margin:26px 0 0;display:grid;gap:10px;font-weight:600;color:var(--ink-2);font-size:.95rem}
-.feats li{display:flex;gap:10px;align-items:center}
-.feats li::before{content:"";width:20px;height:20px;border-radius:50%;background:var(--sun-soft) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%230f1f3d' stroke-width='3.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12l5 5L20 7'/%3E%3C/svg%3E") center/11px no-repeat;flex:none}
-.hero-art{position:relative}
-.hero-art .ph{box-shadow:var(--shadow-lg);background:var(--card)}
-.hero-art .tag{position:absolute;left:-6px;bottom:22px;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:10px 14px;box-shadow:var(--shadow);font-size:.85rem;font-weight:700;display:flex;align-items:center;gap:10px}
-.hero-art .tag span{width:34px;height:34px;border-radius:10px;background:var(--ink);display:grid;place-items:center;color:var(--sun);font-weight:800}
+.hero{padding:var(--s7) 0 var(--s8)}
+@media (min-width:900px){.hero{padding:var(--s9) 0}}
+.hero .wrap{display:grid;gap:var(--s7)}
+@media (min-width:900px){.hero .wrap{grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);align-items:center;gap:var(--s8)}}
+.loc{display:inline-flex;align-items:center;gap:8px;font-size:.875rem;font-weight:600;color:var(--muted);margin-bottom:var(--s5)}
+.loc .ico{width:18px;height:18px;color:var(--ink)}
+.hero h1 em{font-style:normal;background:linear-gradient(transparent 62%,var(--accent) 62%,var(--accent) 92%,transparent 92%)}
+.slogan{font-size:1.25rem;font-weight:700;letter-spacing:-.015em;margin:0 0 var(--s3)}
+.hero .lead{color:var(--muted);font-size:1.0625rem;max-width:52ch;margin-bottom:var(--s5)}
+.cta{display:flex;flex-wrap:wrap;gap:var(--s3)}
+.trust{list-style:none;margin:var(--s6) 0 0;padding:var(--s5) 0 0;border-top:1px solid var(--border);display:grid;gap:var(--s3);font-weight:600;font-size:.9375rem;color:var(--ink-soft)}
+@media (min-width:600px){.trust{grid-template-columns:repeat(3,minmax(0,1fr))}}
+.trust li{display:flex;gap:10px;align-items:flex-start}
+.trust .ico{color:var(--success);margin-top:2px}
 
-/* grids */
-.grid{display:grid;gap:14px;grid-template-columns:repeat(2,minmax(0,1fr))}
-@media (min-width:620px){.grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}}
-@media (min-width:960px){.grid.c4{grid-template-columns:repeat(4,minmax(0,1fr))}}
-.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:12px;transition:transform .2s,box-shadow .2s}
-.card:hover{transform:translateY(-3px);box-shadow:var(--shadow)}
-.card h3{margin:12px 2px 2px;font-size:1rem}
-.card p{margin:0 2px 4px;font-size:.86rem;color:var(--ink-2)}
-.card .ph{border-radius:var(--r-sm)}
+.hero-visual{position:relative}
+.hero-visual .ph{aspect-ratio:4/5;max-height:560px;width:100%}
+@media (max-width:899px){.hero-visual .ph{aspect-ratio:4/3}}
+.flow{position:absolute;left:16px;right:16px;bottom:16px;background:var(--surface);border:1px solid var(--border);border-radius:var(--r);box-shadow:var(--e3);padding:14px 16px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+@media (min-width:900px){.flow{left:-24px;right:auto;width:300px}}
+.flow div{display:grid;gap:4px;font-size:.75rem;font-weight:600;color:var(--muted)}
+.flow b{display:grid;place-items:center;width:28px;height:28px;border-radius:50%;background:var(--surface-2);color:var(--ink);font-size:.8125rem;font-variant-numeric:tabular-nums}
+.flow div:last-child b{background:var(--wa);color:var(--on-wa)}
+
+/* products */
+.grid{display:grid;gap:var(--s4);grid-template-columns:repeat(2,minmax(0,1fr))}
+@media (min-width:640px){.grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--s5)}}
+@media (min-width:1024px){.grid{grid-template-columns:repeat(4,minmax(0,1fr))}}
+.prod{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:10px 10px 16px;transition:border-color var(--t),box-shadow var(--t)}
+.prod:hover{border-color:var(--border-strong);box-shadow:var(--e2)}
+.prod .ph{border-radius:var(--r-sm)}
+.prod h3{margin:14px 6px 2px;font-size:1rem}
+.prod p{margin:0 6px;font-size:.875rem;color:var(--muted);line-height:1.45}
 
 /* steps */
-.steps{list-style:none;counter-reset:s;padding:0;margin:0;display:grid;gap:14px;grid-template-columns:minmax(0,1fr)}
-@media (min-width:760px){.steps{grid-template-columns:repeat(4,minmax(0,1fr))}}
-.steps li{counter-increment:s;background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:22px 20px 20px;position:relative}
-.steps li::before{content:"0" counter(s);font-weight:800;font-size:.8rem;letter-spacing:.1em;color:var(--ink);background:var(--sun);border-radius:999px;padding:5px 11px;display:inline-block;margin-bottom:14px}
+.steps{list-style:none;padding:0;margin:0;display:grid;gap:var(--s4);grid-template-columns:minmax(0,1fr);counter-reset:s}
+@media (min-width:768px){.steps{grid-template-columns:repeat(4,minmax(0,1fr));gap:0;border:1px solid var(--border);border-radius:var(--r);background:var(--surface);overflow:hidden}}
+.steps li{counter-increment:s;background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:var(--s5)}
+@media (min-width:768px){.steps li{border:0;border-radius:0;border-left:1px solid var(--border)}.steps li:first-child{border-left:0}}
+.steps li::before{content:"0" counter(s);display:block;font-weight:800;font-size:2rem;letter-spacing:-.04em;line-height:1;color:var(--border-strong);margin-bottom:var(--s4);font-variant-numeric:tabular-nums}
+.steps li:last-child::before{color:var(--accent)}
 .steps h3{margin-bottom:6px}
-.steps p{margin:0;color:var(--ink-2);font-size:.93rem}
+.steps p{margin:0;color:var(--muted);font-size:.9375rem}
 
 /* ============ ORDER BUILDER ============ */
-#order{scroll-margin-top:76px}
-.builder{display:grid;gap:18px;margin-top:36px}
-@media (min-width:960px){.builder{grid-template-columns:minmax(0,1fr) 380px;align-items:start;gap:24px}}
+.builder{display:grid;gap:var(--s5)}
+@media (min-width:1024px){.builder{grid-template-columns:minmax(0,1fr) 360px;align-items:start;gap:var(--s6)}}
 .builder>*{min-width:0}
-.step{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:22px 18px;margin-bottom:16px;box-shadow:var(--shadow)}
-@media (min-width:560px){.step{padding:26px 24px}}
-.step-h{display:flex;align-items:center;gap:12px;margin-bottom:14px}
-.step-h .n{font-weight:800;font-size:.85rem;background:var(--ink);color:var(--sun);border-radius:999px;width:34px;height:34px;display:grid;place-items:center;flex:none}
-.step-h h3{margin:0;font-size:1.2rem}
-.hint{font-size:.9rem;color:var(--ink-2);margin:0 0 12px}
-.err{display:none;color:var(--err);font-weight:600;font-size:.88rem;margin:10px 0 0;padding:10px 12px;background:var(--err-soft);border-radius:10px}
-.err.show{display:block}
-.step.has-err{border-color:var(--err);box-shadow:0 0 0 3px rgba(198,40,40,.12)}
+
+/* progress stepper (funnel) */
+.progress{list-style:none;margin:0 0 var(--s4);padding:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.progress a{display:flex;align-items:center;gap:10px;min-height:48px;padding:8px 12px;border:1px solid var(--border);border-radius:var(--r-sm);background:var(--surface);text-decoration:none;font-size:.875rem;font-weight:600;color:var(--muted);transition:border-color var(--t),background var(--t),color var(--t)}
+.progress .dot{width:26px;height:26px;border-radius:50%;display:grid;place-items:center;flex:none;background:var(--surface-2);color:var(--ink);font-size:.8125rem;font-weight:800;transition:background var(--t),color var(--t)}
+.progress .dot .ico{width:14px;height:14px;stroke-width:3;display:none}
+.progress [data-done="true"] a{color:var(--ink);border-color:var(--ink)}
+.progress [data-done="true"] .dot{background:var(--ink);color:var(--accent)}
+.progress [data-done="true"] .dot .ico{display:block}
+.progress [data-done="true"] .dot span{display:none}
+@media (max-width:480px){.progress .lbl{font-size:.8125rem}.progress a{padding:8px;gap:6px}}
+
+.err-summary{display:none;background:var(--danger-tint);border:1.5px solid var(--danger);border-radius:var(--r);padding:var(--s4) var(--s5);margin-bottom:var(--s4)}
+.err-summary.show{display:block}
+.err-summary h3{color:var(--danger);font-size:1rem;margin:0 0 8px;display:flex;gap:8px;align-items:center}
+.err-summary ul{margin:0;padding-left:20px}
+.err-summary li{margin:4px 0}
+.err-summary a{color:var(--danger);font-weight:600;text-underline-offset:3px}
+
+.step{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:var(--s5) var(--s4);margin-bottom:var(--s4);transition:border-color var(--t),box-shadow var(--t)}
+@media (min-width:600px){.step{padding:var(--s6)}}
+.step.has-err{border-color:var(--danger);box-shadow:0 0 0 3px rgba(185,28,28,.1)}
+.step-h{display:flex;align-items:baseline;gap:12px;margin-bottom:var(--s4)}
+.step-h .n{font-weight:800;font-size:.8125rem;letter-spacing:.1em;color:var(--muted);font-variant-numeric:tabular-nums}
+.step-h h3{margin:0;font-size:1.25rem}
+.hint{font-size:.9375rem;color:var(--muted);margin:0 0 var(--s4)}
+.err{display:none;align-items:flex-start;gap:8px;color:var(--danger);font-weight:600;font-size:.9375rem;margin:var(--s3) 0 0;padding:10px 12px;background:var(--danger-tint);border-radius:var(--r-sm)}
+.err.show{display:flex}
+.err .ico{width:18px;height:18px;margin-top:2px}
+.next{display:flex;justify-content:flex-end;margin-top:var(--s5)}
 
 /* product choices */
-.choices{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
-@media (min-width:560px){.choices{grid-template-columns:repeat(4,minmax(0,1fr))}}
-.choice{position:relative;min-width:0}
+.choices{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;border:0;margin:0;padding:0;min-width:0}
+@media (min-width:600px){.choices{grid-template-columns:repeat(4,minmax(0,1fr))}}
+.choice{position:relative;min-width:0;cursor:pointer}
 .choice input{position:absolute;opacity:0;inset:0;width:100%;height:100%;cursor:pointer;margin:0}
-.choice .box{border:1.5px solid var(--line);border-radius:var(--r-sm);padding:8px 8px 10px;text-align:center;font-weight:700;font-size:.88rem;background:var(--bg);transition:border-color .15s,background .15s,box-shadow .15s;line-height:1.3}
-.choice .box .ph{aspect-ratio:1;min-height:0;padding:6px;font-size:.7rem;margin-bottom:8px;border-radius:9px}
-.choice input:checked + .box{border-color:var(--ink);background:var(--sun-soft);box-shadow:0 0 0 3px rgba(255,197,61,.35)}
-.choice input:focus-visible + .box{outline:2px solid var(--ink);outline-offset:2px}
-.choice small{display:block;font-weight:500;color:var(--ink-2);font-size:.74rem;margin-top:2px}
+.choice .box{height:100%;border:1.5px solid var(--border);border-radius:var(--r-sm);padding:8px 8px 12px;text-align:center;font-weight:700;font-size:.9375rem;background:var(--surface);transition:border-color var(--t-fast),background var(--t-fast);line-height:1.3;position:relative}
+.choice .box .ph{aspect-ratio:1;padding:6px;font-size:.6875rem;margin-bottom:10px;border-radius:8px}
+.choice small{display:block;font-weight:400;color:var(--muted);font-size:.8125rem;margin-top:2px}
+.choice:hover .box{border-color:var(--border-strong)}
+.choice input:checked + .box{border-color:var(--ink);background:var(--accent-tint)}
+.choice input:checked + .box::after{content:"";position:absolute;top:8px;right:8px;width:22px;height:22px;border-radius:50%;background:var(--ink) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23ffc53d' stroke-width='3.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12l5 5L20 7'/%3E%3C/svg%3E") center/12px no-repeat}
+.choice input:focus-visible + .box{outline:3px solid var(--ring);outline-offset:2px}
 
-/* segmented toggle */
-.seg{display:grid;grid-template-columns:1fr 1fr;background:var(--bg-2);border-radius:999px;padding:4px;margin-bottom:16px;gap:4px}
-.seg button{border:0;background:transparent;border-radius:999px;padding:11px 8px;font:700 .92rem var(--font);cursor:pointer;color:var(--ink-2);transition:background .15s,color .15s}
-.seg button[aria-pressed="true"]{background:var(--ink);color:#fff;box-shadow:var(--shadow)}
+/* segmented */
+.seg{display:grid;grid-template-columns:1fr 1fr;background:var(--surface-2);border-radius:var(--r-pill);padding:4px;margin-bottom:var(--s5);gap:4px}
+.seg button{border:0;background:transparent;border-radius:var(--r-pill);min-height:44px;padding:8px;font:700 .9375rem var(--font);cursor:pointer;color:var(--muted);transition:background var(--t),color var(--t)}
+.seg button:hover{color:var(--ink)}
+.seg button[aria-pressed="true"]{background:var(--surface);color:var(--ink);box-shadow:var(--e2)}
 
 /* chips */
-.chips{display:flex;gap:8px;overflow-x:auto;padding:2px 2px 10px;scrollbar-width:none;-webkit-overflow-scrolling:touch}
-.chips::-webkit-scrollbar{display:none}
-.chip{flex:none;border:1.5px solid var(--line);background:var(--card);border-radius:999px;padding:8px 14px;font:700 .86rem var(--font);cursor:pointer;color:var(--ink-2);transition:all .15s}
-.chip:hover{border-color:var(--ink-3)}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:var(--s4)}
+.chip{min-height:44px;border:1.5px solid var(--border);background:var(--surface);border-radius:var(--r-pill);padding:8px 16px;font:600 .875rem var(--font);cursor:pointer;color:var(--muted);transition:border-color var(--t-fast),background var(--t-fast),color var(--t-fast)}
+.chip:hover{border-color:var(--border-strong);color:var(--ink)}
 .chip[aria-pressed="true"]{background:var(--ink);border-color:var(--ink);color:#fff}
 
 /* gallery */
-.gallery{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:6px}
-@media (min-width:560px){.gallery{grid-template-columns:repeat(3,minmax(0,1fr))}}
-@media (min-width:960px){.gallery{grid-template-columns:repeat(4,minmax(0,1fr))}}
-.design{border:1.5px solid var(--line);border-radius:var(--r-sm);padding:8px;background:var(--bg);cursor:pointer;text-align:left;font:inherit;color:inherit;width:100%;transition:border-color .15s,box-shadow .15s}
-.design:hover{border-color:var(--ink-3)}
-.design[aria-pressed="true"]{border-color:var(--ink);background:var(--sun-soft);box-shadow:0 0 0 3px rgba(255,197,61,.35)}
-.design .art{aspect-ratio:1;border-radius:9px;display:grid;place-items:center;text-align:center;padding:8px;color:#fff;font-weight:800;font-size:1rem;line-height:1.1;overflow:hidden}
-.design .art img{width:100%;height:100%;object-fit:cover;border-radius:7px}
-.design .name{display:block;font-weight:700;font-size:.88rem;margin-top:9px}
-.design .code{display:inline-block;font-size:.7rem;font-weight:700;background:var(--ink);color:#fff;padding:2px 8px;border-radius:999px;margin-top:5px;letter-spacing:.06em}
-.design .occ{font-size:.74rem;color:var(--ink-2);margin-left:6px}
-.empty{padding:20px;text-align:center;color:var(--ink-2);grid-column:1/-1}
+.gallery{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+@media (min-width:600px){.gallery{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media (min-width:1024px){.gallery{grid-template-columns:repeat(4,minmax(0,1fr))}}
+.design{border:1.5px solid var(--border);border-radius:var(--r-sm);padding:8px 8px 12px;background:var(--surface);cursor:pointer;text-align:left;font:inherit;color:inherit;width:100%;transition:border-color var(--t-fast),background var(--t-fast)}
+.design:hover{border-color:var(--border-strong)}
+.design[aria-pressed="true"]{border-color:var(--ink);background:var(--accent-tint)}
+.design .art{aspect-ratio:1;border-radius:8px;display:grid;place-items:center;align-content:center;gap:4px;text-align:center;padding:8px;color:#fff;font-weight:800;font-size:1.0625rem;letter-spacing:.02em;overflow:hidden}
+.design .art small{font-weight:600;font-size:.6875rem;opacity:.85;letter-spacing:0}
+.design .art img{width:100%;height:100%;object-fit:cover;border-radius:6px}
+.design .name{display:block;font-weight:700;font-size:.9375rem;margin:10px 2px 6px;line-height:1.3}
+.design .meta{display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin:0 2px}
+.design .code{font-size:.75rem;font-weight:700;background:var(--ink);color:#fff;padding:3px 8px;border-radius:6px;letter-spacing:.05em;font-variant-numeric:tabular-nums}
+.design .occ{font-size:.8125rem;color:var(--muted)}
+.empty{padding:var(--s5);text-align:center;color:var(--muted);grid-column:1/-1}
 
 /* upload */
-.drop{border:1.5px dashed #c6cbda;border-radius:var(--r-sm);padding:26px 14px;text-align:center;background:var(--bg);position:relative;transition:background .15s,border-color .15s}
-.drop:hover{border-color:var(--ink)}
+.drop{border:1.5px dashed var(--border-strong);border-radius:var(--r);padding:var(--s6) var(--s4);text-align:center;background:var(--bg);position:relative;transition:border-color var(--t),background var(--t)}
+.drop:hover,.drop.over{border-color:var(--ink);background:var(--accent-tint)}
 .drop input{position:absolute;inset:0;width:100%;height:100%;opacity:0;cursor:pointer}
-.drop .ico{width:46px;height:46px;border-radius:14px;background:var(--card);border:1px solid var(--line);display:grid;place-items:center;margin:0 auto 10px;color:var(--ink)}
-.drop .ico svg{width:22px;height:22px}
+.drop:focus-within{outline:3px solid var(--ring);outline-offset:3px}
+.drop .badge{width:48px;height:48px;border-radius:12px;background:var(--surface);border:1px solid var(--border);display:grid;place-items:center;margin:0 auto var(--s3)}
+.drop .badge .ico{width:22px;height:22px}
 .drop strong{display:block;font-size:1rem}
-.drop span{font-size:.84rem;color:var(--ink-2)}
-.preview{display:none;border:1.5px solid var(--line);border-radius:var(--r-sm);padding:12px;background:var(--bg);gap:14px;align-items:center}
+.drop span{font-size:.875rem;color:var(--muted)}
+.preview{display:none;border:1.5px solid var(--border);border-radius:var(--r);padding:var(--s3);background:var(--bg);gap:var(--s4);align-items:center}
 .preview.show{display:flex}
-.preview .thumb{width:84px;height:84px;flex:none;border-radius:10px;border:1px solid var(--line);background:#fff;display:grid;place-items:center;overflow:hidden;font-weight:800;font-size:.8rem}
+.preview .thumb{width:88px;height:88px;flex:none;border-radius:var(--r-sm);border:1px solid var(--border);background:#fff;display:grid;place-items:center;overflow:hidden;font-weight:800;font-size:.875rem}
 .preview .thumb img{width:100%;height:100%;object-fit:contain}
 .preview .meta{flex:1;min-width:0}
-.preview .meta b{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.preview .meta small{color:var(--ink-2)}
-.preview .acts{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
-.mini{border:1.5px solid var(--line);background:var(--card);border-radius:999px;padding:6px 13px;font:700 .8rem var(--font);cursor:pointer;color:var(--ink)}
+.preview .meta b{display:block;overflow-wrap:anywhere;line-height:1.3}
+.preview .meta small{color:var(--muted)}
+.preview .acts{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
+.mini{min-height:44px;border:1.5px solid var(--border-strong);background:var(--surface);border-radius:var(--r-pill);padding:8px 16px;font:600 .875rem var(--font);cursor:pointer;color:var(--ink);transition:border-color var(--t-fast)}
 .mini:hover{border-color:var(--ink)}
-.mini.warn{color:var(--err)}
-.mini.warn:hover{border-color:var(--err)}
+.mini.danger{color:var(--danger)}
+.mini.danger:hover{border-color:var(--danger)}
 
 /* fields */
-.fields{display:grid;gap:16px}
-@media (min-width:560px){.fields{grid-template-columns:repeat(2,minmax(0,1fr))}.fields .full{grid-column:1/-1}}
+.fields{display:grid;gap:var(--s5)}
+@media (min-width:600px){.fields{grid-template-columns:repeat(2,minmax(0,1fr))}.fields .full{grid-column:1/-1}}
 .fields>*{min-width:0}
-label.f{display:block;font-weight:700;font-size:.9rem}
-label.f span.req{color:var(--err)}
-.in{display:block;width:100%;margin-top:6px;border:1.5px solid var(--line);border-radius:var(--r-sm);padding:12px 14px;font:500 1rem var(--font);background:var(--card);color:var(--ink);min-height:50px;transition:border-color .15s,box-shadow .15s}
-.in::placeholder{color:var(--ink-3)}
-.in:focus{outline:0;border-color:var(--ink);box-shadow:0 0 0 3px rgba(15,31,61,.12)}
-textarea.in{min-height:100px;resize:vertical}
-select.in{appearance:none;-webkit-appearance:none;background:var(--card) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%230f1f3d' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E") right 14px center/16px no-repeat;padding-right:40px}
-.sizes{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
+.lbl-f{display:block;font-weight:700;font-size:.9375rem;margin-bottom:8px}
+.lbl-f .req{color:var(--danger)}
+.lbl-f .opt{font-weight:400;color:var(--muted);font-size:.875rem}
+.in{display:block;width:100%;border:1.5px solid var(--border-strong);border-radius:var(--r-sm);padding:12px 14px;font:400 1rem var(--font);background:var(--surface);color:var(--ink);min-height:48px;transition:border-color var(--t-fast),box-shadow var(--t-fast)}
+.in::placeholder{color:var(--subtle)}
+.in:hover{border-color:var(--subtle)}
+.in:focus{outline:0;border-color:var(--ink);box-shadow:0 0 0 3px rgba(15,23,42,.14)}
+.in[aria-invalid="true"]{border-color:var(--danger)}
+textarea.in{min-height:104px;resize:vertical}
+select.in{appearance:none;-webkit-appearance:none;background:var(--surface) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%230f172a' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E") right 14px center/16px no-repeat;padding-right:42px}
+.help{font-size:.8125rem;color:var(--muted);margin:6px 0 0}
+.sizes{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:var(--s3);border:0;padding:0;min-width:0}
 .sizes label{position:relative}
 .sizes input{position:absolute;opacity:0;inset:0;margin:0;cursor:pointer}
-.sizes .t{display:inline-block;border:1.5px solid var(--line);border-radius:10px;padding:8px 12px;font-weight:700;font-size:.88rem;background:var(--card);min-width:48px;text-align:center;transition:all .15s}
+.sizes .t{display:inline-flex;align-items:center;justify-content:center;min-height:44px;min-width:52px;border:1.5px solid var(--border-strong);border-radius:var(--r-sm);padding:8px 12px;font-weight:700;font-size:.875rem;background:var(--surface);cursor:pointer;transition:background var(--t-fast),border-color var(--t-fast),color var(--t-fast)}
+.sizes label:hover .t{border-color:var(--ink)}
 .sizes input:checked + .t{background:var(--ink);border-color:var(--ink);color:#fff}
-.sizes input:focus-visible + .t{outline:2px solid var(--ink);outline-offset:2px}
-.qty{display:flex;align-items:stretch;margin-top:6px;border:1.5px solid var(--line);border-radius:var(--r-sm);overflow:hidden;background:var(--card)}
-.qty:focus-within{border-color:var(--ink);box-shadow:0 0 0 3px rgba(15,31,61,.12)}
-.qty button{border:0;background:var(--bg);width:52px;font-size:1.3rem;font-weight:700;cursor:pointer;color:var(--ink)}
-.qty button:hover{background:var(--bg-2)}
-.qty input{margin:0;border:0;border-radius:0;text-align:center;font-weight:700;font-size:1.05rem;-moz-appearance:textfield;box-shadow:none}
-.qty input:focus{box-shadow:none}
+.sizes input:focus-visible + .t{outline:3px solid var(--ring);outline-offset:2px}
+.qty{display:flex;align-items:stretch;border:1.5px solid var(--border-strong);border-radius:var(--r-sm);overflow:hidden;background:var(--surface);transition:border-color var(--t-fast),box-shadow var(--t-fast)}
+.qty:focus-within{border-color:var(--ink);box-shadow:0 0 0 3px rgba(15,23,42,.14)}
+.qty.invalid{border-color:var(--danger)}
+.qty button{flex:none;border:0;background:var(--surface-2);width:52px;min-height:48px;font-size:1.375rem;font-weight:600;cursor:pointer;color:var(--ink);transition:background var(--t-fast)}
+.qty button:hover{background:var(--border)}
+.qty input{margin:0;border:0;border-radius:0;text-align:center;font-weight:700;font-size:1.0625rem;-moz-appearance:textfield;box-shadow:none!important;font-variant-numeric:tabular-nums}
 .qty input::-webkit-inner-spin-button,.qty input::-webkit-outer-spin-button{-webkit-appearance:none}
 
 /* summary */
-.summary{background:var(--ink);color:#fff;border-radius:var(--r);padding:24px 20px;box-shadow:var(--shadow-lg)}
-@media (min-width:960px){.summary{position:sticky;top:84px}}
-.summary h3{color:#fff;margin-bottom:4px;font-size:1.25rem}
-.summary .sub{color:#b9c3dd;font-size:.85rem;margin:0 0 16px}
-.summary dl{margin:0 0 18px;display:grid;grid-template-columns:auto minmax(0,1fr);gap:9px 14px;font-size:.92rem;padding-top:16px;border-top:1px solid rgba(255,255,255,.12)}
-.summary dt{color:#9ea9c7;font-weight:600}
-.summary dd{margin:0;font-weight:700;word-break:break-word}
-.summary .btn{width:100%}
-.note{font-size:.84rem;color:#b9c3dd;margin:12px 0 0}
-.note.attach{display:none;background:rgba(255,197,61,.14);border:1px solid rgba(255,197,61,.5);padding:10px 12px;border-radius:10px;color:#fff}
+.summary{background:var(--ink);color:#fff;border-radius:var(--r);padding:var(--s5)}
+@media (min-width:1024px){.summary{position:sticky;top:calc(var(--header-h) + 20px);padding:var(--s6)}}
+.summary h3{font-size:1.25rem;margin-bottom:4px;color:#fff}
+.summary .sub{color:#cbd5e1;font-size:.875rem;margin:0 0 var(--s4)}
+.summary dl{margin:0 0 var(--s5);display:grid;grid-template-columns:auto minmax(0,1fr);gap:10px 16px;font-size:.9375rem;padding-top:var(--s4);border-top:1px solid rgba(255,255,255,.14)}
+.summary dt{color:#94a3b8;font-weight:600}
+.summary dd{margin:0;font-weight:700;overflow-wrap:anywhere}
+.summary dd.empty-v{color:#64748b;font-weight:400}
+.note{font-size:.875rem;color:#cbd5e1;margin:var(--s3) 0 0}
+.note.attach{display:none;background:rgba(255,197,61,.12);border:1px solid rgba(255,197,61,.55);padding:12px;border-radius:var(--r-sm);color:#fff}
 .note.attach.show{display:block}
-.status{display:none;margin:10px 0 0;font-weight:700;font-size:.9rem;color:var(--sun)}
+.status{display:none;margin:var(--s3) 0 0;font-weight:700;font-size:.9375rem;color:var(--accent)}
 .status.show{display:block}
 
 /* reviews */
-.reviews{display:grid;gap:14px}
-@media (min-width:760px){.reviews{grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}}
-.rev{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:22px;box-shadow:var(--shadow)}
-.rev .stars{color:var(--sun-2);letter-spacing:2px;font-size:1rem}
-.rev p{margin:10px 0 14px;color:var(--ink-2)}
-.rev .who{display:flex;align-items:center;gap:10px;font-size:.88rem;font-weight:700}
-.rev .who i{width:34px;height:34px;border-radius:50%;background:var(--sun-soft);display:grid;place-items:center;font-style:normal;font-weight:800;color:var(--ink);font-size:.8rem}
+.reviews{display:grid;gap:var(--s4)}
+@media (min-width:768px){.reviews{grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--s5)}}
+.rev{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:var(--s5);display:flex;flex-direction:column}
+.stars{display:flex;gap:2px;color:#d99a00}
+.stars svg{width:18px;height:18px;fill:currentColor}
+.rev blockquote{margin:var(--s4) 0 var(--s5);color:var(--ink-soft);font-size:1rem;flex:1}
+.rev figcaption{display:flex;align-items:center;gap:12px;font-size:.875rem;font-weight:700;padding-top:var(--s4);border-top:1px solid var(--border)}
+.rev figcaption span{width:36px;height:36px;border-radius:50%;background:var(--accent-tint);border:1px solid var(--accent);display:grid;place-items:center;font-weight:800;font-size:.75rem;flex:none}
+.rev figcaption small{display:block;font-weight:400;color:var(--muted)}
 
 /* faq */
-.faq{max-width:760px;margin:0 auto}
-.faq details{background:var(--card);border:1px solid var(--line);border-radius:var(--r-sm);padding:0 18px;margin-bottom:10px}
-.faq summary{cursor:pointer;font-weight:700;padding:16px 36px 16px 0;list-style:none;position:relative;font-size:1rem}
+.faq-wrap{display:grid;gap:var(--s6)}
+@media (min-width:900px){.faq-wrap{grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);gap:var(--s8)}.faq-wrap .sh{margin-bottom:0}}
+.faq details{border-bottom:1px solid var(--border)}
+.faq details:first-child{border-top:1px solid var(--border)}
+.faq summary{cursor:pointer;font-weight:700;font-size:1.0625rem;min-height:56px;padding:16px 44px 16px 0;list-style:none;position:relative;display:flex;align-items:center}
 .faq summary::-webkit-details-marker{display:none}
-.faq summary::after{content:"";position:absolute;right:2px;top:50%;width:22px;height:22px;margin-top:-11px;border-radius:50%;background:var(--sun-soft) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%230f1f3d' stroke-width='2.6' stroke-linecap='round'%3E%3Cpath d='M12 5v14M5 12h14'/%3E%3C/svg%3E") center/12px no-repeat;transition:transform .2s}
-.faq details[open] summary::after{transform:rotate(45deg)}
-.faq p{color:var(--ink-2);margin:0 0 16px;font-size:.95rem}
+.faq summary::after{content:"";position:absolute;right:4px;top:50%;width:28px;height:28px;margin-top:-14px;border-radius:50%;border:1.5px solid var(--border-strong);background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%230f172a' stroke-width='2.4' stroke-linecap='round'%3E%3Cpath d='M12 6v12M6 12h12'/%3E%3C/svg%3E") center/14px no-repeat;transition:transform var(--t) var(--ease-out),background-color var(--t)}
+.faq details[open] summary::after{transform:rotate(45deg);background-color:var(--accent);border-color:var(--accent)}
+.faq p{color:var(--muted);margin:0 0 var(--s5);padding-right:44px}
 
 /* contact */
-.contact{display:grid;gap:28px}
-@media (min-width:760px){.contact{grid-template-columns:repeat(2,minmax(0,1fr));align-items:center;gap:48px}}
-.contact ul{list-style:none;padding:0;margin:0 0 22px;display:grid;gap:14px}
-.contact li{display:flex;gap:14px;align-items:flex-start}
-.contact li i{width:40px;height:40px;border-radius:12px;background:rgba(255,255,255,.08);display:grid;place-items:center;flex:none;color:var(--sun)}
-.contact li svg{width:20px;height:20px}
-.contact li b{display:block;font-size:.8rem;letter-spacing:.08em;text-transform:uppercase;color:#9ea9c7;margin-bottom:2px}
-.contact .ph{min-height:260px;background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.25);color:#b9c3dd}
+.contact{display:grid;gap:var(--s7)}
+@media (min-width:900px){.contact{grid-template-columns:repeat(2,minmax(0,1fr));align-items:stretch;gap:var(--s8)}}
+.clist{list-style:none;padding:0;margin:0 0 var(--s6);display:grid;gap:0}
+.clist li{display:flex;gap:var(--s4);align-items:flex-start;padding:var(--s4) 0;border-bottom:1px solid rgba(255,255,255,.12)}
+.clist li:first-child{border-top:1px solid rgba(255,255,255,.12)}
+.clist .ib{width:40px;height:40px;border-radius:10px;background:rgba(255,197,61,.12);display:grid;place-items:center;flex:none;color:var(--accent)}
+.clist b{display:block;font-size:.75rem;letter-spacing:.12em;text-transform:uppercase;color:#94a3b8;margin-bottom:2px}
+.clist a{text-underline-offset:3px}
+.contact .ph{min-height:300px;height:100%;aspect-ratio:auto;background:rgba(255,255,255,.04);border-color:rgba(255,255,255,.25);color:#cbd5e1}
 
-footer{padding:26px 0;font-size:.85rem;color:#9ea9c7;background:#0a1630}
-footer .wrap{display:flex;flex-wrap:wrap;gap:8px 20px;justify-content:space-between}
+footer{padding:var(--s5) 0;font-size:.875rem;color:#94a3b8;background:#020617}
+footer .wrap{display:flex;flex-wrap:wrap;gap:8px 24px;justify-content:space-between}
 footer b{color:#fff}
 
 /* floating WhatsApp */
-.fab{position:fixed;right:16px;bottom:16px;z-index:50;background:var(--wa);color:#fff;width:58px;height:58px;border-radius:50%;display:grid;place-items:center;box-shadow:0 10px 28px rgba(37,211,102,.45);text-decoration:none;transition:transform .15s}
+.fab{position:fixed;right:16px;bottom:calc(16px + env(safe-area-inset-bottom));z-index:var(--z-fab);background:var(--wa);color:#fff;width:56px;height:56px;border-radius:50%;display:grid;place-items:center;box-shadow:0 8px 24px rgba(15,23,42,.25);text-decoration:none;transition:transform var(--t) var(--ease-out),opacity var(--t)}
 .fab:hover{transform:scale(1.05)}
 .fab svg{width:30px;height:30px}
-.fab .tip{position:absolute;right:68px;white-space:nowrap;background:var(--ink);color:#fff;font-weight:700;font-size:.8rem;padding:7px 11px;border-radius:8px;opacity:0;transition:opacity .2s;pointer-events:none}
-.fab:hover .tip,.fab:focus .tip{opacity:1}
+.fab.away{opacity:0;transform:translateY(12px) scale(.9);pointer-events:none}
+
+/* scroll reveal – subtle, transform/opacity only, JS-gated so content shows without JS */
+.js .reveal{opacity:0;transform:translateY(12px);transition:opacity 360ms var(--ease-out),transform 360ms var(--ease-out)}
+.js .reveal.is-visible{opacity:1;transform:none}
+
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *,*::before,*::after{transition-duration:0ms!important;animation-duration:0ms!important}
+  .js .reveal{opacity:1;transform:none}
+}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);border:0}
 </style>
+<script>document.documentElement.classList.add("js")</script>
 </head>
 <body>
+
+<!-- reusable icons (Lucide-style strokes) -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></symbol>
+  <symbol id="i-pin" viewBox="0 0 24 24"><path d="M12 22s7-6.2 7-12a7 7 0 1 0-14 0c0 5.8 7 12 7 12z"/><circle cx="12" cy="10" r="2.5"/></symbol>
+  <symbol id="i-phone" viewBox="0 0 24 24"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2z"/></symbol>
+  <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></symbol>
+  <symbol id="i-mail" viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 6L2 7"/></symbol>
+  <symbol id="i-upload" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m17 8-5-5-5 5"/><path d="M12 3v12"/></symbol>
+  <symbol id="i-alert" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/></symbol>
+  <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
+  <symbol id="i-star" viewBox="0 0 24 24"><path d="M12 2.5l2.9 6 6.6.9-4.8 4.6 1.2 6.5L12 17.4l-5.9 3.1 1.2-6.5L2.5 9.4l6.6-.9z"/></symbol>
+  <symbol id="i-wa" viewBox="0 0 24 24"><path fill="currentColor" stroke="none" d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 1.8a8.2 8.2 0 1 1-4.2 15.3l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 0 1 12 3.8zm-3 4.4c-.2 0-.5 0-.7.3-.3.3-1 1-1 2.4s1 2.8 1.2 3c.1.2 2 3.2 5 4.4 2.5 1 3 .8 3.5.7.5 0 1.7-.7 2-1.4.2-.7.2-1.2.1-1.4l-.5-.3-1.8-.9c-.3-.1-.4-.1-.6.1l-.8 1c-.2.2-.3.2-.6.1-.3-.2-1.1-.4-2.1-1.3-.8-.7-1.3-1.5-1.5-1.8-.1-.3 0-.4.1-.6l.4-.5.3-.5v-.5l-.8-2c-.2-.5-.4-.4-.6-.4H9z"/></symbol>
+</svg>
+
+<a class="skip" href="#order">Skip to the order builder</a>
 
 <!-- ============================ HEADER ============================ -->
 <header>
   <div class="wrap nav">
-    <a class="logo" href="#top"><i></i>Printiqo</a>
-    <ul>
-      <li><a href="#print">What we print</a></li>
-      <li><a href="#how">How it works</a></li>
-      <li><a href="#order">Order</a></li>
-      <li><a href="#reviews">Reviews</a></li>
-      <li><a href="#faq">FAQ</a></li>
-      <li><a href="#contact">Contact</a></li>
-    </ul>
-    <a class="btn sun" href="#order">Start an order</a>
+    <a class="logo" href="#top" aria-label="Printiqo home"><span class="logo-mark" aria-hidden="true"></span>Printiqo</a>
+    <nav aria-label="Main">
+      <ul>
+        <li><a href="#print">What we print</a></li>
+        <li><a href="#how">How it works</a></li>
+        <li><a href="#reviews">Reviews</a></li>
+        <li><a href="#faq">FAQ</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </nav>
+    <a class="btn btn-primary" href="#order">Start an order</a>
   </div>
 </header>
 
 <main id="top">
 
 <!-- ============================ HERO ============================ -->
-<section class="hero">
+<section class="hero" aria-labelledby="hero-h">
   <div class="wrap">
     <div>
-      <span class="pill"><b>Local</b> Custom printing in [AREA], South Africa</span>
-      <h1>Your design, printed to <span class="hl">perfection.</span></h1>
+      <p class="loc"><svg class="ico" aria-hidden="true"><use href="#i-pin"/></svg>Custom printing in [AREA], South Africa</p>
+      <h1 id="hero-h">Your design, printed to <em>perfection.</em></h1>
       <p class="slogan">Perfection in every Print</p>
-      <p class="lead">T-shirts, golf shirts, hoodies, caps, church uniforms and gifts, printed with your artwork or one of our ready-made designs. Build your order below and send it straight to our WhatsApp.</p>
+      <p class="lead">T-shirts, golf shirts, hoodies, caps, church uniforms and gifts. Use your own artwork or one of our ready-made designs, then send the order straight to our WhatsApp.</p>
       <div class="cta">
-        <a class="btn sun" href="#order">Build your order</a>
-        <a class="btn ghost" href="#print">See what we print</a>
+        <a class="btn btn-primary btn-lg" href="#order">Build your order <svg class="ico" aria-hidden="true"><use href="#i-arrow"/></svg></a>
+        <a class="btn btn-outline btn-lg" href="#print">See what we print</a>
       </div>
-      <ul class="feats">
-        <li>Upload your own artwork or pick a ready-made holiday design</li>
-        <li>From one shirt to a full choir or team</li>
-        <li>Order on WhatsApp. No account, no forms to sign up for</li>
+      <ul class="trust">
+        <li><svg class="ico" aria-hidden="true"><use href="#i-check"/></svg>Your artwork or our holiday designs</li>
+        <li><svg class="ico" aria-hidden="true"><use href="#i-check"/></svg>One shirt or a whole choir</li>
+        <li><svg class="ico" aria-hidden="true"><use href="#i-check"/></svg>Order on WhatsApp, no sign-up</li>
       </ul>
     </div>
-    <div class="hero-art">
-      <div class="ph wide">[HERO PHOTO: freshly printed shirts, or your shop]</div>
-      <div class="tag"><span>✓</span>Order sent on WhatsApp</div>
+    <div class="hero-visual">
+      <div class="ph">[HERO PHOTO: freshly printed shirts, or your shop]</div>
+      <div class="flow" aria-label="Ordering in three steps">
+        <div><b>1</b>Pick a product</div>
+        <div><b>2</b>Choose a design</div>
+        <div><b><svg class="ico" style="width:16px;height:16px" aria-hidden="true"><use href="#i-wa"/></svg></b>Send on WhatsApp</div>
+      </div>
     </div>
   </div>
 </section>
 
 <!-- ============================ WHAT WE PRINT ============================ -->
-<section id="print" class="alt">
+<section id="print" class="band" aria-labelledby="print-h">
   <div class="wrap">
-    <div class="center">
-      <span class="eyebrow">What we print</span>
-      <h2>Garments, uniforms and gifts</h2>
-      <p class="lead">Pick anything below in the order builder. Not sure what you need? Message us and we'll help you choose.</p>
+    <div class="sh reveal">
+      <span class="idx"><b>01</b>What we print</span>
+      <h2 id="print-h">Garments, uniforms and gifts</h2>
+      <p>Pick any of these in the order builder. Not sure what you need? Message us and we'll help you choose.</p>
     </div>
-    <div class="grid c4" id="productGrid" style="margin-top:36px"><!-- filled from PRODUCTS --></div>
+    <div class="grid" id="productGrid"><!-- filled from PRODUCTS --></div>
   </div>
 </section>
 
 <!-- ============================ HOW IT WORKS ============================ -->
-<section id="how">
+<section id="how" aria-labelledby="how-h">
   <div class="wrap">
-    <div class="center">
-      <span class="eyebrow">How ordering works</span>
-      <h2>Four quick steps</h2>
+    <div class="sh reveal">
+      <span class="idx"><b>02</b>How ordering works</span>
+      <h2 id="how-h">Four quick steps</h2>
     </div>
-    <ol class="steps" style="margin-top:36px">
+    <ol class="steps reveal">
       <li><h3>Pick a product</h3><p>T-shirt, hoodie, cap, mug and more.</p></li>
-      <li><h3>Choose a design</h3><p>Upload your own file or pick one of our ready-made holiday designs.</p></li>
+      <li><h3>Choose a design</h3><p>Upload your own file or pick a ready-made holiday design.</p></li>
       <li><h3>Add the details</h3><p>Quantity, sizes, colour, print position and the date you need it.</p></li>
       <li><h3>Send on WhatsApp</h3><p>Your full order is typed out for you. We confirm price and timing in the chat.</p></li>
     </ol>
@@ -357,45 +464,58 @@ footer b{color:#fff}
 </section>
 
 <!-- ============================ ORDER BUILDER ============================ -->
-<section id="order" class="alt">
+<section id="order" class="band" aria-labelledby="order-h">
   <div class="wrap">
-    <div class="center">
-      <span class="eyebrow">Order builder</span>
-      <h2>Build your order</h2>
-      <p class="lead">Fill in the steps and tap <strong>Send order on WhatsApp</strong>. Nothing is paid here. We reply in the chat with a quote and confirm the details.</p>
+    <div class="sh">
+      <span class="idx"><b>03</b>Order builder</span>
+      <h2 id="order-h">Build your order</h2>
+      <p>Fill in three steps, then tap <strong>Send order on WhatsApp</strong>. Nothing is paid here. We reply in the chat with a quote and confirm the details.</p>
     </div>
 
     <form class="builder" id="orderForm" novalidate>
       <div>
+        <ol class="progress" aria-label="Order progress">
+          <li data-p="1"><a href="#s1"><span class="dot"><span>1</span><svg class="ico" aria-hidden="true"><use href="#i-check"/></svg></span><span class="lbl">Product</span></a></li>
+          <li data-p="2"><a href="#s2"><span class="dot"><span>2</span><svg class="ico" aria-hidden="true"><use href="#i-check"/></svg></span><span class="lbl">Design</span></a></li>
+          <li data-p="3"><a href="#s3"><span class="dot"><span>3</span><svg class="ico" aria-hidden="true"><use href="#i-check"/></svg></span><span class="lbl">Details</span></a></li>
+        </ol>
 
-        <!-- STEP 1: product -->
-        <div class="step" id="s1">
-          <div class="step-h"><span class="n">1</span><h3>Pick a product</h3></div>
-          <div class="choices" id="productChoices"><!-- filled from PRODUCTS --></div>
-          <p class="err" id="errProduct">Please pick a product.</p>
+        <div class="err-summary" id="errSummary" role="alert" tabindex="-1" aria-labelledby="errSummaryTitle">
+          <h3 id="errSummaryTitle"><svg class="ico" aria-hidden="true"><use href="#i-alert"/></svg>Please fix the following</h3>
+          <ul id="errSummaryList"></ul>
         </div>
 
-        <!-- STEP 2: design -->
+        <!-- STEP 1 -->
+        <div class="step" id="s1">
+          <div class="step-h"><span class="n">STEP 1 OF 3</span><h3>Pick a product</h3></div>
+          <fieldset class="choices" id="productChoices" aria-describedby="errProduct">
+            <legend class="sr-only">Product</legend>
+          </fieldset>
+          <p class="err" id="errProduct" role="alert"><svg class="ico" aria-hidden="true"><use href="#i-alert"/></svg><span>Please pick a product.</span></p>
+          <div class="next"><a class="btn btn-dark" href="#s2">Continue to design <svg class="ico" aria-hidden="true"><use href="#i-arrow"/></svg></a></div>
+        </div>
+
+        <!-- STEP 2 -->
         <div class="step" id="s2">
-          <div class="step-h"><span class="n">2</span><h3>Choose a design</h3></div>
+          <div class="step-h"><span class="n">STEP 2 OF 3</span><h3>Choose a design</h3></div>
           <div class="seg" role="group" aria-label="Design source">
             <button type="button" id="modeGallery" aria-pressed="true">Ready-made design</button>
             <button type="button" id="modeUpload" aria-pressed="false">Upload my own</button>
           </div>
 
           <div id="galleryPane">
-            <p class="hint">Filter by occasion, then tap a design. Each one has a code so we both know exactly which design you mean.</p>
+            <p class="hint">Filter by occasion, then tap a design. Each design has a code so we both know exactly which one you mean.</p>
             <div class="chips" id="occasionChips" role="group" aria-label="Filter by occasion"></div>
-            <div class="gallery" id="gallery"></div>
+            <div class="gallery" id="gallery" aria-live="polite"></div>
           </div>
 
           <div id="uploadPane" hidden>
-            <p class="hint">PNG, JPG or PDF, up to 10&nbsp;MB. The sharper the file, the better the print.</p>
+            <p class="hint" id="fileHelp">PNG, JPG or PDF, up to 10&nbsp;MB. The sharper the file, the better the print.</p>
             <div class="drop" id="drop">
-              <input type="file" id="fileInput" accept=".png,.jpg,.jpeg,.pdf,image/png,image/jpeg,application/pdf" aria-label="Upload your design">
-              <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 16V4m0 0l-4 4m4-4l4 4"/><path d="M4 16v3a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-3"/></svg></div>
+              <input type="file" id="fileInput" accept=".png,.jpg,.jpeg,.pdf,image/png,image/jpeg,application/pdf" aria-describedby="fileHelp errFile">
+              <div class="badge" aria-hidden="true"><svg class="ico"><use href="#i-upload"/></svg></div>
               <strong>Tap to choose your design file</strong>
-              <span>or drop it here · PNG, JPG, PDF · max 10 MB</span>
+              <span>or drop it here</span>
             </div>
             <div class="preview" id="preview">
               <div class="thumb" id="thumb"></div>
@@ -403,70 +523,77 @@ footer b{color:#fff}
                 <b id="fileName"></b>
                 <small id="fileInfo"></small>
                 <div class="acts">
-                  <button type="button" class="mini" id="replaceBtn">Replace</button>
-                  <button type="button" class="mini warn" id="removeBtn">Remove</button>
+                  <button type="button" class="mini" id="replaceBtn">Replace file</button>
+                  <button type="button" class="mini danger" id="removeBtn">Remove</button>
                 </div>
               </div>
             </div>
-            <p class="err" id="errFile"></p>
+            <p class="err" id="errFile" role="alert"><svg class="ico" aria-hidden="true"><use href="#i-alert"/></svg><span></span></p>
           </div>
-          <p class="err" id="errDesign">Please choose a ready-made design or upload your own.</p>
+          <p class="err" id="errDesign" role="alert"><svg class="ico" aria-hidden="true"><use href="#i-alert"/></svg><span>Please choose a ready-made design or upload your own.</span></p>
+          <div class="next"><a class="btn btn-dark" href="#s3">Continue to details <svg class="ico" aria-hidden="true"><use href="#i-arrow"/></svg></a></div>
         </div>
 
-        <!-- STEP 3: details -->
+        <!-- STEP 3 -->
         <div class="step" id="s3">
-          <div class="step-h"><span class="n">3</span><h3>Add the details</h3></div>
+          <div class="step-h"><span class="n">STEP 3 OF 3</span><h3>Add the details</h3></div>
           <div class="fields">
-            <label class="f">Quantity <span class="req">*</span>
-              <div class="qty">
-                <button type="button" aria-label="Less" data-step="-1">−</button>
-                <input class="in" type="number" id="qty" inputmode="numeric" min="1" step="1" placeholder="e.g. 20" required>
-                <button type="button" aria-label="More" data-step="1">+</button>
+            <div>
+              <label class="lbl-f" for="qty">Quantity <span class="req" aria-hidden="true">*</span><span class="sr-only">(required)</span></label>
+              <div class="qty" id="qtyBox">
+                <button type="button" aria-label="Decrease quantity" data-step="-1">−</button>
+                <input class="in" type="number" id="qty" inputmode="numeric" min="1" step="1" placeholder="e.g. 20" required aria-describedby="errQty">
+                <button type="button" aria-label="Increase quantity" data-step="1">+</button>
               </div>
-            </label>
-            <label class="f">Colour of the item
-              <input class="in" type="text" id="colour" placeholder="e.g. navy, white, maroon">
-            </label>
-            <div class="full" id="sizesWrap">
-              <label class="f" for="sizeBreak">Sizes</label>
-              <div class="sizes" id="sizes"></div>
-              <input class="in" type="text" id="sizeBreak" placeholder="How many of each? e.g. S x4, M x10, L x6">
+              <p class="err" id="errQty" role="alert"><svg class="ico" aria-hidden="true"><use href="#i-alert"/></svg><span></span></p>
             </div>
-            <label class="f">Print position
-              <select class="in" id="position">
-                <option value="">Choose…</option>
-              </select>
-            </label>
-            <label class="f">Date needed
+            <div>
+              <label class="lbl-f" for="colour">Colour of the item <span class="opt">(optional)</span></label>
+              <input class="in" type="text" id="colour" placeholder="e.g. navy, white, maroon" autocomplete="off">
+            </div>
+            <div class="full" id="sizesWrap">
+              <fieldset class="sizes" id="sizes" aria-describedby="sizeHelp">
+                <legend class="lbl-f">Sizes <span class="opt">(optional)</span></legend>
+              </fieldset>
+              <label class="sr-only" for="sizeBreak">How many of each size</label>
+              <input class="in" type="text" id="sizeBreak" placeholder="How many of each? e.g. S x4, M x10, L x6" aria-describedby="sizeHelp">
+              <p class="help" id="sizeHelp">Tick the sizes you need, then type how many of each.</p>
+            </div>
+            <div>
+              <label class="lbl-f" for="position">Print position <span class="opt">(optional)</span></label>
+              <select class="in" id="position"><option value="">Choose a product first</option></select>
+            </div>
+            <div>
+              <label class="lbl-f" for="date">Date needed <span class="opt">(optional)</span></label>
               <input class="in" type="date" id="date">
-            </label>
-            <label class="f full">Notes
+            </div>
+            <div class="full">
+              <label class="lbl-f" for="notes">Notes <span class="opt">(optional)</span></label>
               <textarea class="in" id="notes" placeholder="Names on the back, group name, matching caps, anything we should know"></textarea>
-            </label>
+            </div>
           </div>
-          <p class="err" id="errQty"></p>
         </div>
       </div>
 
       <!-- SUMMARY / SEND -->
-      <aside class="summary" aria-live="polite">
-        <h3>Your order</h3>
+      <aside class="summary" aria-labelledby="sum-h">
+        <h3 id="sum-h">Your order</h3>
         <p class="sub">Updates as you fill in the steps.</p>
-        <dl id="sum">
-          <dt>Product</dt><dd id="sProduct">–</dd>
-          <dt>Design</dt><dd id="sDesign">–</dd>
-          <dt>Quantity</dt><dd id="sQty">–</dd>
-          <dt>Sizes</dt><dd id="sSizes">–</dd>
-          <dt>Colour</dt><dd id="sColour">–</dd>
-          <dt>Position</dt><dd id="sPos">–</dd>
-          <dt>Date</dt><dd id="sDate">–</dd>
+        <dl id="sum" aria-live="polite">
+          <dt>Product</dt><dd id="sProduct" class="empty-v">Not chosen</dd>
+          <dt>Design</dt><dd id="sDesign" class="empty-v">Not chosen</dd>
+          <dt>Quantity</dt><dd id="sQty" class="empty-v">Not set</dd>
+          <dt>Sizes</dt><dd id="sSizes" class="empty-v">–</dd>
+          <dt>Colour</dt><dd id="sColour" class="empty-v">–</dd>
+          <dt>Position</dt><dd id="sPos" class="empty-v">–</dd>
+          <dt>Date</dt><dd id="sDate" class="empty-v">–</dd>
         </dl>
-        <button class="btn wa big" type="submit" id="sendBtn">
-          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 1.8a8.2 8.2 0 1 1-4.2 15.3l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 0 1 12 3.8zm-3 4.4c-.2 0-.5 0-.7.3-.3.3-1 1-1 2.4s1 2.8 1.2 3c.1.2 2 3.2 5 4.4 2.5 1 3 .8 3.5.7.5 0 1.7-.7 2-1.4.2-.7.2-1.2.1-1.4l-.5-.3-1.8-.9c-.3-.1-.4-.1-.6.1l-.8 1c-.2.2-.3.2-.6.1-.3-.2-1.1-.4-2.1-1.3-.8-.7-1.3-1.5-1.5-1.8-.1-.3 0-.4.1-.6l.4-.5.3-.5v-.5l-.8-2c-.2-.5-.4-.4-.6-.4H9z"/></svg>
+        <button class="btn btn-wa btn-lg btn-block" type="submit" id="sendBtn">
+          <svg class="ico" aria-hidden="true" style="width:22px;height:22px"><use href="#i-wa"/></svg>
           Send order on WhatsApp
         </button>
-        <p class="status" id="status"></p>
-        <p class="note attach" id="attachNote"></p>
+        <p class="status" id="status" role="status"></p>
+        <p class="note attach" id="attachNote" role="status"></p>
         <p class="note">Opens WhatsApp with your order typed out. You can still edit the message before sending.</p>
       </aside>
     </form>
@@ -474,28 +601,41 @@ footer b{color:#fff}
 </section>
 
 <!-- ============================ REVIEWS ============================ -->
-<section id="reviews">
+<section id="reviews" aria-labelledby="rev-h">
   <div class="wrap">
-    <div class="center">
-      <span class="eyebrow">Customer reviews</span>
-      <h2>What customers say</h2>
+    <div class="sh reveal">
+      <span class="idx"><b>04</b>Customer reviews</span>
+      <h2 id="rev-h">What customers say</h2>
     </div>
-    <div class="reviews" style="margin-top:36px">
-      <div class="rev"><div class="stars" aria-label="[RATING] stars">★★★★★</div><p>“[CUSTOMER REVIEW 1]”</p><div class="who"><i>[A]</i>[CUSTOMER NAME], [GROUP OR SUBURB]</div></div>
-      <div class="rev"><div class="stars" aria-label="[RATING] stars">★★★★★</div><p>“[CUSTOMER REVIEW 2]”</p><div class="who"><i>[B]</i>[CUSTOMER NAME], [GROUP OR SUBURB]</div></div>
-      <div class="rev"><div class="stars" aria-label="[RATING] stars">★★★★★</div><p>“[CUSTOMER REVIEW 3]”</p><div class="who"><i>[C]</i>[CUSTOMER NAME], [GROUP OR SUBURB]</div></div>
+    <div class="reviews reveal">
+      <figure class="rev" style="margin:0">
+        <div class="stars" role="img" aria-label="[RATING] out of 5 stars"><svg><use href="#i-star"/></svg><svg><use href="#i-star"/></svg><svg><use href="#i-star"/></svg><svg><use href="#i-star"/></svg><svg><use href="#i-star"/></svg></div>
+        <blockquote>“[CUSTOMER REVIEW 1]”</blockquote>
+        <figcaption><span aria-hidden="true">[A]</span><div>[CUSTOMER NAME]<small>[GROUP OR SUBURB]</small></div></figcaption>
+      </figure>
+      <figure class="rev" style="margin:0">
+        <div class="stars" role="img" aria-label="[RATING] out of 5 stars"><svg><use href="#i-star"/></svg><svg><use href="#i-star"/></svg><svg><use href="#i-star"/></svg><svg><use href="#i-star"/></svg><svg><use href="#i-star"/></svg></div>
+        <blockquote>“[CUSTOMER REVIEW 2]”</blockquote>
+        <figcaption><span aria-hidden="true">[B]</span><div>[CUSTOMER NAME]<small>[GROUP OR SUBURB]</small></div></figcaption>
+      </figure>
+      <figure class="rev" style="margin:0">
+        <div class="stars" role="img" aria-label="[RATING] out of 5 stars"><svg><use href="#i-star"/></svg><svg><use href="#i-star"/></svg><svg><use href="#i-star"/></svg><svg><use href="#i-star"/></svg><svg><use href="#i-star"/></svg></div>
+        <blockquote>“[CUSTOMER REVIEW 3]”</blockquote>
+        <figcaption><span aria-hidden="true">[C]</span><div>[CUSTOMER NAME]<small>[GROUP OR SUBURB]</small></div></figcaption>
+      </figure>
     </div>
   </div>
 </section>
 
 <!-- ============================ FAQ ============================ -->
-<section id="faq" class="alt">
-  <div class="wrap">
-    <div class="center">
-      <span class="eyebrow">Common questions</span>
-      <h2>Good to know</h2>
+<section id="faq" class="band" aria-labelledby="faq-h">
+  <div class="wrap faq-wrap">
+    <div class="sh reveal">
+      <span class="idx"><b>05</b>Common questions</span>
+      <h2 id="faq-h">Good to know</h2>
+      <p>Can't find your answer? Ask us on WhatsApp.</p>
     </div>
-    <div class="faq" style="margin-top:36px">
+    <div class="faq reveal">
       <details><summary>How long does an order take?</summary><p>[TURNAROUND TIME, e.g. standard and rush options]</p></details>
       <details><summary>Is there a minimum order?</summary><p>[MINIMUM ORDER POLICY]</p></details>
       <details><summary>How much does it cost?</summary><p>[PRICING NOTE, e.g. how quotes work and what affects price]</p></details>
@@ -508,21 +648,23 @@ footer b{color:#fff}
 </section>
 
 <!-- ============================ CONTACT ============================ -->
-<section id="contact" class="ink">
+<section id="contact" class="ink" aria-labelledby="contact-h">
   <div class="wrap contact">
     <div>
-      <span class="eyebrow">Contact</span>
-      <h2>Let's talk about your print</h2>
-      <p class="lead">Quickest on WhatsApp. Pop in if you're nearby.</p>
-      <ul>
-        <li><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 22s7-6.5 7-12a7 7 0 1 0-14 0c0 5.5 7 12 7 12z"/><circle cx="12" cy="10" r="2.5"/></svg></i><div><b>Address</b>[STREET ADDRESS], [AREA], [CITY], [POSTAL CODE]</div></li>
-        <li><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/></svg></i><div><b>WhatsApp / phone</b><a id="phoneLink" href="#">068 192 4221</a></div></li>
-        <li><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></i><div><b>Hours</b>[OPENING HOURS]</div></li>
-        <li><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 6h16v12H4z"/><path d="m4 7 8 6 8-6"/></svg></i><div><b>Email</b>[EMAIL ADDRESS]</div></li>
+      <div class="sh" style="margin-bottom:32px">
+        <span class="idx"><b>06</b>Contact</span>
+        <h2 id="contact-h">Let's talk about your print</h2>
+        <p>Quickest on WhatsApp. Pop in if you're nearby.</p>
+      </div>
+      <ul class="clist">
+        <li><span class="ib"><svg class="ico" aria-hidden="true"><use href="#i-pin"/></svg></span><div><b>Address</b>[STREET ADDRESS], [AREA], [CITY], [POSTAL CODE]</div></li>
+        <li><span class="ib"><svg class="ico" aria-hidden="true"><use href="#i-phone"/></svg></span><div><b>WhatsApp / phone</b><a id="phoneLink" href="tel:+27681924221">068 192 4221</a></div></li>
+        <li><span class="ib"><svg class="ico" aria-hidden="true"><use href="#i-clock"/></svg></span><div><b>Hours</b>[OPENING HOURS]</div></li>
+        <li><span class="ib"><svg class="ico" aria-hidden="true"><use href="#i-mail"/></svg></span><div><b>Email</b>[EMAIL ADDRESS]</div></li>
       </ul>
-      <a class="btn wa" id="contactWa" href="#">Chat on WhatsApp</a>
+      <a class="btn btn-wa btn-lg" id="contactWa" href="#" target="_blank" rel="noopener"><svg class="ico" aria-hidden="true" style="width:22px;height:22px"><use href="#i-wa"/></svg>Chat on WhatsApp</a>
     </div>
-    <div class="ph">[MAP OR SHOP PHOTO – paste a Google Maps embed here if you want one]</div>
+    <div class="ph">[MAP OR SHOP PHOTO – paste a Google Maps embed here]</div>
   </div>
 </section>
 
@@ -535,10 +677,9 @@ footer b{color:#fff}
   </div>
 </footer>
 
-<!-- floating WhatsApp button (every screen) -->
-<a class="fab" id="fab" href="#" target="_blank" rel="noopener" aria-label="Chat with us on WhatsApp">
-  <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 1.8a8.2 8.2 0 1 1-4.2 15.3l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 0 1 12 3.8zm-3 4.4c-.2 0-.5 0-.7.3-.3.3-1 1-1 2.4s1 2.8 1.2 3c.1.2 2 3.2 5 4.4 2.5 1 3 .8 3.5.7.5 0 1.7-.7 2-1.4.2-.7.2-1.2.1-1.4l-.5-.3-1.8-.9c-.3-.1-.4-.1-.6.1l-.8 1c-.2.2-.3.2-.6.1-.3-.2-1.1-.4-2.1-1.3-.8-.7-1.3-1.5-1.5-1.8-.1-.3 0-.4.1-.6l.4-.5.3-.5v-.5l-.8-2c-.2-.5-.4-.4-.6-.4H9z"/></svg>
-  <span class="tip">Chat on WhatsApp</span>
+<!-- floating WhatsApp button -->
+<a class="fab" id="fab" href="#" target="_blank" rel="noopener" aria-label="Chat with Printiqo on WhatsApp">
+  <svg aria-hidden="true"><use href="#i-wa"/></svg>
 </a>
 
 <script>
@@ -594,9 +735,9 @@ const SIZE_LIST = ["Kids","XS","S","M","L","XL","2XL","3XL","4XL","5XL"];
 const OCCASIONS = {
   xmas:   { label:"Christmas",      colour:"#b4232c" },
   easter: { label:"Easter",         colour:"#6a4fb5" },
-  val:    { label:"Valentine's Day",colour:"#d63a6e" },
-  ny:     { label:"New Year",       colour:"#0f1f3d" },
-  mum:    { label:"Mother's Day",   colour:"#c2558a" },
+  val:    { label:"Valentine's Day",colour:"#c22f63" },
+  ny:     { label:"New Year",       colour:"#0f172a" },
+  mum:    { label:"Mother's Day",   colour:"#a8457a" },
   dad:    { label:"Father's Day",   colour:"#1f6f8b" }
 };
 const DESIGNS = [
@@ -622,6 +763,7 @@ const DESIGNS = [
   const $ = s => document.querySelector(s);
   const el = (tag, cls, html) => { const e=document.createElement(tag); if(cls) e.className=cls; if(html!=null) e.innerHTML=html; return e; };
   const esc = s => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
 
   const state = { product:null, mode:"gallery", design:null, file:null, fileURL:null, fileType:null, filter:"all" };
 
@@ -630,15 +772,13 @@ const DESIGNS = [
   const helloLink = waBase + "?text=" + encodeURIComponent(CONFIG.helloText);
   $("#fab").href = helloLink;
   $("#contactWa").href = helloLink;
-  $("#contactWa").target = "_blank";
-  $("#phoneLink").href = waBase;
   $("#year").textContent = new Date().getFullYear();
 
   /* --- What we print grid --- */
   const pg = $("#productGrid");
   PRODUCTS.filter(p=>p.id!=="other").forEach(p=>{
-    const c = el("div","card");
-    c.appendChild(p.img ? Object.assign(el("img"),{src:p.img,alt:p.name,loading:"lazy"}) : el("div","ph sq",`[PHOTO: ${esc(p.name)}]`));
+    const c = el("article","prod reveal");
+    c.appendChild(p.img ? Object.assign(el("img"),{src:p.img,alt:p.name,loading:"lazy",width:400,height:400}) : el("div","ph sq",`[PHOTO: ${esc(p.name)}]`));
     c.appendChild(el("h3",null,esc(p.name)));
     c.appendChild(el("p",null,esc(p.note)));
     pg.appendChild(c);
@@ -649,7 +789,7 @@ const DESIGNS = [
   PRODUCTS.forEach(p=>{
     const l = el("label","choice");
     l.innerHTML = `<input type="radio" name="product" value="${p.id}">
-      <div class="box">${p.img?`<img src="${esc(p.img)}" alt="" loading="lazy" style="aspect-ratio:1;object-fit:cover;border-radius:9px;margin-bottom:8px">`:`<div class="ph">[photo]</div>`}${esc(p.name)}<small>${esc(p.note)}</small></div>`;
+      <div class="box">${p.img?`<img src="${esc(p.img)}" alt="" loading="lazy" width="200" height="200" style="aspect-ratio:1;object-fit:cover;border-radius:8px;margin-bottom:10px">`:`<div class="ph" aria-hidden="true">[photo]</div>`}${esc(p.name)}<small>${esc(p.note)}</small></div>`;
     pc.appendChild(l);
   });
   pc.addEventListener("change", e=>{
@@ -690,11 +830,12 @@ const DESIGNS = [
     const list = DESIGNS.filter(d=>state.filter==="all"||d.occ===state.filter);
     if(!list.length){ g.appendChild(el("p","empty","No designs in this category yet.")); return; }
     list.forEach(d=>{
-      const o = OCCASIONS[d.occ]||{label:d.occ,colour:"#555"};
+      const o = OCCASIONS[d.occ]||{label:d.occ,colour:"#475569"};
       const b = el("button","design"); b.type="button";
       b.setAttribute("aria-pressed", !!(state.design && state.design.code===d.code));
-      b.innerHTML = `<div class="art" style="background:${o.colour}">${d.img?`<img src="${esc(d.img)}" alt="${esc(d.name)}" loading="lazy">`:esc(d.code)+"<br><small style='font-weight:600;font-size:.7rem;line-height:1.2;opacity:.85'>[design image]</small>"}</div>
-        <span class="name">${esc(d.name)}</span><span class="code">${esc(d.code)}</span><span class="occ">${esc(o.label)}</span>`;
+      b.setAttribute("aria-label", `${d.name}, design ${d.code}, ${o.label}`);
+      b.innerHTML = `<div class="art" style="background:${o.colour}" aria-hidden="true">${d.img?`<img src="${esc(d.img)}" alt="" loading="lazy" width="300" height="300">`:`${esc(d.code)}<small>[design image]</small>`}</div>
+        <span class="name" aria-hidden="true">${esc(d.name)}</span><span class="meta" aria-hidden="true"><span class="code">${esc(d.code)}</span><span class="occ">${esc(o.label)}</span></span>`;
       b.onclick = ()=>{ state.design = d; g.querySelectorAll(".design").forEach(x=>x.setAttribute("aria-pressed", x===b)); clearErr("#s2","#errDesign"); render(); };
       g.appendChild(b);
     });
@@ -707,11 +848,10 @@ const DESIGNS = [
   function typeOf(f){ if(okTypes[f.type]) return okTypes[f.type]; const ext=(f.name.split(".").pop()||"").toLowerCase(); return ({png:"PNG",jpg:"JPG",jpeg:"JPG",pdf:"PDF"})[ext]||null; }
   function fmtSize(b){ return b<1048576 ? Math.max(1,Math.round(b/1024))+" KB" : (b/1048576).toFixed(1)+" MB"; }
   function takeFile(f){
-    const errBox = $("#errFile");
     if(!f) return;
     const t = typeOf(f);
-    if(!t){ showErr("#s2","#errFile", `“${f.name}” is not a PNG, JPG or PDF. Please choose one of those file types.`); fileInput.value=""; return; }
-    if(f.size > CONFIG.maxFileMB*1048576){ showErr("#s2","#errFile", `That file is ${fmtSize(f.size)}. The limit is ${CONFIG.maxFileMB} MB. Please send a smaller version, or WhatsApp us and we will sort it out.`); fileInput.value=""; return; }
+    if(!t){ showErr("#s2","#errFile", `“${f.name}” is not a PNG, JPG or PDF. Choose a file of one of those types.`); fileInput.value=""; return; }
+    if(f.size > CONFIG.maxFileMB*1048576){ showErr("#s2","#errFile", `That file is ${fmtSize(f.size)}. The limit is ${CONFIG.maxFileMB} MB. Save a smaller version, or WhatsApp us and we'll sort it out.`); fileInput.value=""; return; }
     clearFile(false);
     state.file = f; state.fileType = t;
     const th = $("#thumb"); th.innerHTML="";
@@ -719,33 +859,43 @@ const DESIGNS = [
     $("#fileName").textContent = f.name;
     $("#fileInfo").textContent = `${t} · ${fmtSize(f.size)}`;
     $("#preview").classList.add("show"); $("#drop").hidden = true;
-    errBox.classList.remove("show"); clearErr("#s2","#errDesign"); render();
+    clearErr("#s2","#errFile"); clearErr("#s2","#errDesign"); render();
   }
   function clearFile(redraw=true){
     if(state.fileURL) URL.revokeObjectURL(state.fileURL);
     state.file=null; state.fileURL=null; state.fileType=null; fileInput.value="";
     $("#preview").classList.remove("show"); $("#drop").hidden=false; $("#thumb").innerHTML="";
-    if(redraw) render();
+    if(redraw){ render(); fileInput.focus(); }
   }
   fileInput.addEventListener("change", e=>takeFile(e.target.files[0]));
   $("#removeBtn").onclick = ()=>clearFile();
   $("#replaceBtn").onclick = ()=>fileInput.click();
   const drop = $("#drop");
-  ["dragenter","dragover"].forEach(ev=>drop.addEventListener(ev,e=>{e.preventDefault();drop.style.background="var(--sun-soft)";}));
-  ["dragleave","drop"].forEach(ev=>drop.addEventListener(ev,e=>{e.preventDefault();drop.style.background="";}));
+  ["dragenter","dragover"].forEach(ev=>drop.addEventListener(ev,e=>{e.preventDefault();drop.classList.add("over");}));
+  ["dragleave","drop"].forEach(ev=>drop.addEventListener(ev,e=>{e.preventDefault();drop.classList.remove("over");}));
   drop.addEventListener("drop", e=>takeFile(e.dataTransfer.files[0]));
 
-  /* --- Quantity stepper --- */
+  /* --- Quantity --- */
   const qty = $("#qty");
   document.querySelectorAll(".qty button").forEach(b=>b.onclick=()=>{ const v=Math.max(1,(parseInt(qty.value)||0)+parseInt(b.dataset.step)); qty.value=v; clearErr("#s3","#errQty"); render(); });
   ["#qty","#colour","#sizeBreak","#position","#date","#notes"].forEach(s=>$(s).addEventListener("input",()=>{ if(s==="#qty") clearErr("#s3","#errQty"); render(); }));
   sz.addEventListener("change", render);
 
-  /* --- Errors --- */
-  function showErr(step,id,msg){ const e=$(id); if(msg) e.textContent=msg; e.classList.add("show"); $(step).classList.add("has-err"); }
-  function clearErr(step,id){ $(id).classList.remove("show"); if(!$(step).querySelector(".err.show")) $(step).classList.remove("has-err"); }
+  /* --- Errors (inline + summary) --- */
+  const errSummary = $("#errSummary"), errList = $("#errSummaryList");
+  function showErr(step,id,msg){
+    const e=$(id); if(msg) e.querySelector("span").textContent=msg;
+    e.classList.add("show"); $(step).classList.add("has-err");
+    if(id==="#errQty"){ qty.setAttribute("aria-invalid","true"); $("#qtyBox").classList.add("invalid"); }
+  }
+  function clearErr(step,id){
+    $(id).classList.remove("show");
+    if(!$(step).querySelector(".err.show")) $(step).classList.remove("has-err");
+    if(id==="#errQty"){ qty.removeAttribute("aria-invalid"); $("#qtyBox").classList.remove("invalid"); }
+    if(!document.querySelector("#orderForm .err.show")) errSummary.classList.remove("show");
+  }
 
-  /* --- Collect values --- */
+  /* --- Values --- */
   function sizesText(){
     if(!state.product || !state.product.sizes) return "";
     const picked = [...sz.querySelectorAll("input:checked")].map(i=>i.value);
@@ -758,31 +908,50 @@ const DESIGNS = [
     return state.file ? `My own design – ${state.file.name}` : "";
   }
   function fmtDate(v){ if(!v) return ""; const d=new Date(v+"T00:00"); return isNaN(d)?v:d.toLocaleDateString("en-ZA",{weekday:"short",day:"numeric",month:"short",year:"numeric"}); }
+  const qtyOk = () => /^\d+$/.test(qty.value.trim()) && parseInt(qty.value,10) >= 1;
 
-  /* --- Live summary --- */
+  /* --- Live summary + progress --- */
+  function setDD(id, val, fallback){ const d=$(id); d.textContent = val || fallback; d.classList.toggle("empty-v", !val); }
   function render(){
-    $("#sProduct").textContent = state.product ? state.product.name : "–";
-    $("#sDesign").textContent  = designText() || "–";
-    $("#sQty").textContent     = qty.value && parseInt(qty.value)>0 ? qty.value : "–";
-    $("#sSizes").textContent   = sizesText() || (state.product && !state.product.sizes ? "n/a" : "–");
-    $("#sColour").textContent  = $("#colour").value.trim() || "–";
-    $("#sPos").textContent     = $("#position").value || "–";
-    $("#sDate").textContent    = fmtDate($("#date").value) || "–";
+    setDD("#sProduct", state.product && state.product.name, "Not chosen");
+    setDD("#sDesign",  designText(), "Not chosen");
+    setDD("#sQty",     qtyOk() ? qty.value.trim() : "", "Not set");
+    setDD("#sSizes",   sizesText() || (state.product && !state.product.sizes ? "Not needed" : ""), "–");
+    setDD("#sColour",  $("#colour").value.trim(), "–");
+    setDD("#sPos",     $("#position").value, "–");
+    setDD("#sDate",    fmtDate($("#date").value), "–");
+    const done = { 1: !!state.product, 2: !!designText(), 3: qtyOk() };
+    document.querySelectorAll(".progress li").forEach(li=>{
+      const ok = done[li.dataset.p]; li.dataset.done = ok;
+      const a = li.querySelector("a"); ok ? a.setAttribute("aria-label", a.textContent.trim()+" – done") : a.removeAttribute("aria-label");
+    });
   }
 
   /* --- Validate --- */
   function validate(){
-    let first = null;
-    const fail = (step,id,msg)=>{ showErr(step,id,msg); first = first || $(step); };
-    if(!state.product) fail("#s1","#errProduct");
-    if(state.mode==="gallery" && !state.design) fail("#s2","#errDesign","Please tap one of the ready-made designs, or switch to “Upload my own”.");
-    if(state.mode==="upload"  && !state.file)   fail("#s2","#errDesign","Please upload your design file (PNG, JPG or PDF up to 10 MB), or switch to “Ready-made design”.");
-    const q = parseInt(qty.value,10);
-    if(!qty.value) fail("#s3","#errQty","Please enter how many you need.");
-    else if(isNaN(q) || q<1 || String(q)!==qty.value.trim()) fail("#s3","#errQty","Quantity must be a whole number of 1 or more.");
-    if(first){ first.scrollIntoView({behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth", block:"start"}); return false; }
+    const problems = [];
+    if(!state.product){ showErr("#s1","#errProduct"); problems.push(["#s1","Pick a product"]); }
+    if(state.mode==="gallery" && !state.design){ showErr("#s2","#errDesign","Tap one of the ready-made designs, or switch to “Upload my own”."); problems.push(["#s2","Choose a ready-made design"]); }
+    if(state.mode==="upload" && !state.file){ showErr("#s2","#errDesign","Upload your design file (PNG, JPG or PDF up to 10 MB), or switch to “Ready-made design”."); problems.push(["#fileInput","Upload your design file"]); }
+    if(!qty.value.trim()){ showErr("#s3","#errQty","Enter how many you need."); problems.push(["#qty","Enter a quantity"]); }
+    else if(!qtyOk()){ showErr("#s3","#errQty","Quantity must be a whole number of 1 or more."); problems.push(["#qty","Fix the quantity"]); }
+    if(problems.length){
+      errList.innerHTML = problems.map(([href,txt])=>`<li><a href="${href}">${esc(txt)}</a></li>`).join("");
+      errSummary.classList.add("show");
+      errSummary.scrollIntoView({behavior: reduceMotion ? "auto" : "smooth", block:"start"});
+      errSummary.focus({preventScroll:true});
+      return false;
+    }
+    errSummary.classList.remove("show");
     return true;
   }
+  errList.addEventListener("click", e=>{
+    const a = e.target.closest("a"); if(!a) return; e.preventDefault();
+    const t = $(a.getAttribute("href"));
+    t.scrollIntoView({behavior: reduceMotion ? "auto" : "smooth", block:"center"});
+    const f = t.matches("input,select,textarea,button") ? t : (t.querySelector("input:not([type=hidden]),button") || t);
+    f.focus({preventScroll:true});
+  });
 
   /* --- Optional file storage --- */
   async function storeFile(file){
@@ -799,7 +968,7 @@ const DESIGNS = [
     return link;
   }
 
-  /* --- Build the WhatsApp message --- */
+  /* --- WhatsApp message --- */
   function buildMessage(fileLink){
     const L = [];
     L.push(`Hi ${CONFIG.businessName}! I'd like to place an order:`);
@@ -833,8 +1002,7 @@ const DESIGNS = [
     if(state.mode==="upload"){
       if(CONFIG.upload.url){
         btn.disabled=true; st.textContent="Saving your design file…"; st.classList.add("show");
-        try{ link = await storeFile(state.file); }
-        catch(err){ link=null; }
+        try{ link = await storeFile(state.file); } catch(err){ link=null; }
         btn.disabled=false; st.classList.remove("show");
       }
       if(!link){
@@ -846,6 +1014,18 @@ const DESIGNS = [
     const w = window.open(url,"_blank","noopener");
     if(!w) window.location.href = url;
   });
+
+  /* --- Hide floating button while the main Send button is on screen --- */
+  if("IntersectionObserver" in window){
+    const fab = $("#fab");
+    new IntersectionObserver(es=>es.forEach(en=>fab.classList.toggle("away", en.isIntersecting)),{threshold:0.1}).observe($("#sendBtn"));
+
+    /* subtle scroll reveal */
+    const io = new IntersectionObserver(es=>es.forEach(en=>{ if(en.isIntersecting){ en.target.classList.add("is-visible"); io.unobserve(en.target); } }),{rootMargin:"0px 0px -8% 0px"});
+    document.querySelectorAll(".reveal").forEach(n=>io.observe(n));
+  } else {
+    document.querySelectorAll(".reveal").forEach(n=>n.classList.add("is-visible"));
+  }
 
   render();
 })();
