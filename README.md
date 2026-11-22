@@ -10,7 +10,7 @@ Open `index.html` and search for the `CONFIG` block near the bottom of the file:
 | Setting | What to put |
 |---|---|
 | `businessName` | Already set to Printiqo |
-| `whatsappNumber` | Set to `27681924221` (068 192 4221). Use country code, digits only |
+| `whatsappNumber` | Set to `27681024221` (068 102 4221). Use country code, digits only |
 | `helloText` | The message the floating button pre-fills |
 
 Then search the page for every `[BRACKETED PLACEHOLDER]` (area, tagline, address, hours,
