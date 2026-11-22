@@ -413,6 +413,33 @@ footer b{color:#fff}
 /* contact gets the same glow as the hero */
 #contact.ink{background:radial-gradient(55% 60% at 100% 0%,rgba(255,197,61,.16),transparent 62%),radial-gradient(50% 60% at 0% 100%,rgba(59,100,255,.2),transparent 66%),var(--ink)}
 
+
+/* order preview inside the summary */
+.pv{margin:0 0 var(--s4);border-radius:var(--r-sm);overflow:hidden;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.16)}
+.pv-img{position:relative;aspect-ratio:4/3;display:grid;place-items:center;text-align:center;padding:12px;color:#cbd5e1;font-size:.875rem;overflow:hidden}
+.pv-img img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
+.pv-img.contain img{object-fit:contain;background:#fff}
+.pv-img.swatch{color:#fff;font-weight:800;font-size:1.5rem;letter-spacing:.02em}
+.pv-img .pv-file{font-weight:800;font-size:1.125rem}
+.pv-chip{position:absolute;left:10px;bottom:10px;max-width:calc(100% - 20px);background:rgba(15,23,42,.88);color:#fff;font-size:.8125rem;font-weight:700;padding:6px 12px;border-radius:var(--r-pill);overflow-wrap:anywhere}
+.pv-cap{display:flex;flex-wrap:wrap;align-items:center;gap:8px;padding:10px 12px;font-size:.875rem;font-weight:600;min-height:44px}
+.pv-cap:empty{display:none}
+.pv-cap .code{font-size:.75rem;font-weight:700;background:var(--accent);color:var(--on-accent);padding:3px 8px;border-radius:6px;letter-spacing:.05em}
+.msgprev{margin:0 0 var(--s4);border:1px solid rgba(255,255,255,.16);border-radius:var(--r-sm);background:rgba(255,255,255,.05)}
+.msgprev summary{cursor:pointer;min-height:48px;padding:12px 14px;font-weight:700;font-size:.9375rem;list-style:none;display:flex;align-items:center;justify-content:space-between;gap:8px}
+.msgprev summary::-webkit-details-marker{display:none}
+.msgprev summary::after{content:"";width:18px;height:18px;flex:none;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23ffc53d' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E") center/18px no-repeat;transition:transform var(--t) var(--ease-out)}
+.msgprev[open] summary::after{transform:rotate(180deg)}
+.msgprev pre{margin:0;padding:0 14px 14px;white-space:pre-wrap;overflow-wrap:anywhere;font:400 .8125rem/1.55 var(--font);color:#e2e8f0;max-height:260px;overflow:auto}
+.note.hint{margin:0 0 var(--s4)}
+.sendbar .status{margin:0 0 var(--s3)}
+@media (min-width:1024px){
+  /* tall panel scrolls inside itself; the Send button stays pinned at the bottom */
+  .summary{max-height:calc(100vh - var(--header-h) - 40px);overflow:auto;padding-bottom:0}
+  .sendbar{position:sticky;bottom:0;padding:var(--s4) 0 var(--s5);background:linear-gradient(to bottom,rgba(15,23,42,0),var(--ink) var(--s4))}
+  .pv-img{aspect-ratio:16/10}
+}
+
 /* short landscape screens (phones turned sideways) */
 @media (orientation:landscape) and (max-height:500px){
   :root{--header-h:56px}
@@ -640,6 +667,10 @@ footer b{color:#fff}
       <aside class="summary" aria-labelledby="sum-h">
         <h3 id="sum-h">Your order</h3>
         <p class="sub">Updates as you fill in the steps.</p>
+        <figure class="pv" aria-label="Order preview">
+          <div class="pv-img" id="pvImg"><span class="pv-empty">Your design preview appears here</span></div>
+          <figcaption class="pv-cap" id="pvCap"></figcaption>
+        </figure>
         <dl id="sum" aria-live="polite">
           <dt>Product</dt><dd id="sProduct" class="empty-v">Not chosen</dd>
           <dt>Design</dt><dd id="sDesign" class="empty-v">Not chosen</dd>
@@ -649,13 +680,19 @@ footer b{color:#fff}
           <dt>Position</dt><dd id="sPos" class="empty-v">–</dd>
           <dt>Date</dt><dd id="sDate" class="empty-v">–</dd>
         </dl>
-        <button class="btn btn-wa btn-lg btn-block" type="submit" id="sendBtn">
-          <svg class="ico" aria-hidden="true" style="width:22px;height:22px"><use href="#i-wa"/></svg>
-          Send order on WhatsApp
-        </button>
-        <p class="status" id="status" role="status"></p>
+        <details class="msgprev" id="msgPrevWrap">
+          <summary>Preview the WhatsApp message</summary>
+          <pre id="msgPrev">Choose a product, a design and a quantity to see your message.</pre>
+        </details>
         <p class="note attach" id="attachNote" role="status"></p>
-        <p class="note">Opens WhatsApp with your order typed out. You can still edit the message before sending.</p>
+        <p class="note hint">Opens WhatsApp with your order typed out. You can still edit the message before sending.</p>
+        <div class="sendbar">
+          <p class="status" id="status" role="status"></p>
+          <button class="btn btn-wa btn-lg btn-block" type="submit" id="sendBtn">
+            <svg class="ico" aria-hidden="true" style="width:22px;height:22px"><use href="#i-wa"/></svg>
+            Send order on WhatsApp
+          </button>
+        </div>
       </aside>
     </form>
   </div>
@@ -697,13 +734,13 @@ footer b{color:#fff}
       <p>Can't find your answer? Ask us on WhatsApp.</p>
     </div>
     <div class="faq reveal">
-      <details><summary>How long does an order take?</summary><p>[TURNAROUND TIME, e.g. standard and rush options]</p></details>
-      <details><summary>Is there a minimum order?</summary><p>[MINIMUM ORDER POLICY]</p></details>
+      <details><summary>How long does an order take?</summary><p>Orders take 3 to 7 working days, depending on the quantity.</p></details>
+      <details><summary>Is there a minimum order?</summary><p>No. There is no minimum order.</p></details>
       <details><summary>How much does it cost?</summary><p>[PRICING NOTE, e.g. how quotes work and what affects price]</p></details>
       <details><summary>What file should I send for my own design?</summary><p>PNG, JPG or PDF up to 10 MB. A large, sharp file with a plain or transparent background prints best. [ANY EXTRA ARTWORK REQUIREMENTS]</p></details>
-      <details><summary>Can you print names or numbers on each shirt?</summary><p>[PERSONALISATION POLICY]</p></details>
-      <details><summary>Do you deliver or must I collect?</summary><p>[DELIVERY AND COLLECTION POLICY]</p></details>
-      <details><summary>How do I pay?</summary><p>[PAYMENT METHODS AND DEPOSIT POLICY]</p></details>
+      <details><summary>Can you print names or numbers on each shirt?</summary><p>Yes. Put the names or numbers in the notes when you build your order.</p></details>
+      <details><summary>Do you deliver or must I collect?</summary><p>We cater for both. You can collect your order or have it delivered.</p></details>
+      <details><summary>How do I pay?</summary><p>You pay by EFT (electronic funds transfer).</p></details>
     </div>
   </div>
 </section>
@@ -974,6 +1011,38 @@ const DESIGNS = [
   function fmtDate(v){ if(!v) return ""; const d=new Date(v+"T00:00"); return isNaN(d)?v:d.toLocaleDateString("en-ZA",{weekday:"short",day:"numeric",month:"short",year:"numeric"}); }
   const qtyOk = () => /^\d+$/.test(qty.value.trim()) && parseInt(qty.value,10) >= 1;
 
+  /* --- Live preview of the design + message --- */
+  const pvImg = $("#pvImg"), pvCap = $("#pvCap"), msgPrev = $("#msgPrev");
+  let pvKey = "";
+  function renderPreview(){
+    const d = state.mode==="gallery" ? state.design : null;
+    const f = state.mode==="upload" ? state.file : null;
+    const key = d ? "g:"+d.code : f ? "u:"+f.name+f.size+f.lastModified : "none";
+    if(key !== pvKey){
+      pvKey = key; pvImg.className = "pv-img"; pvImg.innerHTML = ""; pvCap.innerHTML = "";
+      if(d){
+        const o = OCCASIONS[d.occ]||{label:d.occ,colour:"#475569"};
+        if(d.img){ const im = el("img"); im.src=d.img; im.alt=d.name; im.width=720; im.height=480; im.style.objectPosition=d.pos||"center"; pvImg.appendChild(im); }
+        else { pvImg.classList.add("swatch"); pvImg.style.background=o.colour; pvImg.textContent=d.code; }
+        pvCap.innerHTML = `<span class="code">${esc(d.code)}</span><span>${esc(d.name)}</span>`;
+      } else if(f){
+        pvImg.style.background="";
+        if(state.fileType==="PDF"){ pvImg.innerHTML = `<span class="pv-file">PDF<br><small style="font-weight:600;font-size:.8125rem">${esc(f.name)}</small></span>`; }
+        else if(state.fileURL){ pvImg.classList.add("contain"); const im = el("img"); im.src=state.fileURL; im.alt="Preview of your design"; pvImg.appendChild(im); }
+        pvCap.innerHTML = `<span class="code">Your file</span><span>${esc(f.name)}</span>`;
+      } else { pvImg.style.background=""; pvImg.innerHTML = '<span class="pv-empty">Your design preview appears here</span>'; }
+    }
+    // chip: product and quantity
+    pvImg.querySelectorAll(".pv-chip").forEach(c=>c.remove());
+    const bits = [];
+    if(state.product) bits.push(state.product.name);
+    if(qtyOk()) bits.push("× "+qty.value.trim());
+    if(bits.length && (d||f)){ pvImg.appendChild(el("span","pv-chip",esc(bits.join(" ")))); }
+    // exact WhatsApp message
+    const ready = state.product && designText() && qtyOk();
+    msgPrev.textContent = ready ? buildMessage(state.mode==="upload" && CONFIG.upload.url ? "[link to your uploaded file]" : null) : "Choose a product, a design and a quantity to see your message.";
+  }
+
   /* --- Live summary + progress --- */
   function setDD(id, val, fallback){ const d=$(id); d.textContent = val || fallback; d.classList.toggle("empty-v", !val); }
   function render(){
@@ -984,6 +1053,7 @@ const DESIGNS = [
     setDD("#sColour",  $("#colour").value.trim(), "–");
     setDD("#sPos",     $("#position").value, "–");
     setDD("#sDate",    fmtDate($("#date").value), "–");
+    renderPreview();
     const done = { 1: !!state.product, 2: !!designText(), 3: qtyOk() };
     document.querySelectorAll(".progress li").forEach(li=>{
       const ok = done[li.dataset.p]; li.dataset.done = ok;
@@ -1072,6 +1142,7 @@ const DESIGNS = [
       if(!link){
         an.innerHTML = `WhatsApp can't carry files from a website. <b>Please attach “${esc(state.file.name)}” in the chat</b> after your order message arrives.`;
         an.classList.add("show");
+        an.scrollIntoView({block:"nearest"});
       }
     }
     const url = waBase + "?text=" + encodeURIComponent(buildMessage(link));
