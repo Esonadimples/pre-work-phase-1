@@ -969,10 +969,10 @@ const SNAPBAND = "M48 114 L152 114 L152 130 L48 130 Z";
    o = {top: crown height (smaller is taller), tab: side tab, back: back closure, perf: perforated sides} */
 function curvedCap(o){
   const t = o.top;
-  const crownF = `M42 114 Q40 ${t+6} 100 ${t} Q160 ${t+6} 158 114 Q100 138 42 114 Z`;
+  const crownF = `M42 114 Q40 ${t+6} 100 ${t} Q160 ${t+6} 158 114 Q100 127 42 114 Z`;
   const crownB = `M42 116 Q40 ${t+6} 100 ${t} Q160 ${t+6} 158 116 Z`;
   const crownS = `M38 122 Q34 ${t+10} 94 ${t} Q146 ${t-2} 158 98 L160 122 Z`;
-  const brimF = "M34 114 Q100 140 166 114 Q160 140 100 146 Q40 140 34 114 Z", brimS = "M148 100 Q184 100 198 124 Q172 130 148 120 Z";
+  const brimF = "M34 114 Q100 127 166 114 L162 127 Q100 139 38 127 Z", brimS = "M148 100 Q184 100 198 124 Q172 130 148 120 Z";
   const seams = n => ST(`M100 ${t+1} L100 ${n}`)+ST(`M66 ${t+6} Q74 84 70 ${n}`)+ST(`M134 ${t+6} Q126 84 130 ${n}`);
   const eyes = EYE(84,t+16)+EYE(116,t+16);
   const perf = (pts) => o.perf ? pts.map(([x,y])=>HOLE(x,y)).join("") : "";
@@ -983,7 +983,7 @@ function curvedCap(o){
     : ST("M43 111 Q100 118 157 111");
   const hA = Math.max(24, Math.min(38, 98-t-16));
   return {
-    front:f=>({u:P(crownF,f)+seams(114)+eyes+perf([[52,84],[58,84],[52,90],[58,90],[52,96],[58,96],[142,84],[148,84],[142,90],[148,90],[142,96],[148,96]])+BTN(100,t+1,3.6)+P(brimF,f)+SB("M34 114 Q100 140 166 114 Q100 125 34 114 Z")+ST("M42 120 Q100 142 158 120")+ST("M50 126 Q100 143 150 126")+ST("M58 131 Q100 143 142 131")}),
+    front:f=>({u:P(crownF,f)+seams(114)+eyes+perf([[52,84],[58,84],[52,90],[58,90],[52,96],[58,96],[142,84],[148,84],[142,90],[148,90],[142,96],[148,96]])+BTN(100,t+1,3.6)+P(brimF,f)+ST("M40 120.5 Q100 133 160 120.5")}),
     side:f=>({u:P(crownS,f)+ST(`M94 ${t+2} Q104 84 100 120`)+ST(`M62 ${t+8} Q68 90 64 120`)+ST("M38 116 L160 116")+EYE(78,t+18)+perf([[70,86],[76,86],[70,92],[76,92],[70,98],[76,98]])+BTN(94,t,3.6)+tab(f)+P(brimS,f)+SB(brimS)+ST("M152 108 Q178 108 192 122")}),
     back:f=>({u:P(crownB,f)+seams(110)+eyes+BTN(100,t+1,3.6)+back(f)}),
     areas:{front:{x:78,y:t+16,w:44,h:hA},back:{x:78,y:Math.max(t+30,74),w:44,h:26},side:{x:64,y:t+16,w:34,h:hA}}
@@ -1013,30 +1013,30 @@ function flatBrimCap(o){
   };
 }
 /* trucker: foam front panel, mesh sides and back */
-const T_CROWN = "M44 114 Q42 46 100 40 Q158 46 156 114 Q100 132 44 114 Z", T_PANEL = "M62 114 Q60 48 100 42 Q140 48 138 114 Q100 130 62 114 Z", T_BRIM = "M34 114 Q100 134 166 114 Q162 138 100 143 Q38 138 34 114 Z";
+const T_CROWN = "M44 114 Q42 46 100 40 Q158 46 156 114 Q100 127 44 114 Z", T_PANEL = "M62 114 Q60 48 100 42 Q140 48 138 114 Q100 127 62 114 Z", T_BRIM = "M34 114 Q100 127 166 114 L162 127 Q100 139 38 127 Z";
 const T_SIDE = "M38 122 Q34 50 94 42 Q148 42 160 100 L160 122 Z", T_SPANEL = "M100 43 Q148 44 160 100 L160 122 L108 122 Q112 80 100 43 Z", T_SBRIM = "M150 102 Q186 102 198 124 Q172 130 150 122 Z";
 function truckerCap(){
   return {
-    front:f=>({u:P(T_CROWN,f)+MESH(T_CROWN)+P(T_PANEL,f)+ST("M100 43 L100 114")+BTN(100,41,3.6)+P(T_BRIM,f)+SB("M34 114 Q100 134 166 114 Q100 122 34 114 Z")+ST("M42 119 Q100 136 158 119")+ST("M50 125 Q100 138 150 125")+ST("M58 130 Q100 139 142 130")}),
+    front:f=>({u:P(T_CROWN,f)+MESH(T_CROWN)+P(T_PANEL,f)+ST("M100 43 L100 114")+BTN(100,41,3.6)+P(T_BRIM,f)+ST("M40 120.5 Q100 133 160 120.5")}),
     side:f=>({u:P(T_SIDE,f)+MESH(T_SIDE)+P(T_SPANEL,f)+ST("M38 116 L160 116")+BTN(94,42,3.6)+TAB(f)+SB("M31 114 L39 114 L39 124 L31 124 Z")+P(T_SBRIM,f)+ST("M154 108 Q178 108 192 122")}),
     back:f=>({u:P(T_CROWN,f)+MESH(T_CROWN)+ST("M100 42 L100 110")+BTN(100,41,3.6)+P(SNAPBAND,f)+SB(SNAPBAND)+CAP_HOLES+ST("M48 118 L152 118")}),
     areas:{front:{x:74,y:56,w:52,h:42},back:{x:78,y:68,w:44,h:30},side:{x:112,y:62,w:34,h:38}}
   };
 }
 /* bucket hat */
-const B_CROWN = "M56 54 Q100 42 144 54 L152 108 L48 108 Z", B_BRIM = "M16 112 Q30 102 48 106 L152 106 Q170 102 184 112 Q176 134 100 140 Q24 134 16 112 Z";
+const B_CROWN = "M56 54 Q100 42 144 54 L152 108 L48 108 Z", B_BRIM = "M16 114 L48 106 L152 106 L184 114 L178 126 L22 126 Z";
 const bucketView = f => ({
-  u: P(B_CROWN,f)+ST("M52 90 Q100 98 148 90")+ST("M54 70 Q100 78 146 70")+`<path class="md" d="M56 54 Q100 66 144 54"/>`+BTN(58,84,2.2)+BTN(142,84,2.2)+P(B_BRIM,f)+ST("M26 114 Q100 130 174 114")+ST("M34 120 Q100 134 166 120")+ST("M44 126 Q100 137 156 126")
+  u: P(B_CROWN,f)+ST("M52 90 Q100 98 148 90")+ST("M54 70 Q100 78 146 70")+`<path class="md" d="M56 54 Q100 66 144 54"/>`+BTN(58,84,2.2)+BTN(142,84,2.2)+P(B_BRIM,f)+ST("M20 120 L180 120")
 });
 function bucketCap(){ const a={x:76,y:60,w:48,h:36}; return {front:bucketView, side:bucketView, back:bucketView, areas:{front:a,back:a,side:a}}; }
 /* visor: headband and brim, no crown */
 function visorCap(){
-  const bandF = "M44 98 Q100 90 156 98 L156 114 Q100 122 44 114 Z", brimF = "M36 114 Q100 138 164 114 Q158 142 100 148 Q42 142 36 114 Z";
+  const bandF = "M44 98 Q100 90 156 98 L156 114 Q100 122 44 114 Z", brimF = "M36 114 Q100 126 164 114 L158 128 Q100 140 42 128 Z";
   const bandS = "M38 92 Q94 86 150 98 L150 114 Q94 118 38 110 Z", brimS = "M148 98 Q186 100 198 124 Q172 130 148 116 Z";
   const bandB = "M44 98 Q100 92 156 98 L156 114 Q100 120 44 114 Z";
   return {
     scale:1.15,
-    front:f=>({u:DK("M48 98 Q100 92 152 98 Q100 101 48 98 Z")+P(bandF,f)+ST("M46 104 Q100 98 154 104")+P(brimF,f)+SB("M36 114 Q100 138 164 114 Q100 124 36 114 Z")+ST("M44 120 Q100 142 156 120")+ST("M52 126 Q100 144 148 126")}),
+    front:f=>({u:DK("M48 98 Q100 92 152 98 Q100 101 48 98 Z")+P(bandF,f)+ST("M46 104 Q100 98 154 104")+P(brimF,f)+ST("M42 121 Q100 133 158 121")}),
     side:f=>({u:P(bandS,f)+ST("M40 98 Q94 92 148 104")+TAB(f,26)+P(brimS,f)+SB(brimS)+ST("M152 106 Q178 108 192 122")}),
     back:f=>({u:P(bandB,f)+ST("M46 104 Q100 98 154 104")+VELCRO.replace('y="121"','y="104"').replace('M90 125.5 L110 125.5','M90 108.5 L110 108.5')}),
     areas:{front:{x:80,y:98,w:40,h:12},back:{x:80,y:98,w:40,h:12},side:{x:66,y:94,w:34,h:12}}
@@ -1045,13 +1045,13 @@ function visorCap(){
 /* army (cadet) cap: flat top, straight sides, short brim */
 function armyCap(){
   const scale = 1.15;
-  const crownF = "M48 114 L46 62 Q100 52 154 62 L152 114 Z", brimF = "M46 114 Q100 128 154 114 L160 126 Q100 140 40 126 Z";
+  const crownF = "M48 114 L46 62 Q100 52 154 62 L152 114 Z", brimF = "M46 114 Q100 122 154 114 L160 126 Q100 135 40 126 Z";
   const crownS = "M44 122 L48 62 Q96 54 142 62 L152 122 Z", brimS = "M146 108 Q178 106 190 120 Q168 126 148 122 Z";
   const crownB = "M48 116 L46 62 Q100 52 154 62 L152 116 Z";
   const top = SB("M46 62 Q100 52 154 62 Q100 70 46 62 Z");
   return {
     scale,
-    front:f=>({u:P(crownF,f)+top+ST("M47 72 Q100 64 153 72")+ST("M48 108 Q100 112 152 108")+BTN(100,57,3)+P(brimF,f)+ST("M48 119 Q100 132 152 119")+ST("M44 124 Q100 137 156 124")}),
+    front:f=>({u:P(crownF,f)+top+ST("M47 72 Q100 64 153 72")+ST("M48 108 Q100 112 152 108")+BTN(100,57,3)+P(brimF,f)+ST("M47 119.5 Q100 128 153 119.5")}),
     side:f=>({u:P(crownS,f)+SB("M48 62 Q96 54 142 62 Q96 70 48 62 Z")+ST("M48 72 Q96 64 144 72")+ST("M44 114 L151 114")+BTN(96,57,3)+P(brimS,f)+SB(brimS)}),
     back:f=>({u:P(crownB,f)+top+ST("M47 72 Q100 64 153 72")+ST("M48 110 Q100 114 152 110")+BTN(100,57,3)}),
     areas:{front:{x:78,y:72,w:44,h:30},back:{x:78,y:74,w:44,h:30},side:{x:66,y:72,w:38,h:30}}
@@ -1059,12 +1059,12 @@ function armyCap(){
 }
 /* flat cap (ivy / driver) */
 function ivyCap(){
-  const crownF = "M26 116 Q26 72 100 64 Q174 72 174 116 Q100 126 26 116 Z", brimF = "M52 116 Q100 132 148 116 L144 124 Q100 138 56 124 Z";
+  const crownF = "M26 116 Q26 72 100 64 Q174 72 174 116 Q100 126 26 116 Z", brimF = "M52 116 Q100 124 148 116 L144 124 Q100 132 56 124 Z";
   const crownS = "M20 118 Q24 84 80 74 Q130 66 168 92 L178 112 Q100 128 20 118 Z", brimS = "M164 98 Q190 104 192 116 Q176 118 158 112 Z";
   const crownB = "M26 116 Q26 72 100 64 Q174 72 174 116 Z";
   return {
     scale:1.15,
-    front:f=>({u:P(crownF,f)+ST("M70 70 Q56 96 50 118")+ST("M130 70 Q144 96 150 118")+ST("M100 66 L100 120")+ST("M32 113 Q100 123 168 113")+BTN(100,66,3)+P(brimF,f)+ST("M56 120 Q100 133 144 120")}),
+    front:f=>({u:P(crownF,f)+ST("M70 70 Q56 96 50 118")+ST("M130 70 Q144 96 150 118")+ST("M100 66 L100 120")+ST("M32 113 Q100 123 168 113")+BTN(100,66,3)+P(brimF,f)+ST("M56 120 Q100 128 144 120")}),
     side:f=>({u:P(crownS,f)+ST("M80 76 Q96 96 92 120")+ST("M126 70 Q130 96 124 122")+ST("M24 114 Q100 124 176 108")+BTN(78,74,3)+P(brimS,f)+SB(brimS)}),
     back:f=>({u:P(crownB,f)+ST("M70 70 Q56 96 50 116")+ST("M130 70 Q144 96 150 116")+ST("M100 66 L100 116")+ST("M30 111 Q100 119 170 111")+BTN(100,66,3)}),
     areas:{front:{x:78,y:80,w:44,h:24},side:{x:50,y:88,w:44,h:22},back:{x:80,y:82,w:40,h:22}}
@@ -1072,13 +1072,13 @@ function ivyCap(){
 }
 /* newsboy (baker boy) cap: full, rounded crown */
 function newsboyCap(){
-  const crownF = "M22 114 Q18 62 100 54 Q182 62 178 114 Q100 126 22 114 Z", brimF = "M52 114 Q100 130 148 114 L144 124 Q100 136 56 124 Z";
+  const crownF = "M22 114 Q18 62 100 54 Q182 62 178 114 Q100 126 22 114 Z", brimF = "M52 114 Q100 123 148 114 L144 124 Q100 133 56 124 Z";
   const crownS = "M18 118 Q14 70 88 56 Q160 54 180 96 L182 114 Q100 128 18 118 Z", brimS = "M172 98 Q194 104 196 116 Q182 118 166 112 Z";
   const crownB = "M22 116 Q18 62 100 54 Q182 62 178 116 Z";
   const rad = ST("M100 56 L100 116")+ST("M100 56 Q70 80 56 116")+ST("M100 56 Q130 80 144 116")+ST("M100 56 Q52 70 32 112")+ST("M100 56 Q148 70 168 112");
   return {
     scale:1.15,
-    front:f=>({u:P(crownF,f)+ST("M100 56 L100 120")+ST("M100 56 Q70 80 56 120")+ST("M100 56 Q130 80 144 120")+ST("M100 56 Q52 70 32 112")+ST("M100 56 Q148 70 168 112")+BTN(100,56,3.4)+P(brimF,f)+ST("M56 120 Q100 132 144 120")}),
+    front:f=>({u:P(crownF,f)+ST("M100 56 L100 120")+ST("M100 56 Q70 80 56 120")+ST("M100 56 Q130 80 144 120")+ST("M100 56 Q52 70 32 112")+ST("M100 56 Q148 70 168 112")+BTN(100,56,3.4)+P(brimF,f)+ST("M56 120 Q100 128 144 120")}),
     side:f=>({u:P(crownS,f)+ST("M88 58 Q104 90 98 122")+ST("M54 70 Q58 100 52 122")+ST("M130 58 Q140 90 136 112")+BTN(88,57,3.4)+P(brimS,f)+SB(brimS)}),
     back:f=>({u:P(crownB,f)+rad+BTN(100,56,3.4)}),
     areas:{front:{x:78,y:72,w:44,h:28},side:{x:44,y:76,w:44,h:28},back:{x:78,y:78,w:44,h:24}}
@@ -1086,12 +1086,12 @@ function newsboyCap(){
 }
 /* fisherman (Greek fisherman) cap: round crown, band with rope trim, short brim */
 function fishermanCap(){
-  const crownF = "M34 112 Q30 70 100 64 Q170 70 166 112 Z", bandF = "M34 100 L166 100 L166 114 Q100 124 34 114 Z", brimF = "M46 114 Q100 130 154 114 L150 124 Q100 136 50 124 Z";
+  const crownF = "M34 112 Q30 70 100 64 Q170 70 166 112 Z", bandF = "M34 100 L166 100 L166 114 Q100 124 34 114 Z", brimF = "M46 114 Q100 123 154 114 L150 124 Q100 133 50 124 Z";
   const crownS = "M30 114 Q28 70 96 62 Q156 60 170 96 L172 114 Z", bandS = "M30 100 L172 100 L172 116 Q100 126 30 116 Z", brimS = "M164 100 Q188 104 192 116 Q176 118 162 112 Z";
   const rope = y => `<path class="md" d="M36 ${y} Q54 ${y-4} 72 ${y+1} T108 ${y+1} T144 ${y+1} T164 ${y}" style="stroke-width:1.6"/>`;
   return {
     scale:1.15,
-    front:f=>({u:P(crownF,f)+ST("M100 64 L100 100")+BTN(100,64,3)+P(bandF,f)+SB(bandF)+rope(107)+P(brimF,f)+ST("M52 120 Q100 132 148 120")}),
+    front:f=>({u:P(crownF,f)+ST("M100 64 L100 100")+BTN(100,64,3)+P(bandF,f)+SB(bandF)+rope(107)+P(brimF,f)+ST("M52 120 Q100 128 148 120")}),
     side:f=>({u:P(crownS,f)+ST("M96 62 L100 100")+BTN(96,62,3)+P(bandS,f)+SB(bandS)+rope(108)+P(brimS,f)+SB(brimS)}),
     back:f=>({u:P(crownF,f)+ST("M100 64 L100 100")+BTN(100,64,3)+P(bandF,f)+SB(bandF)+rope(107)}),
     areas:{front:{x:78,y:72,w:44,h:26},side:{x:54,y:72,w:40,h:24},back:{x:78,y:72,w:44,h:24}}
@@ -1134,12 +1134,12 @@ const MK_SHAPE = {
   army:armyCap(),
   bucket:bucketCap(),
   mug:{
-    front:f=>({u:`<path d="M140 78 Q178 78 178 108 Q178 138 140 138" fill="none" stroke="var(--mk-line)" stroke-width="13" stroke-linecap="round"/><path d="M140 78 Q178 78 178 108 Q178 138 140 138" fill="none" style="stroke:${f}" stroke-width="9" stroke-linecap="round"/>`+P(MUG_BODY,f)+`<ellipse class="mk" cx="95" cy="52" rx="45" ry="8" style="fill:${f}"/><ellipse class="mi" cx="95" cy="53" rx="39" ry="5.5"/>`}),
-    back:f=>({u:`<path d="M50 78 Q12 78 12 108 Q12 138 50 138" fill="none" stroke="var(--mk-line)" stroke-width="13" stroke-linecap="round"/><path d="M50 78 Q12 78 12 108 Q12 138 50 138" fill="none" style="stroke:${f}" stroke-width="9" stroke-linecap="round"/>`+P(MUG_BODY,f)+`<ellipse class="mk" cx="95" cy="52" rx="45" ry="8" style="fill:${f}"/><ellipse class="mi" cx="95" cy="53" rx="39" ry="5.5"/>`}),
+    front:f=>({u:P("M138 72 Q184 72 184 108 Q184 144 138 144 L138 136 Q174 136 174 108 Q174 80 138 80 Z",f)+P(MUG_BODY,f)+'<path class="md" d="M50 60 L140 60"/>'}),
+    back:f=>({u:P("M52 72 Q6 72 6 108 Q6 144 52 144 L52 136 Q16 136 16 108 Q16 80 52 80 Z",f)+P(MUG_BODY,f)+'<path class="md" d="M50 60 L140 60"/>'}),
     areas:{side:{x:62,y:78,w:66,h:56},wrap:{x:50,y:70,w:90,h:70}}
   },
   tote:{
-    front:f=>({u:`<path class="mk" fill="none" style="stroke-width:7" d="M72 80 Q72 26 100 26 Q128 26 128 80"/><path fill="none" style="stroke:${f};stroke-width:4" d="M72 80 Q72 26 100 26 Q128 26 128 80"/>`+P(TOTE_BODY,f)+ST("M48 88 L152 88")+ST("M48 92 L152 92")+ST("M44 172 L156 172")+SB("M48 78 L152 78 L152 86 L48 86 Z")}),
+    front:f=>({u:P("M68 80 Q68 22 100 22 Q132 22 132 80 L123 80 Q123 31 100 31 Q77 31 77 80 Z",f)+P(TOTE_BODY,f)+ST("M48 88 L152 88")+ST("M48 92 L152 92")+ST("M44 172 L156 172")+SB("M48 78 L152 78 L152 86 L48 86 Z")}),
     areas:{front:{x:62,y:100,w:76,h:66}}
   },
   item:{
